@@ -14,7 +14,7 @@
   <div class="form-actions">
     <%= f.button :submit, "Sign up", :class => 'pop col-xs-offset-3' %>
     <span>or</span>
-    <%= link_to "Sign up with Google", admin_omniauth_authorize_path(:google_oauth2) %>
+    <%= link_to "Sign up with Google", user_omniauth_authorize_path(:google_oauth2) %>
   </div>
 <% end %>
 
