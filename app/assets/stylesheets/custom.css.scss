@@ -21,6 +21,21 @@ body {
   margin-top: 5px;
 }
 
+.timeline {
+  margin-bottom:  0.7em;
+  padding-bottom: 0.7em;
+  border-bottom: 1px solid #000000;
+}
+
+.attachment {
+  padding-bottom: 1em;
+}
+
+.modal {
+  padding-top:62px ;
+}
+
+
 /* Header nav */
 
 #site-navbar {
@@ -136,16 +151,15 @@ a, a:visited {
 }
 
 .btn {
-  background-color: #e0e0e0;
   color: #595959 !important;
 }
 .btn:hover {
-  background-color: #d3d3d3;  
+  background-color: #d3d3d3;
 }
 
 .btn-primary {
-  background: #5d5c5d;
-  border-color: #5d5c5d;
+  background: #000080;
+  border-color: #000080;
   color: #fff !important;
 }
 .btn-primary:hover {
