@@ -25,14 +25,6 @@ class User < ActiveRecord::Base
     user
   end
 
-  def grant(other_user)
-  end
-
-  def request(other_user, scope) #for now it's automatically granted
-    requested_authorisations.create(granter_id: other_user.id, scope: scope)
-  end
-
-
   # Set up the first access token once a user authorises the app
   def first_token(access_token)
     self.tokens.create(access_token: access_token.credentials.token,
