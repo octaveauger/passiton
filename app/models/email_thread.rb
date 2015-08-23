@@ -36,4 +36,5 @@ class EmailThread < ActiveRecord::Base
 	def last_email_date
 		Time.at((self.email_messages.order('internalDate desc').first.internalDate/1000).to_i).utc.to_datetime
 	end
+
 end
