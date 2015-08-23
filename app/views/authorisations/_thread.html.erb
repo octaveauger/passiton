@@ -20,7 +20,7 @@
     <% thread.message_attachments.each do |attachment| %>
     <div class="row attachment"> <!-- List attachment as rows-->
       <div class="col-md-3">
-        <%= attachment.mimeType %>
+        <%= mimetype_visual(attachment.mimeType) %>
       </div>
       <div class="col-md-9">
         <%= attachment.filename %>
