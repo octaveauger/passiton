@@ -9,81 +9,83 @@ class Authorisation < ActiveRecord::Base
 	has_many :email_headers, through: :email_messages
 	has_many :message_attachments, through: :email_messages
 	has_many :attachment_headers, through: :message_attachments
+  	scope :authorised,  -> { where(:enabled => true) }
 
-	after_create :sync_gmail
+	after_update :sync_gmail
 
 	def sync_gmail
-		client = Gmail.new(self.granter.tokens.last.fresh_token)
-		threads = client.list_threads(self.scope)
-		
-		ActiveRecord::Base.transaction do
-			#Grab all threads
-			threads['threads'].each do |thread|
-				t = self.email_threads.create(
-					threadId: thread['id'],
-					snippet: thread['snippet'],
-					historyId: thread['historyId'])
-				
-				#Grab all messages in that thread
-				messages = client.get_thread(thread['id'])
-				messages['messages'].each do |message|
+		if self.enabled
+			client = Gmail.new(self.granter.tokens.last.fresh_token)
+			threads = client.list_threads(self.scope)
+			
+			ActiveRecord::Base.transaction do
+				#Grab all threads
+				threads['threads'].each do |thread|
+					t = self.email_threads.create(
+						threadId: thread['id'],
+						snippet: thread['snippet'],
+						historyId: thread['historyId'])
 					
-					# Find the body depending on the mimeType
-					body_text = ''
-					body_html = ''
-					if message['payload']['mimeType'] == 'text/plain'
-						body_text = message['payload']['body']['data']
-					else
-						message['payload']['parts'].each do |part|
-							if part['mimeType'] == 'text/plain'
-								body_text = part['body']['data']
-							elsif part['mimeType'] == 'text/html'
-								body_html = part['body']['data']
-							elsif part['mimeType'] == 'multipart/alternative'
-								part['parts'].each do |subpart|
-									if subpart['mimeType'] == 'text/plain'
-										body_text = subpart['body']['data']
-									elsif subpart['mimeType'] == 'text/html'
-										body_html = subpart['body']['data']
+					#Grab all messages in that thread
+					messages = client.get_thread(thread['id'])
+					messages['messages'].each do |message|
+						
+						# Find the body depending on the mimeType
+						body_text = ''
+						body_html = ''
+						if message['payload']['mimeType'] == 'text/plain'
+							body_text = message['payload']['body']['data']
+						else
+							message['payload']['parts'].each do |part|
+								if part['mimeType'] == 'text/plain'
+									body_text = part['body']['data']
+								elsif part['mimeType'] == 'text/html'
+									body_html = part['body']['data']
+								elsif part['mimeType'] == 'multipart/alternative'
+									part['parts'].each do |subpart|
+										if subpart['mimeType'] == 'text/plain'
+											body_text = subpart['body']['data']
+										elsif subpart['mimeType'] == 'text/html'
+											body_html = subpart['body']['data']
+										end
 									end
 								end
 							end
 						end
-					end
-					
-					# Save the message itself
-					e = t.email_messages.create(
-						messageId: message['id'],
-						snippet: message['snippet'],
-						historyId: message['historyId'],
-						internalDate: message['internalDate'],
-						body_text: body_text,
-						body_html: body_html,
-						sizeEstimate: message['sizeEstimate'],
-						mimeType: message['payload']['mimeType']
-						)
-					
-					# Grab all headers for that message
-					message['payload']['headers'].each do |header|
-						e.email_headers.create(
-							name: header['name'],
-							value: header['value'])
-					end
+						
+						# Save the message itself
+						e = t.email_messages.create(
+							messageId: message['id'],
+							snippet: message['snippet'],
+							historyId: message['historyId'],
+							internalDate: message['internalDate'],
+							body_text: body_text,
+							body_html: body_html,
+							sizeEstimate: message['sizeEstimate'],
+							mimeType: message['payload']['mimeType']
+							)
+						
+						# Grab all headers for that message
+						message['payload']['headers'].each do |header|
+							e.email_headers.create(
+								name: header['name'],
+								value: header['value'])
+						end
 
-					#Find if there are attachments and save them (without the files themselves)
-					if message['payload']['mimeType'] == 'multipart/mixed'
-						pp message['payload']['parts']
-						message['payload']['parts'].each do |part|
-							if part['mimeType'] != 'text/plain' and part['mimeType'] != 'text/html' and part['mimeType'] != 'multipart/alternative'
-								a = e.message_attachments.create(
-									mimeType: part['mimeType'],
-									filename: part['filename'],
-									attachmentId: part['body']['attachmentId'],
-									size: part['body']['size'])
-								part['headers'].each do |header|
-									a.attachment_headers.create(
-										name: header['name'],
-										value: header['value'])
+						#Find if there are attachments and save them (without the files themselves)
+						if message['payload']['mimeType'] == 'multipart/mixed'
+							message['payload']['parts'].each do |part|
+								if part['mimeType'] != 'text/plain' and part['mimeType'] != 'text/html' and part['mimeType'] != 'multipart/alternative'
+									a = e.message_attachments.create(
+										mimeType: part['mimeType'],
+										filename: part['filename'],
+										attachmentId: part['body']['attachmentId'],
+										size: part['body']['size'])
+									part['headers'].each do |header|
+										a.attachment_headers.create(
+											name: header['name'],
+											value: header['value'])
+									end
 								end
 							end
 						end

@@ -1,3 +1,5 @@
-<li>
-	<%= link_to authorisation.scope, authorisation_path(authorisation) %>
-</li>
+<tr>
+	<td><%= authorisation.granter.email + ': ' %></td>
+	<td><%= link_to authorisation.scope, authorisation_path(authorisation) %></td>
+	<td><%= authorisation.enabled ? 'Enabled' : 'Pending' %></td>
+</tr>

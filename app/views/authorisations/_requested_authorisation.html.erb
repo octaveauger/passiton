@@ -1,0 +1,18 @@
+<tr>
+	<td><%= 'From ' + requested_authorisation.requester.email + ': ' %></td>
+	<td><%= requested_authorisation.scope %></td>
+	<td><%= requested_authorisation.enabled ? 'Enabled' : 'Pending' %></td>
+	<td>
+		<% if requested_authorisation.enabled %>
+			<%= simple_form_for requested_authorisation, :url => authorisation_path(requested_authorisation)  do |f| %>
+				<%= f.input :enabled, as: :hidden, :input_html => { value: 0 } %>
+				<%= f.button :submit, "revoke", :class => 'pop btn-xs' %>
+			<% end %>
+		<% else %>
+			<%= simple_form_for requested_authorisation, :url => authorisation_path(requested_authorisation)  do |f| %>
+				<%= f.input :enabled, as: :hidden, :input_html => { value: 1 } %>
+				<%= f.button :submit, "grant", :class => 'pop btn-xs' %>
+			<% end %>
+		<% end %>
+	</td>
+</tr>
