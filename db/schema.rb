@@ -11,7 +11,78 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150722195610) do
+ActiveRecord::Schema.define(version: 20150823140310) do
+
+  create_table "attachment_headers", force: true do |t|
+    t.integer  "message_attachment_id"
+    t.string   "name"
+    t.text     "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "attachment_headers", ["message_attachment_id"], name: "index_attachment_headers_on_message_attachment_id"
+
+  create_table "authorisations", force: true do |t|
+    t.integer  "requester_id"
+    t.integer  "granter_id"
+    t.string   "scope"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "authorisations", ["granter_id"], name: "index_authorisations_on_granter_id"
+  add_index "authorisations", ["requester_id", "granter_id"], name: "index_authorisations_on_requester_id_and_granter_id"
+  add_index "authorisations", ["requester_id"], name: "index_authorisations_on_requester_id"
+
+  create_table "email_headers", force: true do |t|
+    t.integer  "email_message_id"
+    t.string   "name"
+    t.text     "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "email_headers", ["email_message_id"], name: "index_email_headers_on_email_message_id"
+
+  create_table "email_messages", force: true do |t|
+    t.integer  "email_thread_id"
+    t.string   "messageId"
+    t.text     "snippet"
+    t.integer  "historyId"
+    t.integer  "internalDate"
+    t.text     "body_text"
+    t.text     "body_html"
+    t.integer  "sizeEstimate"
+    t.string   "mimeType"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "email_messages", ["email_thread_id"], name: "index_email_messages_on_email_thread_id"
+
+  create_table "email_threads", force: true do |t|
+    t.integer  "authorisation_id"
+    t.string   "threadId"
+    t.text     "snippet"
+    t.integer  "historyId"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "email_threads", ["threadId"], name: "index_email_threads_on_threadId"
+
+  create_table "message_attachments", force: true do |t|
+    t.integer  "email_message_id"
+    t.string   "mimeType"
+    t.text     "filename"
+    t.string   "attachmentId"
+    t.integer  "size"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "message_attachments", ["email_message_id"], name: "index_message_attachments_on_email_message_id"
 
   create_table "tokens", force: true do |t|
     t.integer  "user_id"
