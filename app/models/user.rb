@@ -6,6 +6,10 @@ class User < ActiveRecord::Base
   devise :omniauthable, :omniauth_providers => [:google_oauth2]
 
   has_many :tokens, dependent: :destroy
+  has_many :requested_authorisations, class_name: 'Authorisation', foreign_key: 'requester_id', dependent: :destroy
+  has_many :granted_authorisations, class_name: 'Authorisation', foreign_key: 'granter_id', dependent: :destroy
+  has_many :requesters, through: :requested_authorisations
+  has_many :granters, through: :granted_authorisations
 
   def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
     data = access_token.info
@@ -20,6 +24,14 @@ class User < ActiveRecord::Base
     end
     user
   end
+
+  def grant(other_user)
+  end
+
+  def request(other_user, scope) #for now it's automatically granted
+    requested_authorisations.create(granter_id: other_user.id, scope: scope)
+  end
+
 
   # Set up the first access token once a user authorises the app
   def first_token(access_token)

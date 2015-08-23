@@ -1,0 +1,6 @@
+<h1>Authorisations</h1>
+<% if @authorisations.any? %>
+	<ul class="">
+		<%= render partial: 'authorisations/authorisation', collection: @authorisations %>
+	</ul>
+<% end %>

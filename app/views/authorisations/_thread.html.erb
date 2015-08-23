@@ -1,0 +1,8 @@
+<p>
+	<%= thread.threadId %>
+	<ul>
+		<% thread.email_messages.each do |message| %>
+			<li><%= message.snippet %></li>
+		<% end %>
+	</ul>
+</p>

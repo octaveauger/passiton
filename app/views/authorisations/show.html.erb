@@ -1,0 +1,4 @@
+<h1><%= @authorisation.scope %></h1>
+<% if @threads.any? %>
+	<%= render partial: 'authorisations/thread', collection: @threads %>
+<% end %>
