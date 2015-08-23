@@ -21,8 +21,18 @@ body {
   margin-top: 5px;
 }
 
-.timeline-space {
-  margin-top: 1em;
+.timeline {
+  margin-bottom:  0.7em;
+  padding-bottom: 0.7em;
+  border-bottom: 1px solid #000000;
+}
+
+.attachment {
+  padding-bottom: 0.5em;
+}
+
+.modal {
+  padding-top:62px ;
 }
 
 
@@ -148,8 +158,8 @@ a, a:visited {
 }
 
 .btn-primary {
-  background: #5d5c5d;
-  border-color: #5d5c5d;
+  background: #000080;
+  border-color: #000080;
   color: #fff !important;
 }
 .btn-primary:hover {
