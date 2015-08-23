@@ -1,4 +1,15 @@
 <h1><%= @authorisation.scope %></h1>
+<div class="container">
+  <div class="row timeline">
+      <div class="col-md-1">Date</div>
+      <div class="col-md-1">Type</div>
+      <div class="col-md-3">People</div>
+      <div class="col-md-3">Subject</div>
+      <div class="col-md-1">Type</div>
+      <div class="col-md-3">Attachment</div>
+  </div>
+</div>
 <% if @threads.any? %>
 	<%= render partial: 'authorisations/thread', collection: @threads %>
 <% end %>
+</div>
