@@ -7,7 +7,7 @@ module ThreadHelper
 
 	# Takes a string containing a unique email and returns a hash with the name, domain name and email address
 	def parse_email(email)
-		parsed_email = { name: '', domain: '', email: '' }
+		parsed_email = { name: '', domain: '', email: '', company:'' }
 		if !email.index('<').nil?
 			parsed_email[:name] = email[0..(email.index('<')-1)].squish
 			parsed_email[:email] = between(email, { start: '<', end: '>' })
@@ -16,6 +16,7 @@ module ThreadHelper
 			parsed_email[:name] = email[0..(email.index('@')-1)].gsub('.', ' ').split.map(&:capitalize).join(' ')
 		end
 		parsed_email[:domain] = between(parsed_email[:email], { start: '@' }).capitalize
+		parsed_email[:company] = between(parsed_email[:email], { start: '@' , end: '.'})
 		parsed_email
 	end
 

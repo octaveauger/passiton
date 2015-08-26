@@ -9,11 +9,11 @@ class EmailMessage < ActiveRecord::Base
 
   # Returns a decoded plain text body (use simple_format xxx in the view)
   def body_text
-  	Base64.urlsafe_decode64(super)
+  	Base64.urlsafe_decode64(super).force_encoding("UTF-8")
   end
 
   # Returns a decoded html body
   def body_html
-  	Base64.urlsafe_decode64(super).html_safe
+  	Base64.urlsafe_decode64(super).html_safe.force_encoding("UTF-8")
   end
 end

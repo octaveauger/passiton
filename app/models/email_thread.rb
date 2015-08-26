@@ -16,7 +16,8 @@ class EmailThread < ActiveRecord::Base
 		self.email_headers.where('name = ? or name = ? or name = ?', 'To', 'Cc', 'Bcc').each do |header|
 			explode_emails(header.value).each do |email|
 				email = parse_email(email)
-				participants.push(email) unless (participants.any? { |h| h[:email] == email[:email] } or !email[:email].index('emailtosalesforce').nil? )
+				participants.push(email) unless
+				(participants.any? { |h| h[:email] == email[:email] } or !email[:email].index('emailtosalesforce').nil? )
 			end
 		end
 		participants
