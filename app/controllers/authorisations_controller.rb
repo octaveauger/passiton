@@ -54,6 +54,6 @@ class AuthorisationsController < ApplicationController
   private
 
     def authorisation_params
-      params.require(:authorisation).permit(:granter_id, :requester_id, :scope)
+      params.require(:authorisation).permit(:granter_id, :requester_id, :scope, :enabled)
     end
 end
