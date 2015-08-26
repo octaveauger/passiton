@@ -8,9 +8,9 @@ class AuthorisationsController < ApplicationController
 
   def show
   	@authorisation = current_user.requested_authorisations.find(params[:id])
-  	if @authorisation.nil?
-  		flash[:alert] = "This page wasn't found"
-  		redirect to authorisations_path
+  	if @authorisation.nil? or !@authorisation.enabled or !@authorisation.synced
+  		flash[:alert] = "Either you are not authorised anymore or it hasn't finished syncing"
+  		redirect_to authorisations_path
   	end
   	@threads = @authorisation.email_threads.includes(:email_messages, :email_headers, :message_attachments, :attachment_headers).all
   end

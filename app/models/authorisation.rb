@@ -10,8 +10,13 @@ class Authorisation < ActiveRecord::Base
 	has_many :message_attachments, through: :email_messages
 	has_many :attachment_headers, through: :message_attachments
   	scope :authorised,  -> { where(:enabled => true) }
+  	scope :uptodate,  -> { where(:synced => true) } # initial sync has been done
 
-	after_update :sync_gmail
+	after_update :sync_job, :if => :enabled_changed?
+
+	def sync_job
+		GmailSyncerJob.new.async.perform(self)
+	end
 
 	def sync_gmail
 		return false unless self.enabled # only enabled authorisations can be synced
@@ -95,6 +100,7 @@ class Authorisation < ActiveRecord::Base
 					end
 				end
 			end
+			self.update!(synced: true)
 		end
 	end
 end

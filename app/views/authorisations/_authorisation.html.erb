@@ -1,5 +1,11 @@
 <tr>
-	<td><%= authorisation.granter.email + ': ' %></td>
-	<td><%= link_to authorisation.scope, authorisation_path(authorisation) %></td>
+	<td><%= 'With ' + authorisation.granter.email %></td>
+	<td>
+		<% if authorisation.synced %>
+			<%= link_to authorisation.scope, authorisation_path(authorisation) %>
+		<% else %>
+			<%= authorisation.scope + ' (still syncing)' %>
+		<% end %>
+	</td>
 	<td><%= authorisation.enabled ? 'Enabled' : 'Pending' %></td>
 </tr>
