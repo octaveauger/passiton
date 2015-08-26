@@ -16,9 +16,24 @@ class Gmail
 		headers: { 'Content-Type' => 'application/json' }
 	}
 
+	# Grab all threads page by page
 	def list_threads(scope)
+		threads = []
+		next_page_token = nil
+		loop do
+			results = list_threads_page(scope, next_page_token)
+			threads.push(results)
+			next_page_token = results['nextPageToken']
+			break if results['nextPageToken'].nil?
+		end
+		threads
+	end
+
+	# Grab a specific page of threads
+	def list_threads_page(scope, page)
 		opts = DEFAULT_OPTIONS.merge(api_method: @service.users.threads.list)
 		opts[:parameters]['q'] = scope
+		opts[:parameters][:pageToken] = page unless page.nil?
 		execute(opts)
 	end
 

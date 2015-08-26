@@ -10,23 +10,31 @@ class Authorisation < ActiveRecord::Base
 	has_many :message_attachments, through: :email_messages
 	has_many :attachment_headers, through: :message_attachments
   	scope :authorised,  -> { where(:enabled => true) }
+  	scope :uptodate,  -> { where(:synced => true) } # initial sync has been done
 
-	after_update :sync_gmail
+	after_update :sync_job, :if => :enabled_changed?
+
+	def sync_job
+		GmailSyncerJob.new.async.perform(self)
+	end
 
 	def sync_gmail
-		if self.enabled
-			client = Gmail.new(self.granter.tokens.last.fresh_token)
-			threads = client.list_threads(self.scope)
-			
-			ActiveRecord::Base.transaction do
-				#Grab all threads
+		return false unless self.enabled # only enabled authorisations can be synced
+
+		client = Gmail.new(self.granter.tokens.last.fresh_token)
+		thread_pages = client.list_threads(self.scope)
+		
+		ActiveRecord::Base.transaction do
+			# Grab all pages of threads
+			thread_pages.each do |threads|
+				# Grab all threads
 				threads['threads'].each do |thread|
 					t = self.email_threads.create(
 						threadId: thread['id'],
 						snippet: thread['snippet'],
 						historyId: thread['historyId'])
 					
-					#Grab all messages in that thread
+					# Grab all messages in that thread
 					messages = client.get_thread(thread['id'])
 					messages['messages'].each do |message|
 						
@@ -72,7 +80,7 @@ class Authorisation < ActiveRecord::Base
 								value: header['value'])
 						end
 
-						#Find if there are attachments and save them (without the files themselves)
+						# Find if there are attachments and save them (without the files themselves)
 						if message['payload']['mimeType'] == 'multipart/mixed'
 							message['payload']['parts'].each do |part|
 								if part['mimeType'] != 'text/plain' and part['mimeType'] != 'text/html' and part['mimeType'] != 'multipart/alternative'
@@ -92,6 +100,7 @@ class Authorisation < ActiveRecord::Base
 					end
 				end
 			end
+			self.update!(synced: true)
 		end
 	end
 end
