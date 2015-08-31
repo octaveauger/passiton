@@ -1,7 +1,8 @@
-<h1>Ask the authorisation from <%= @granter.email %></h1>
+<h1>Request access to specific emails</h1>
 
 <%= simple_form_for @authorisation, :url => authorisations_path  do |f| %>
-	<%= f.input :scope, required: true, autofocus: true %>
-	<%= f.input :granter_id, as: :hidden %>
+	<%= f.input :granter_email, label: 'Email', placeholder: 'The person who will grant access', required: true, autofocus: true %>
+	<%= f.input :scope, placeholder: 'E.g steve@apple.com or Apple' %>
+	<%= f.input :description, placeholder: 'You can add a couple of sentences explaining why you would like access to these emails' %>
 	<%= f.button :submit, "Request access", :class => 'pop col-xs-offset-3' %>
 <% end %>

@@ -1,9 +1,7 @@
 <tr>
 	<td>
     <% if authorisation.synced & authorisation.enabled %>
-      <a href="<%= authorisation_path(authorisation) %>" class="btn btn-primary active" role="button">
-        View
-      </a>
+      <%= link_to 'View', authorisation_path(authorisation), class: 'btn btn-primary active' %>
     <% else %>
     <a href="" class="btn btn-primary active" role="button" disabled="disabled">
         View
@@ -18,5 +16,5 @@
 			<%= authorisation.scope + ' (still syncing)' %>
 		<% end %>
 	</td>
-	<td><%= authorisation.enabled ? 'Enabled' : 'Pending' %></td>
+	<td><%= authorisation.status.capitalize %></td>
 </tr>

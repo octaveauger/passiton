@@ -1,18 +1,23 @@
 <tr>
-	<td><%= 'From ' + requested_authorisation.requester.email + ': ' %></td>
+	<td><%= 'From ' + requested_authorisation.requester.full_identity + ': ' %></td>
 	<td><%= requested_authorisation.scope %></td>
-	<td><%= requested_authorisation.enabled ? 'Enabled' : 'Pending' %></td>
+	<td><%= requested_authorisation.status.capitalize %></td>
 	<td>
-		<% if requested_authorisation.enabled %>
-			<%= simple_form_for requested_authorisation, :url => authorisation_path(requested_authorisation)  do |f| %>
-				<%= f.input :enabled, as: :hidden, :input_html => { value: 0 } %>
-				<%= f.button :submit, "revoke", :class => 'pop btn-xs' %>
+		<div class="row">
+			<% requested_authorisation.possible_statuses.each do |possible_status| %>
+				<div class="col-xs-4">
+					<%= simple_form_for requested_authorisation, :url => authorisation_path(requested_authorisation)  do |f| %>
+						<%= f.input :status, as: :hidden, :input_html => { value: possible_status } %>
+						<% if possible_status == 'granted' %>
+							<%= f.button :submit, "grant", :class => 'pop btn-block btn-xs' %>
+						<% elsif possible_status == 'revoked' %>
+							<%= f.button :submit, "revoke", :class => 'btn-block btn-xs' %>
+						<% elsif possible_status == 'denied' %>
+							<%= f.button :submit, "deny", :class => 'btn-block btn-xs' %>
+						<% end %>
+					<% end %>
+				</div>
 			<% end %>
-		<% else %>
-			<%= simple_form_for requested_authorisation, :url => authorisation_path(requested_authorisation)  do |f| %>
-				<%= f.input :enabled, as: :hidden, :input_html => { value: 1 } %>
-				<%= f.button :submit, "grant", :class => 'pop btn-xs' %>
-			<% end %>
-		<% end %>
+		</div>
 	</td>
 </tr>

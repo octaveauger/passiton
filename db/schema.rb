@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150831211406) do
+ActiveRecord::Schema.define(version: 20150831214950) do
 
   create_table "attachment_headers", force: true do |t|
     t.integer  "message_attachment_id"
@@ -30,14 +30,15 @@ ActiveRecord::Schema.define(version: 20150831211406) do
     t.string   "scope"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "enabled"
     t.boolean  "synced"
+    t.string   "status"
+    t.text     "description"
   end
 
-  add_index "authorisations", ["enabled"], name: "index_authorisations_on_enabled"
   add_index "authorisations", ["granter_id"], name: "index_authorisations_on_granter_id"
   add_index "authorisations", ["requester_id", "granter_id"], name: "index_authorisations_on_requester_id_and_granter_id"
   add_index "authorisations", ["requester_id"], name: "index_authorisations_on_requester_id"
+  add_index "authorisations", ["status"], name: "index_authorisations_on_status"
   add_index "authorisations", ["synced"], name: "index_authorisations_on_synced"
 
   create_table "email_headers", force: true do |t|

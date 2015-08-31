@@ -13,7 +13,8 @@
     <div class="collapse navbar-collapse" id="top-navbar">
       <ul class="nav navbar-nav">
         <% if signed_in? %>
-          <li><%= link_to "Authorisations", authorisations_path %></li>
+          <li><%= link_to "Request access", authorisations_path %></li>
+          <li><%= link_to "Grant access", authorisation_grant_path %></li>
         <% end %>
       </ul>
       <ul class="nav navbar-nav pull-right">

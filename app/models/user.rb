@@ -42,8 +42,8 @@ class User < ActiveRecord::Base
     user
   end
 
-  # Create an account for invites into the app
-  def self.create_guest(email)
+  # Tries to find a User, or create a guest account for invites into the app
+  def self.find_or_create_guest(email)
     user = User.where(email: email).first
     unless user
       user = User.create!(
@@ -60,5 +60,14 @@ class User < ActiveRecord::Base
     self.tokens.create(access_token: access_token.credentials.token,
       refresh_token: access_token.credentials.refresh_token,
       expires_at: Time.at(access_token.credentials.expires_at).to_datetime)
+  end
+
+  # Returns the first and last name (if present) and email
+  def full_identity
+    if self.first_name.nil? or self.last_name.nil?
+      self.email
+    else
+      self.first_name + ' ' + self.last_name + ' (' + self.email + ')'
+    end
   end
 end

@@ -4,15 +4,15 @@ class Authorisation < ActiveRecord::Base
 	validates :requester_id, presence: true
 	validates :granter_id, presence: true
 	validates :scope, presence: true
+	validates :status, presence: true, inclusion: { in: ['pending', 'granted', 'denied', 'revoked'] }
+	attr_accessor :granter_email
 	has_many :email_threads
 	has_many :email_messages, through: :email_threads
 	has_many :email_headers, through: :email_messages
 	has_many :message_attachments, through: :email_messages
 	has_many :attachment_headers, through: :message_attachments
-  	scope :authorised,  -> { where(:enabled => true) }
+  	scope :authorised,  -> { where(:status => 'granted') }
   	scope :uptodate,  -> { where(:synced => true) } # initial sync has been done
-
-	after_update :sync_job, :if => :enabled_changed?
 
 	def sync_job
 		GmailSyncerJob.new.async.perform(self)
@@ -25,7 +25,6 @@ class Authorisation < ActiveRecord::Base
 		thread_pages = client.list_threads(self.scope)
 		
 		ActiveRecord::Base.transaction do
-			require 'pp'
 			# Grab all pages of threads
 			thread_pages.each do |threads|
 				# Grab all threads
@@ -39,7 +38,6 @@ class Authorisation < ActiveRecord::Base
 					messages = client.get_thread(thread['id'])
 					messages['messages'].each do |message|
 						
-						pp message
 						# Find the body depending on the mimeType
 						body_text = ''
 						body_html = ''
@@ -103,6 +101,39 @@ class Authorisation < ActiveRecord::Base
 				end
 			end
 			self.update!(synced: true)
+		end
+	end
+
+	def enabled
+		self.status == 'granted'
+	end
+
+	# Returns the different statuses the authorisation can move to
+	def possible_statuses
+		case self.status
+		when 'pending'
+			['granted', 'denied']
+		when 'granted'
+			['revoked']
+		when 'denied'
+			['granted']
+		when 'revoked'
+			['granted']
+		else
+			[]
+		end
+	end
+
+	def update_status(status)
+		self.update!(status: status)
+		case self.status
+		when 'granted'
+			self.sync_gmail
+			# TODO: send granted email
+		when 'denied'
+			# TODO: send denied email
+		when 'revoked'
+			# TODO: send revoked email
 		end
 	end
 end
