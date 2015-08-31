@@ -1,8 +1,62 @@
-<p>
-	<%= thread.threadId %>
-	<ul>
-		<% thread.email_messages.each do |message| %>
-			<li><%= message.snippet %></li>
-		<% end %>
-	</ul>
-</p>
+<div class="row timeline">
+  <div class="col-md-1">
+    <p>
+      <% if thread.first_email_date == thread.last_email_date %>
+      <%= thread.first_email_date.strftime("%d/%m/%y") %>
+      <% else %>
+      <%= thread.first_email_date.strftime("%d/%m/%y") %> - <%= thread.last_email_date.strftime("%d/%m/%y") %>
+      <% end %>
+    </p>
+  </div>
+  <div class="col-md-1">
+    <button type="button" class="btn btn-primary" aria-label="Left Align"
+    data-toggle="modal" data-target="#thread-<%= thread.id %>">
+      <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="thread-<%= thread.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <%= render partial: 'authorisations/email', collection: thread.email_messages %>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Forward to your boss</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <ul>
+        <% thread.participants.each do |participant| %>
+          <li>
+            <%= participant[:name] %>
+          <small>
+            <%= participant[:company] %>
+          </small>
+          </li>
+        <% end %>
+    </ul>
+  </div>
+  <div class="col-md-3">
+    <p>
+      <%= thread.subject %>
+    </p>
+  </div>
+  <div class="col-md-4"> <!-- Merge last two columns-->
+    <% thread.message_attachments.each do |attachment| %>
+    <div class="row attachment"> <!-- List attachment as rows-->
+      <div class="col-md-3">
+        <button type="button" class="btn btn-primary" aria-label="Left Align">
+          <span class="glyphicon <%= mimetype_visual(attachment.mimeType) %>" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="col-md-9">
+        <%= attachment.filename %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>
+

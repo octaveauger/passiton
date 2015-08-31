@@ -33,6 +33,7 @@ gem 'mini_magick',              '4.0.0'
 gem 'fog',                      '1.23.0'
 gem 'bootsy',					'2.0.12'
 gem 'google-api-client', require: 'google/api_client'
+gem 'sucker_punch', '~> 1.0'
 
 group :doc do
   gem 'sdoc', '0.3.20', require: false

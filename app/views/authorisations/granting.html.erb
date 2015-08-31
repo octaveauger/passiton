@@ -1,0 +1,9 @@
+<h1>Requests from others</h1>
+
+<% if @authorisations.any? %>
+	<table class="table">
+		<%= render partial: 'authorisations/requested_authorisation', collection: @authorisations %>
+	</table>
+<% else %>
+	<p>No one has requested access to your emails yet.</p>
+<% end %>

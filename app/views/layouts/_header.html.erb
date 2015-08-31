@@ -6,11 +6,16 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
-          <%= link_to 'Home', root_path %>
       </button>
+      <%= link_to image_tag("logo.png", size: "45x45", alt: 'PassItOn'), root_path, class: 'navbar-brand' %>
     </div>
 
     <div class="collapse navbar-collapse" id="top-navbar">
+      <ul class="nav navbar-nav">
+        <% if signed_in? %>
+          <li><%= link_to "Authorisations", authorisations_path %></li>
+        <% end %>
+      </ul>
       <ul class="nav navbar-nav pull-right">
         <% if signed_in? %>
   	        <li><%= link_to "Log out", destroy_user_session_path, method: "delete" %></li>
