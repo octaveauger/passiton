@@ -12,5 +12,6 @@
 <div>
 <% if @threads.any? %>
 	<%= render partial: 'authorisations/thread', collection: @threads %>
+	<%= will_paginate @threads %>
 <% end %>
 </div>
