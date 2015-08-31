@@ -2,7 +2,28 @@ module ThreadHelper
 
 	# Takes a string containing one or several emails and returns an array of emails
 	def explode_emails(emails)
-		emails.split(',').map { |s| s.squish }
+		exploded = []
+		substring = ''
+		# Go character by character
+		emails.split("").each do |c|
+			# As long as character not comma, save in temp string
+			if c != ','
+				substring += c
+			# If character is comma
+			else
+				# If @ found in temp string: push into exploded array and start new string
+				if !substring.index('@').nil?
+					exploded.push(substring)
+					substring = ''
+				# Otherwise keep going
+				else
+					substring += c
+				end
+			end
+		end
+		# If end of string: push into exploded array
+		exploded.push(substring)
+		exploded
 	end
 
 	# Takes a string containing a unique email and returns a hash with the name, domain name and email address
@@ -17,6 +38,7 @@ module ThreadHelper
 		end
 		parsed_email[:domain] = between(parsed_email[:email], { start: '@' }).capitalize
 		parsed_email[:company] = between(parsed_email[:email], { start: '@' , end: '.'})
+		parsed_email[:name].gsub!('"','')
 		parsed_email
 	end
 

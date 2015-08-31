@@ -13,7 +13,7 @@ class EmailThread < ActiveRecord::Base
 	#     end
 	def participants
 		participants = []
-		self.email_headers.where('name = ? or name = ? or name = ?', 'To', 'Cc', 'Bcc').each do |header|
+		self.email_headers.where('name = ? or name = ? or name = ? or name = ? or name = ?', 'To', 'Cc', 'Bcc', 'From', 'Delivered-To').each do |header|
 			explode_emails(header.value).each do |email|
 				email = parse_email(email)
 				participants.push(email) unless

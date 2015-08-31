@@ -25,6 +25,7 @@ class Authorisation < ActiveRecord::Base
 		thread_pages = client.list_threads(self.scope)
 		
 		ActiveRecord::Base.transaction do
+			require 'pp'
 			# Grab all pages of threads
 			thread_pages.each do |threads|
 				# Grab all threads
@@ -38,10 +39,11 @@ class Authorisation < ActiveRecord::Base
 					messages = client.get_thread(thread['id'])
 					messages['messages'].each do |message|
 						
+						pp message
 						# Find the body depending on the mimeType
 						body_text = ''
 						body_html = ''
-						if message['payload']['mimeType'] == 'text/plain'
+						if message['payload']['mimeType'] == 'text/plain' or message['payload']['parts'].nil?
 							body_text = message['payload']['body']['data']
 						else
 							message['payload']['parts'].each do |part|
