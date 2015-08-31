@@ -18,7 +18,11 @@ class User < ActiveRecord::Base
       user = User.create(email: data["email"],
         password: Devise.friendly_token[0,20],
         provider: access_token.provider,
-        uid: access_token.uid
+        uid: access_token.uid,
+        first_name: data['first_name'],
+        last_name: data['last_name'],
+        image: data['image'],
+        gender: access_token.extra['raw_info']['gender'],
       )
       user.first_token(access_token)
     end
