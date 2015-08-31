@@ -1,13 +1,45 @@
 <h1>Authorisations</h1>
 
-<h2>Your requests</h2>
+<h2>View email history you have requested access</h2>
 <% if @authorisations.any? %>
 	<table class="table">
+    <tr>
+      <th>Action</th>
+      <th>From</th>
+      <th>About</th>
+      <th>State</th>
+    </tr>
 		<%= render partial: 'authorisations/authorisation', collection: @authorisations %>
 	</table>
 <% end %>
 
-<h2>Ask for new access from other users</h2>
+<hr/>
+
+<h2>Request email history from new contacts</h2>
+
+<form>
+  <div class="form-group">
+    <label for="InputEmail">Email address</label>
+    <input type="email" class="form-control" id="emailaccess" placeholder="Email">
+  </div>
+  <div class="form-group">
+    <label for="InputAbout">About</label>
+    <input type="text" class="form-control" id="scope" placeholder="e.g. steve@apple.com or Apple">
+    <p class="help-block">What you'd like to see from your contact</p>
+  </div>
+  <div class="form-group">
+    <label for="InputTimeLength">Time length</label>
+    <input type="Date" class="form-control" id="timelength">
+    <p class="help-block">How long you'd like the authorisation to be valid</p>
+  </div>
+  <div class="form-group">
+    <label for="InputTimeLength">Add a personal message</label>
+    <textarea class="form-control" rows="3"></textarea>
+  </div>
+<button type="submit" class="btn btn-default">Submit</button>
+</from>
+
+
 <ul class="list-unstyled">
 	<%= render partial: 'authorisations/user', collection: @users %>
 </ul>

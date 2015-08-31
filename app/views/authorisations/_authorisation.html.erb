@@ -1,8 +1,19 @@
 <tr>
-	<td><%= 'With ' + authorisation.granter.email %></td>
+	<td>
+    <% if authorisation.synced & authorisation.enabled %>
+      <a href="<%= authorisation_path(authorisation) %>" class="btn btn-primary active" role="button">
+        View
+      </a>
+    <% else %>
+    <a href="" class="btn btn-primary active" role="button" disabled="disabled">
+        View
+    </a>
+    <% end %>
+  </td>
+  <td><%= authorisation.granter.email %></td>
 	<td>
 		<% if authorisation.synced %>
-			<%= link_to authorisation.scope, authorisation_path(authorisation) %>
+			<%= authorisation.scope %>
 		<% else %>
 			<%= authorisation.scope + ' (still syncing)' %>
 		<% end %>
