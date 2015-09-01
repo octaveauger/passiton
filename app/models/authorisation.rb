@@ -129,11 +129,11 @@ class Authorisation < ActiveRecord::Base
 		case self.status
 		when 'granted'
 			self.sync_gmail
-			# TODO: send granted email
+			AuthorisationMailer.authorisation_granted(self).deliver
 		when 'denied'
-			# TODO: send denied email
+			AuthorisationMailer.authorisation_denied(self).deliver
 		when 'revoked'
-			# TODO: send revoked email
+			AuthorisationMailer.authorisation_revoked(self).deliver
 		end
 	end
 end

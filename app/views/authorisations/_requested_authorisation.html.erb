@@ -5,7 +5,7 @@
 	<td>
 		<div class="row">
 			<% requested_authorisation.possible_statuses.each do |possible_status| %>
-				<div class="col-xs-4">
+				<div class="col-xs-6">
 					<%= simple_form_for requested_authorisation, :url => authorisation_path(requested_authorisation)  do |f| %>
 						<%= f.input :status, as: :hidden, :input_html => { value: possible_status } %>
 						<% if possible_status == 'granted' %>

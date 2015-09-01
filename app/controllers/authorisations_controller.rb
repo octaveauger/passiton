@@ -29,7 +29,7 @@ class AuthorisationsController < ApplicationController
     @authorisation.granter_id = User.find_or_create_guest(params['authorisation']['granter_email']).id
     @authorisation.status = 'pending'
     if @authorisation.save
-      # TODO: Send email here
+      AuthorisationMailer.request_authorisation(@authorisation).deliver
       flash[:notice] = 'Authorisation requested!'
       redirect_to authorisations_path
     else
