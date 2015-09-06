@@ -1,14 +1,5 @@
 <tr>
-	<td>
-    <% if authorisation.synced & authorisation.enabled %>
-      <%= link_to 'View', authorisation_path(authorisation), class: 'btn btn-primary active' %>
-    <% else %>
-    <a href="" class="btn btn-primary active" role="button" disabled="disabled">
-        View
-    </a>
-    <% end %>
-  </td>
-  <td><%= authorisation.granter.email %></td>
+	<td><%= authorisation.granter.email %></td>
 	<td>
 		<% if authorisation.synced %>
 			<%= authorisation.scope %>
@@ -17,4 +8,11 @@
 		<% end %>
 	</td>
 	<td><%= authorisation.status.capitalize %></td>
+	<td>
+		<% if authorisation.synced & authorisation.enabled %>
+			<%= link_to 'View', authorisation_path(authorisation), class: 'btn btn-primary btn-xs' %>
+		<% else %>
+			<a href="" class="btn btn-primary btn-xs" role="button" disabled="disabled">view</a>
+		<% end %>
+	</td>
 </tr>
