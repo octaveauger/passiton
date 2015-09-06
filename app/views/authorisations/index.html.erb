@@ -1,16 +1,18 @@
-<h1>Authorisations</h1>
+<div class="row">
+  <div class="col-sm-9"><h1>Email access you requested</h1></div>
+  <div class="col-sm-3"><%= link_to 'Ask new access', authorisation_request_path, class: 'btn pop pull-right', style: 'margin-top:28px' %></div>
+</div>
 
-<h2>Your requests</h2>
 <% if @authorisations.any? %>
 	<table class="table">
+    <tr>
+      <th>Action</th>
+      <th>From</th>
+      <th>About</th>
+      <th>State</th>
+    </tr>
 		<%= render partial: 'authorisations/authorisation', collection: @authorisations %>
 	</table>
+<% else %>
+  <p>You haven't requested any access yet.</p>
 <% end %>
-
-<h2>Ask for new access from other users</h2>
-<ul class="list-unstyled">
-	<%= render partial: 'authorisations/user', collection: @users %>
-</ul>
-
-<h2>Grant access</h2>
-<%= link_to 'See requests from others', authorisation_grant_path, class: 'btn pop' %>

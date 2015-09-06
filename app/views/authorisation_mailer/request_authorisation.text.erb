@@ -1,0 +1,15 @@
+Acces request
+======================================
+
+<%= @authorisation.requester.full_identity %> has requested access for a part of your Gmail inbox, to see everything that has to do with "<%= @authorisation.scope %>".
+
+<% if !@authorisation.description.empty? %>	
+	Here's why they request access:
+	<%= @authorisation.description %>
+<% end %>
+
+To grant or deny that request, please follow this link (you'll be asked to login with Gmail if you're not already using Passiton):
+<%= authorisation_grant_url %>
+
+Thanks,
+Your Passiton team

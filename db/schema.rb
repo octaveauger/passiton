@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150831184606) do
+ActiveRecord::Schema.define(version: 20150831214950) do
 
   create_table "attachment_headers", force: true do |t|
     t.integer  "message_attachment_id"
@@ -30,14 +30,15 @@ ActiveRecord::Schema.define(version: 20150831184606) do
     t.string   "scope"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "enabled"
     t.boolean  "synced"
+    t.string   "status"
+    t.text     "description"
   end
 
-  add_index "authorisations", ["enabled"], name: "index_authorisations_on_enabled"
   add_index "authorisations", ["granter_id"], name: "index_authorisations_on_granter_id"
   add_index "authorisations", ["requester_id", "granter_id"], name: "index_authorisations_on_requester_id_and_granter_id"
   add_index "authorisations", ["requester_id"], name: "index_authorisations_on_requester_id"
+  add_index "authorisations", ["status"], name: "index_authorisations_on_status"
   add_index "authorisations", ["synced"], name: "index_authorisations_on_synced"
 
   create_table "email_headers", force: true do |t|
@@ -102,12 +103,12 @@ ActiveRecord::Schema.define(version: 20150831184606) do
   add_index "tokens", ["user_id"], name: "index_tokens_on_user_id"
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                  default: "",   null: false
+    t.string   "encrypted_password",     default: "",   null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,    null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -116,9 +117,15 @@ ActiveRecord::Schema.define(version: 20150831184606) do
     t.datetime "updated_at"
     t.string   "provider"
     t.string   "uid"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "image"
+    t.string   "gender"
+    t.boolean  "guest",                  default: true
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["guest"], name: "index_users_on_guest"
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
 end

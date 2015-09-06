@@ -1,0 +1,10 @@
+Acces request granted
+======================================
+
+<%= @authorisation.granter.full_identity %> has granted access to see a part of their Gmail inbox: "<%= @authorisation.scope %>".
+
+To see their emails, please follow this link:
+<%= authorisation_url(@authorisation) %>
+
+Thanks,
+Your Passiton team

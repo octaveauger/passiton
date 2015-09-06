@@ -16,11 +16,7 @@ class AuthorisationsController < ApplicationController
   end
 
   def requesting
-    @granter = User.find(params[:granter_id])
-    if @granter.nil?
-      redirect_to authorisations_path
-    end
-    @authorisation = Authorisation.new(requester: current_user, granter: @granter)
+    @authorisation = Authorisation.new
   end
 
   def granting
@@ -30,8 +26,10 @@ class AuthorisationsController < ApplicationController
   def create
     @authorisation = Authorisation.new(authorisation_params)
     @authorisation.requester_id = current_user.id
-    @authorisation.enabled = false
+    @authorisation.granter_id = User.find_or_create_guest(params['authorisation']['granter_email']).id
+    @authorisation.status = 'pending'
     if @authorisation.save
+      AuthorisationMailer.request_authorisation(@authorisation).deliver
       flash[:notice] = 'Authorisation requested!'
       redirect_to authorisations_path
     else
@@ -46,7 +44,7 @@ class AuthorisationsController < ApplicationController
       flash[:alert] = 'Something went wrong, try again'
       render 'granting'
     else
-      @authorisation.update(enabled: params['authorisation']['enabled'])
+      @authorisation.update_status(params['authorisation']['status'])
       redirect_to authorisation_grant_path
     end
   end
@@ -54,6 +52,6 @@ class AuthorisationsController < ApplicationController
   private
 
     def authorisation_params
-      params.require(:authorisation).permit(:granter_id, :requester_id, :scope, :enabled)
+      params.require(:authorisation).permit(:scope, :description)
     end
 end
