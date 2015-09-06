@@ -1,7 +1,28 @@
 <div class="modal-header">
   <h4><%= email.subject %></h4>
+  <p><small>Testing: <%= email.id %></small></p>
 </div>
 <div class="modal-body">
-  <%= simple_format email.body_html %>
+  <% if email.body_html.empty? %>
+  	<%= simple_format email.body_text_sections[:main] %>
+  	<% if !email.body_text_sections[:expanded].empty? %>
+  	  <div class="expanded-email">
+  	  	 <a class="btn btn-default btn-xs" role="button" data-toggle="collapse" href="#<%= email.id %>" aria-expanded="false" aria-controls="<%= email.id %>">...</a>
+  	  	 <div id="<%= email.id %>" class="panel-collapse collapse">
+  	  	 	<%= simple_format email.body_text_sections[:expanded] %>
+  	  	 </div>
+  	  </div>
+  	<% end %>
+  <% else %>
+  	<%= simple_format email.body_html_sections[:main] %>
+  	<% if !email.body_html_sections[:expanded].empty? %>
+  	  <div class="expanded-email">
+  	  	 <a class="btn btn-default btn-xs" role="button" data-toggle="collapse" href="#<%= email.id %>" aria-expanded="false" aria-controls="<%= email.id %>">...</a>
+  	  	 <div id="<%= email.id %>" class="panel-collapse collapse">
+  	  	 	<%= simple_format email.body_html_sections[:expanded] %>
+  	  	 </div>
+  	  </div>
+  	<% end %>
+  <% end %>
 </div>
 <hr class="email-border" />
