@@ -15,7 +15,7 @@ class EmailMessage < ActiveRecord::Base
   # Returns a decoded html body
   def body_html
   	#clean_html(Base64.urlsafe_decode64(super).html_safe.force_encoding("UTF-8"))
-    Base64.urlsafe_decode64(super).html_safe.force_encoding("UTF-8")
+    clean_html(Base64.urlsafe_decode64(super).html_safe.force_encoding("UTF-8"))
   end
 
   # Removes html formatting that adds too much empty space and extra lines
