@@ -21,6 +21,7 @@ class EmailMessage < ActiveRecord::Base
   # Removes html formatting that adds too much empty space and extra lines
   def clean_html(html)
     html.gsub!(/\r\n<div><br>\r\n<\/div>/,"")
+    html.gsub!(/font-size.*;/,"") #removes any style that tries to set a different font size
     html
   end
 
