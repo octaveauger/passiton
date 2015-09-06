@@ -6,8 +6,8 @@
 body {
   padding-top: 62px;
   color: #595959;
-  background-color: #f2f2f2;
-  font-family: "Helvetica Neue",Arial,Helvetica,Verdana,sans-serif;
+  background-color: #ffffff;
+  font-family: "Questrial", "Helvetica Neue",Arial,Helvetica,Verdana,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-smoothing: antialiased;
@@ -54,7 +54,8 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #fff;
+  background-color: #5092da;
+  color: #ffffff;
   z-index: 2000;
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
@@ -69,11 +70,11 @@ body {
 }
 
 #site-navbar li:hover, #site-navbar li:focus {
- background-color: #e0e0e0;
+ background-color: #5092da;
 }
 
 #site-navbar li.list-button:hover, #site-navbar lli.list-button:focus {
-  background-color: #fff;
+  background-color: #5092da;
 }
 
 #site-navbar a {
@@ -82,7 +83,7 @@ body {
   font-weight: bold;
   line-height: 1.75;
   letter-spacing: .04em;
-  color: #3a3a3a;
+  color: #ffffff;
   padding: 20px 18px;
   display: inline-block;
   vertical-align: middle;

@@ -6,10 +6,10 @@
 <% if @authorisations.any? %>
 	<table class="table">
     <tr>
-      <th>Action</th>
       <th>From</th>
       <th>About</th>
       <th>State</th>
+      <th>Action</th>
     </tr>
 		<%= render partial: 'authorisations/authorisation', collection: @authorisations %>
 	</table>
