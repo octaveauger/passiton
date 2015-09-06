@@ -14,9 +14,17 @@ class EmailMessage < ActiveRecord::Base
 
   # Returns a decoded html body
   def body_html
-  	Base64.urlsafe_decode64(super).html_safe.force_encoding("UTF-8")
+  	#clean_html(Base64.urlsafe_decode64(super).html_safe.force_encoding("UTF-8"))
+    Base64.urlsafe_decode64(super).html_safe.force_encoding("UTF-8")
   end
 
+  # Removes html formatting that adds too much empty space and extra lines
+  def clean_html(html)
+    html.gsub!(/\r\n<div><br>\r\n<\/div>/,"")
+    html
+  end
+
+  # Returns the main part of the email and (if any) the expanded part which is all past emails linked in the body
   def body_html_sections
     sections = { main: '', expanded: '' }
     regexes = [
@@ -43,9 +51,11 @@ class EmailMessage < ActiveRecord::Base
         sections[:main] = self.body_html
       end
     end
+    sections[:main].gsub!(/<!DOCTYPE.*>/, "")
     sections
   end
 
+  # Returns the main part of the email and (if any) the expanded part which is all past emails linked in the body
   def body_text_sections
     sections = { main: '', expanded: '' }
     # http://www.cheatography.com/davechild/cheat-sheets/regular-expressions/
