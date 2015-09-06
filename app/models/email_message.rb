@@ -14,14 +14,13 @@ class EmailMessage < ActiveRecord::Base
 
   # Returns a decoded html body
   def body_html
-  	#clean_html(Base64.urlsafe_decode64(super).html_safe.force_encoding("UTF-8"))
-    clean_html(Base64.urlsafe_decode64(super).html_safe.force_encoding("UTF-8"))
+  	clean_html(Base64.urlsafe_decode64(super).html_safe.force_encoding("UTF-8"))
   end
 
   # Removes html formatting that adds too much empty space and extra lines
   def clean_html(html)
     html.gsub!(/\r\n<div><br>\r\n<\/div>/,"")
-    html.gsub!(/font-size.*;/,"") #removes any style that tries to set a different font size
+    html.gsub!(/(font-size: (\d{1,2}|\d{1,2}.\d{1,})px;)|(font size="\d{1,}")/,"") #removes any style that tries to set a different font size
     html
   end
 
