@@ -23,7 +23,7 @@ class Authorisation < ActiveRecord::Base
 
 		client = Gmail.new(self.granter.tokens.last.fresh_token)
 		thread_pages = client.list_threads(self.scope)
-		
+
 		ActiveRecord::Base.transaction do
 			# Grab all pages of threads
 			thread_pages.each do |threads|
@@ -33,11 +33,11 @@ class Authorisation < ActiveRecord::Base
 						threadId: thread['id'],
 						snippet: thread['snippet'],
 						historyId: thread['historyId'])
-					
+
 					# Grab all messages in that thread
 					messages = client.get_thread(thread['id'])
 					messages['messages'].each do |message|
-						
+
 						# Find the body depending on the mimeType
 						body_text = ''
 						body_html = ''
@@ -60,7 +60,7 @@ class Authorisation < ActiveRecord::Base
 								end
 							end
 						end
-						
+
 						# Save the message itself
 						e = t.email_messages.create(
 							messageId: message['id'],
@@ -72,7 +72,7 @@ class Authorisation < ActiveRecord::Base
 							sizeEstimate: message['sizeEstimate'],
 							mimeType: message['payload']['mimeType']
 							)
-						
+
 						# Grab all headers for that message
 						message['payload']['headers'].each do |header|
 							e.email_headers.create(

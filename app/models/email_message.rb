@@ -14,6 +14,9 @@ class EmailMessage < ActiveRecord::Base
 
   # Returns a decoded html body
   def body_html
-  	Base64.urlsafe_decode64(super).html_safe.force_encoding("UTF-8")
+  	bodytoclean = Base64.urlsafe_decode64(super).html_safe.force_encoding("UTF-8")
+  bodytoclean.gsub!(/\r\n<div><br>\r\n<\/div>/,"")
+  bodytoclean
   end
+
 end

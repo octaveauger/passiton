@@ -12,6 +12,7 @@
     <button type="button" class="btn btn-primary" aria-label="Left Align"
     data-toggle="modal" data-target="#thread-<%= thread.id %>">
       <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+      <p> <%= thread.id %>
     </button>
     <!-- Modal -->
     <div class="modal fade" id="thread-<%= thread.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -21,7 +22,6 @@
             <%= render partial: 'authorisations/email', collection: thread.email_messages %>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Forward to your boss</button>
           </div>
         </div>
       </div>
