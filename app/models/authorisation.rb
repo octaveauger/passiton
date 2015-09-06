@@ -128,7 +128,7 @@ class Authorisation < ActiveRecord::Base
 		self.update!(status: status)
 		case self.status
 		when 'granted'
-			self.sync_gmail
+			self.sync_job
 			AuthorisationMailer.authorisation_granted(self).deliver
 		when 'denied'
 			AuthorisationMailer.authorisation_denied(self).deliver
