@@ -1,10 +1,12 @@
 class EmailMessage < ActiveRecord::Base
   belongs_to :email_thread
-  has_many :email_headers
   has_many :message_attachments
+  has_many :message_participants
+  has_many :participants, through: :message_participants
 
-  def subject
-  	self.email_headers.where(name: 'Subject').first.value
+  # Returns participants with a delivery in: 'to', 'from', 'cc', 'bcc'
+  def participants_with_delivery(delivery)
+    self.participants.joins(:message_participants).where('message_participants.delivery = ?', delivery).uniq
   end
 
   # Returns a decoded plain text body (use simple_format xxx in the view)

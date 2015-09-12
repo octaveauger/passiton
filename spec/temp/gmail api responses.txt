@@ -216,77 +216,295 @@
 											"size"=>459, 
 											"data"=>"PGRpdiBkaXI9Imx0ciI-PGRpdj48ZGl2IGNsYXNzPSJnbWFpbF9zaWduYXR1cmUiPjxkaXYgZGlyPSJsdHIiPjxkaXYgZGlyPSJsdHIiPjxkaXY-PGI-QmxhYmxhPC9iPjwvZGl2PjxkaXY-PGJyPjwvZGl2PjxkaXY-PGZvbnQgc2l6ZT0iNCI-dGVzdCBncmFuZDwvZm9udD48L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2Pjxmb250IHNpemU9IjEiPnRlc3QgcGV0aXQ8L2ZvbnQ-PC9kaXY-PGRpdj48YnI-PC9kaXY-PGRpdj5ub3JtYWw8L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2Pkxpc3RlOjwvZGl2PjxkaXY-PHVsPjxsaT5UcnVjIDE8L2xpPjxsaT5UaGluZyAyPC9saT48dWw-PGxpPkJ1bGxldCAxPC9saT48bGk-QnVsbGV0IDI8L2xpPjxsaT5CdWxsZXQgMzwvbGk-PC91bD48bGk-VGhpbmcgMzwvbGk-PC91bD48ZGl2Pjxicj48L2Rpdj48L2Rpdj48L2Rpdj48L2Rpdj48L2Rpdj48L2Rpdj4NCjwvZGl2Pg0K"
 										}
-									}
-								]
-							}, {
-								"partId"=>"1", 
-								"mimeType"=>"image/png", 
-								"filename"=>"430.png", 
-								"headers"=>[
-									{
-										"name"=>"Content-Type", 
-										"value"=>"image/png; name=\"430.png\""
-									}, {
-										"name"=>"Content-Disposition", 
-										"value"=>"attachment; filename=\"430.png\""
-									}, {
-										"name"=>"Content-Transfer-Encoding", 
-										"value"=>"base64"
-									}, {
-										"name"=>"X-Attachment-Id", 
-										"value"=>"f_idoj33i50"
-									}], 
-								"body"=>
-									{
-										"attachmentId"=>"ANGjdJ9N0SC4mMnFV0CmHlwnZw2cA_fPVyxYaNDB7NhZ-qnTIjKrAdJIEJ4EwOA67oXJqXJn8LMEI1zBK5Y1XwYIFFaAW9BGA1x_8a5p4vGzNyavFaCaoEj9uU5RlAedUyWmAqbHg-QeeUz4Ze4GJPQy80rNt50M12yoO_2kANSd8WdL9jqP4Xzv7P7mKQTne9espglHBKO2eKH3TnUrqG_MOlxFa2VlhdIoXf1HZ-521V314J_mYPvO0P7TzCW8D88yOtnEfonkd1tPstldWcFlauNmpgPnGxqywC-KnA", 
-										"size"=>150448
-									}
-							}, {
-								"partId"=>"2", 
-								"mimeType"=>"text/csv", 
-								"filename"=>"payment-list.csv", 
-								"headers"=>[
-									{
-										"name"=>"Content-Type", 
-										"value"=>"text/csv; charset=US-ASCII; name=\"payment-list.csv\""
-									}, {
-										"name"=>"Content-Disposition", 
-										"value"=>"attachment; filename=\"payment-list.csv\""
-									}, {
-										"name"=>"Content-Transfer-Encoding", 
-										"value"=>"base64"
-									}, {
-										"name"=>"X-Attachment-Id", 
-										"value"=>"f_idoj3gh31"
-									}], 
-								"body"=>
-									{
-										"attachmentId"=>"ANGjdJ-4WhIzjVhZcuPEjxib4mg4dOErD_jbSSbb-u8715AjVtwyljNbCwBY4GB5gqVLTNkY_Ve31V1mqnqyZ4Y-9hiwJXZaRsPZG6sOMuHeCELe_CuV6iHc_fh52_m--eNR-I9wY7YjDxMXup3_EpeZEh3ArK1Q6iXDOpzS9asPv-V5ks6qc4VuuUrlaH2pDBTeffT6Ni1mrPAuyO13xmEuZfuPduy5O3JgzL307kdvTfcXuMBdZeHGcE9AgIKWvTpq7linp8MDgz6I8Olx_zZ9a0-0-1LLRRRdaEZGew", 
-										"size"=>1596
-									}
-							}, {
-								"partId"=>"3", 
-								"mimeType"=>"application/pdf", 
-								"filename"=>"Specs from BLZ file - EN.pdf", 
-								"headers"=>[
-									{
-										"name"=>"Content-Type", 
-										"value"=>"application/pdf; name=\"Specs from BLZ file - EN.pdf\""
-									}, {
-										"name"=>"Content-Disposition", 
-										"value"=>"attachment; filename=\"Specs from BLZ file - EN.pdf\""
-									}, {
-										"name"=>"Content-Transfer-Encoding", 
-										"value"=>"base64"
-									}, {
-										"name"=>"X-Attachment-Id", 
-										"value"=>"f_idoj435v2"}], 
-								"body"=>
-									{
-										"attachmentId"=>"ANGjdJ8AdSw2wvZiK3gXEA8ZGtExDlC8aPo-UNrocTyCsS_dssri4YJgCd43SQqNxBA1_hoAQJcHVFfZ4yO2057tY3GuZPIscIX9v04KJKNBB9WevT5bdWFnGmf7V74_6LnNpos1npSnUiDLxv3g99YNXElv2SCD70vZ6oF86vvjsHNyCguxdFjHjn6jMPPJ2WElYwM2Rp6m4uhiIa8_fk8inx4OM8QQWM1C61TTpv60CPQXui6JqAnu9XwjjirWPwDmHKRmxrWzUNR9ZEwx1Xc1T0pbv9SuTj__4j3n_w", 
-										"size"=>466106
-									}
 								}
 							]
-						}, 
-						"sizeEstimate"=>620284}]}
+						}, {
+							"partId"=>"1", 
+							"mimeType"=>"image/png", 
+							"filename"=>"430.png", 
+							"headers"=>[
+								{
+									"name"=>"Content-Type", 
+									"value"=>"image/png; name=\"430.png\""
+								}, {
+									"name"=>"Content-Disposition", 
+									"value"=>"attachment; filename=\"430.png\""
+								}, {
+									"name"=>"Content-Transfer-Encoding", 
+									"value"=>"base64"
+								}, {
+									"name"=>"X-Attachment-Id", 
+									"value"=>"f_idoj33i50"
+								}], 
+							"body"=>
+								{
+									"attachmentId"=>"ANGjdJ9N0SC4mMnFV0CmHlwnZw2cA_fPVyxYaNDB7NhZ-qnTIjKrAdJIEJ4EwOA67oXJqXJn8LMEI1zBK5Y1XwYIFFaAW9BGA1x_8a5p4vGzNyavFaCaoEj9uU5RlAedUyWmAqbHg-QeeUz4Ze4GJPQy80rNt50M12yoO_2kANSd8WdL9jqP4Xzv7P7mKQTne9espglHBKO2eKH3TnUrqG_MOlxFa2VlhdIoXf1HZ-521V314J_mYPvO0P7TzCW8D88yOtnEfonkd1tPstldWcFlauNmpgPnGxqywC-KnA", 
+									"size"=>150448
+								}
+						}, {
+							"partId"=>"2", 
+							"mimeType"=>"text/csv", 
+							"filename"=>"payment-list.csv", 
+							"headers"=>[
+								{
+									"name"=>"Content-Type", 
+									"value"=>"text/csv; charset=US-ASCII; name=\"payment-list.csv\""
+								}, {
+									"name"=>"Content-Disposition", 
+									"value"=>"attachment; filename=\"payment-list.csv\""
+								}, {
+									"name"=>"Content-Transfer-Encoding", 
+									"value"=>"base64"
+								}, {
+									"name"=>"X-Attachment-Id", 
+									"value"=>"f_idoj3gh31"
+								}], 
+							"body"=>
+								{
+									"attachmentId"=>"ANGjdJ-4WhIzjVhZcuPEjxib4mg4dOErD_jbSSbb-u8715AjVtwyljNbCwBY4GB5gqVLTNkY_Ve31V1mqnqyZ4Y-9hiwJXZaRsPZG6sOMuHeCELe_CuV6iHc_fh52_m--eNR-I9wY7YjDxMXup3_EpeZEh3ArK1Q6iXDOpzS9asPv-V5ks6qc4VuuUrlaH2pDBTeffT6Ni1mrPAuyO13xmEuZfuPduy5O3JgzL307kdvTfcXuMBdZeHGcE9AgIKWvTpq7linp8MDgz6I8Olx_zZ9a0-0-1LLRRRdaEZGew", 
+									"size"=>1596
+								}
+						}, {
+							"partId"=>"3", 
+							"mimeType"=>"application/pdf", 
+							"filename"=>"Specs from BLZ file - EN.pdf", 
+							"headers"=>[
+								{
+									"name"=>"Content-Type", 
+									"value"=>"application/pdf; name=\"Specs from BLZ file - EN.pdf\""
+								}, {
+									"name"=>"Content-Disposition", 
+									"value"=>"attachment; filename=\"Specs from BLZ file - EN.pdf\""
+								}, {
+									"name"=>"Content-Transfer-Encoding", 
+									"value"=>"base64"
+								}, {
+									"name"=>"X-Attachment-Id", 
+									"value"=>"f_idoj435v2"}], 
+							"body"=>
+								{
+									"attachmentId"=>"ANGjdJ8AdSw2wvZiK3gXEA8ZGtExDlC8aPo-UNrocTyCsS_dssri4YJgCd43SQqNxBA1_hoAQJcHVFfZ4yO2057tY3GuZPIscIX9v04KJKNBB9WevT5bdWFnGmf7V74_6LnNpos1npSnUiDLxv3g99YNXElv2SCD70vZ6oF86vvjsHNyCguxdFjHjn6jMPPJ2WElYwM2Rp6m4uhiIa8_fk8inx4OM8QQWM1C61TTpv60CPQXui6JqAnu9XwjjirWPwDmHKRmxrWzUNR9ZEwx1Xc1T0pbv9SuTj__4j3n_w", 
+									"size"=>466106
+								}
+							}
+						]
+					}, 
+					"sizeEstimate"=>620284}]}
+
+
+-- Get thread where there's an inline attachment
+
+
+  {
+   "id": "14fa2de7e8b24ef1",
+   "threadId": "14eda3500432846e",
+   "labelIds": [
+    "IMPORTANT",
+    "CATEGORY_PERSONAL",
+    "Label_5"
+   ],
+   "snippet": "Ce fwd ne s&#39;affiche pas dans Passiton. L&#39;API Gmail a bien un text/plain et text/html. La part",
+   "historyId": "2962281",
+   "internalDate": "1441546512000",
+   "payload": {
+    "mimeType": "multipart/mixed",
+    "filename": "",
+    "headers": [
+     ...
+    ],
+    "body": {
+     "size": 0
+    },
+    "parts": [
+     {
+      "mimeType": "multipart/related",
+      "filename": "",
+      "headers": [
+       {
+        "name": "Content-Type",
+        "value": "multipart/related; boundary=001a11c376a208d4c4051f143558"
+       }
+      ],
+      "body": {
+       "size": 0
+      },
+      "parts": [
+       {
+        "mimeType": "multipart/alternative",
+        "filename": "",
+        "headers": [
+         {
+          "name": "Content-Type",
+          "value": "multipart/alternative; boundary=001a11c376a208d4c1051f143557"
+         }
+        ],
+        "body": {
+         "size": 0
+        },
+        "parts": [
+         {
+          "partId": "0.0.0",
+          "mimeType": "text/plain",
+          "filename": "",
+          "headers": [
+           {
+            "name": "Content-Type",
+            "value": "text/plain; charset=UTF-8"
+           },
+           {
+            "name": "Content-Transfer-Encoding",
+            "value": "quoted-printable"
+           }
+          ],
+          "body": {
+           "size": 43615,
+           "data": "BLABLABLA"
+          }
+         },
+         {
+          "partId": "0.0.1",
+          "mimeType": "text/html",
+          "filename": "",
+          "headers": [
+           {
+            "name": "Content-Type",
+            "value": "text/html; charset=UTF-8"
+           },
+           {
+            "name": "Content-Transfer-Encoding",
+            "value": "quoted-printable"
+           }
+          ],
+          "body": {
+           "size": 63024,
+           "data": "BLABLABLA"
+          }
+         }
+        ]
+       },
+       {
+        "partId": "0.1",
+        "mimeType": "image/jpeg",
+        "filename": "DSC_1984.jpg",
+        "headers": [
+         {
+          "name": "Content-Type",
+          "value": "image/jpeg; name=\"DSC_1984.jpg\""
+         },
+         {
+          "name": "Content-Disposition",
+          "value": "inline; filename=\"DSC_1984.jpg\""
+         },
+         {
+          "name": "Content-Transfer-Encoding",
+          "value": "base64"
+         },
+         {
+          "name": "Content-ID",
+          "value": "<ii_14ef800ff2ae2661>"
+         },
+         {
+          "name": "X-Attachment-Id",
+          "value": "ii_14ef800ff2ae2661"
+         }
+        ],
+        "body": {
+         "attachmentId": "ANGjdJ9z1II7Fo7sZOacSHLC_Cb5TjKtMnafMNQA7-QtqnzyzchqoMz-PWMK7O7KcPZSU66hOHeQg7RTmoIIPS1AZLv2qaIGarKNkWMwGVvXdTjv8f6ET7DMVJ7O02hU-Fk_iez2Vq4XAoS41R7XGA3v5QukXkwgdNx8kszhW9sYdjS7kqcp8EG15tSRXqoBmaBTmXRwQ7fyp5Yx8C4_ERn3Pn2BAx-NIVdzzbLVx0e1g04nrw_6mf5UKbqfmjY_usN64N3-8-i6kFUaAou1itP8KjwNw4aHVPhsv5RzU9WZRdvxHAEK6EPC5_5R0XY",
+         "size": 6258694
+        }
+       },
+       {
+        "partId": "0.2",
+        "mimeType": "image/jpeg",
+        "filename": "julien.jpg",
+        "headers": [
+         {
+          "name": "Content-Type",
+          "value": "image/jpeg; name=\"julien.jpg\""
+         },
+         {
+          "name": "Content-Disposition",
+          "value": "inline; filename=\"julien.jpg\""
+         },
+         {
+          "name": "Content-Transfer-Encoding",
+          "value": "base64"
+         },
+         {
+          "name": "Content-ID",
+          "value": "<ii_14ee43f20be2aede>"
+         },
+         {
+          "name": "X-Attachment-Id",
+          "value": "ii_14ee43f20be2aede"
+         }
+        ],
+        "body": {
+         "attachmentId": "ANGjdJ-zHAFjjuvxDsmNaT7PcuXm304693H1edd84SEIkSnJ-Dg09UAzft6p30ugKTyk8t0RfJTtBrjfhijZmTRG5hH6bOPt5fSQgMsodrzOLyZQQfodFOHJnwVQDfu7Y-LNcrK8zBLY2CifAatEI3TEEVPRfWmdlFDbhm5mdAYHNN-hZCWDW3k06Ngd4XNrN_SdRmDy4aceHbSAPJ63QeVUWllglPf7i1OpU2r3l2e82-owY5QgUe7LicVg7xhGwwqXhlyyP5s0h9YGoUeS30LhjWnd_dFt4k3b9-CiZidSOEW1rcvGl4j4fxRXyJ0",
+         "size": 28346
+        }
+       }
+      ]
+     },
+
+     {
+      "partId": "1",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "filename": "1001 Menus case study FR - approved.docx",
+      "headers": [
+       {
+        "name": "Content-Type",
+        "value": "application/vnd.openxmlformats-officedocument.wordprocessingml.document; name=\"1001 Menus case study FR - approved.docx\""
+       },
+       {
+        "name": "Content-Disposition",
+        "value": "attachment; filename=\"1001 Menus case study FR - approved.docx\""
+       },
+       {
+        "name": "Content-Transfer-Encoding",
+        "value": "base64"
+       },
+       {
+        "name": "X-Attachment-Id",
+        "value": "ef8094f19a1a1b44_0.1"
+       }
+      ],
+      "body": {
+       "attachmentId": "ANGjdJ_1gdppXsVfJYshR9osZvHtGsfkxT3SFRFDMnPwK84S4Xv1tvsYrfpnvJnxwNaWjt-Kg68Ojbn7ALUSD7TRHwcO5ckE5a8caSGwIS4a1uwhNmThu6lHP_7UsZLi0c4AvKLS8WMfGATeaHNVN9tuuNkmGvpQ-qPG72HG8wcnaEtuJcQqzaCD-T8fZmIWTG_ftRfqwCHgGxGYgT8UClj-mfLUhB8U_naD3USXIFxNZ4gGYQLp9Eg0VfUMtPW3qfiGLy7u0g_LlV6b4ELQ2j5XT2XBm6wjpsF5AiLfkCnAfu7FHgef6EITuzcS3hc",
+       "size": 306444
+      }
+     },
+     
+     {
+      "partId": "2",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "filename": "1001menus case study EN - approved.docx",
+      "headers": [
+       {
+        "name": "Content-Type",
+        "value": "application/vnd.openxmlformats-officedocument.wordprocessingml.document; name=\"1001menus case study EN - approved.docx\""
+       },
+       {
+        "name": "Content-Disposition",
+        "value": "attachment; filename=\"1001menus case study EN - approved.docx\""
+       },
+       {
+        "name": "Content-Transfer-Encoding",
+        "value": "base64"
+       },
+       {
+        "name": "X-Attachment-Id",
+        "value": "bea8e3ade33d2170_0.1"
+       }
+      ],
+      "body": {
+       "attachmentId": "ANGjdJ930l8yObnlENytE48pr8TS4uBQCRfBUeUKaQPOQ4e9RVWmY-BOHjtT423baRmQU7cdN8seK0Ns2NzMBOvbeMeWqdGBqX-A7nino9sUol-dDEMRgvN4vxtuGuSl2Su0KMtJH1HGMm99oUwR9-SwSNZSGpHqPyCUSy8KgL3e9ekVAUyh9bUDE9xvvIIFFexCW2-3Y6pEGbW7X8fs3o7ZNvLdZpaBBkRfYzi-Bdf1JuQmltyMY6v-YQ_fFawMrGRAl7ZHKAxr_AToDaZY9r4rQRwtxoCpAWkkdjNr6a20sBOqkimYgUTbAxy8v98",
+       "size": 231898
+      }
+     }
+    ]
+   },
+   "sizeEstimate": 6949847
+  }
+ ]
+}

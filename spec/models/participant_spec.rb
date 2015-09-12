@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe EmailHeader do
+describe Participant do
   pending "add some examples to (or delete) #{__FILE__}"
 end
