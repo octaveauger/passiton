@@ -3,6 +3,8 @@
 	<td>
 		<% if authorisation.synced %>
 			<%= authorisation.scope %>
+		<% elsif !authorisation.enabled %>
+			<%= authorisation.scope %>
 		<% else %>
 			<%= authorisation.scope + ' (still syncing)' %>
 		<% end %>

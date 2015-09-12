@@ -1,6 +1,8 @@
 class EmailMessage < ActiveRecord::Base
   belongs_to :email_thread
   has_many :message_attachments
+  has_many :message_participants
+  has_many :participants, through: :message_participants
 
   # Returns a decoded plain text body (use simple_format xxx in the view)
   def body_text

@@ -33,9 +33,9 @@
     <ul>
         <% thread.participants.each do |participant| %>
           <li>
-            <%= participant[:name] %>
+            <%= participant.fullname %>
           <small>
-            <%= participant[:company] %>
+            <%= participant.company %>
           </small>
           </li>
         <% end %>
