@@ -35,14 +35,24 @@ body {
   padding-bottom: 1em;
 }
 
-.modal {
-  padding-top:62px ;
-}
-
 .email-border {
   border-color: #A9A9A9;
   border-style: solid none;
   border-width: 5px 0;
+}
+
+/* Modal */
+
+.modal {
+  padding-top:62px ;
+}
+
+.modal-header{
+  padding: 5px 15px;
+}
+
+.top_header{
+    background-color: #ffdb99;
 }
 
 /* Header nav */

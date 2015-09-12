@@ -2,6 +2,12 @@
 
 <% if @authorisations.any? %>
 	<table class="table">
+  <tr>
+    <th>Requester</th>
+    <th>Scope</th>
+    <th>Status</th>
+    <th>Action</th>
+  <tr>
 		<%= render partial: 'authorisations/requested_authorisation', collection: @authorisations %>
 	</table>
 <% else %>
