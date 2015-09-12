@@ -6,6 +6,7 @@
 #
 default: &default
   adapter: sqlite3
+  url: sqlite3:NOT_my_database
   pool: 5
   timeout: 5000
 
