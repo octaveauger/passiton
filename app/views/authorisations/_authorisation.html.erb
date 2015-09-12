@@ -10,7 +10,7 @@
 	<td><%= authorisation.status.capitalize %></td>
 	<td>
 		<% if authorisation.synced & authorisation.enabled %>
-			<%= link_to 'View', authorisation_path(authorisation), class: 'btn btn-primary btn-xs' %>
+			<%= link_to 'view', authorisation_path(authorisation), class: 'btn btn-primary btn-xs' %>
 		<% else %>
 			<a href="" class="btn btn-primary btn-xs" role="button" disabled="disabled">view</a>
 		<% end %>

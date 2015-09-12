@@ -3,9 +3,7 @@ include ThreadHelper
 class EmailThread < ActiveRecord::Base
 	belongs_to :authorisation
 	has_many :email_messages
-	has_many :email_headers, through: :email_messages
 	has_many :message_attachments, through: :email_messages
-	has_many :attachment_headers, through: :message_attachments
 
 	# Returns an array of hashes with the name, email and domain of all participants to a thread
 	# e.g participants.each do |p|
@@ -13,13 +11,13 @@ class EmailThread < ActiveRecord::Base
 	#     end
 	def participants
 		participants = []
-		self.email_headers.where('name = ? or name = ? or name = ? or name = ? or name = ?', 'To', 'Cc', 'Bcc', 'From', 'Delivered-To').each do |header|
-			explode_emails(header.value).each do |email|
-				email = parse_email(email)
-				participants.push(email) unless
-				(participants.any? { |h| h[:email] == email[:email] } or !email[:email].index('emailtosalesforce').nil? )
-			end
-		end
+	#	self.email_headers.where('name = ? or name = ? or name = ? or name = ? or name = ?', 'To', 'Cc', 'Bcc', 'From', 'Delivered-To').each do |header|
+	#		explode_emails(header.value).each do |email|
+	#			email = parse_email(email)
+	#			participants.push(email) unless
+	#			(participants.any? { |h| h[:email] == email[:email] } or !email[:email].index('emailtosalesforce').nil? )
+	#		end
+	#	end
 		participants
 	end
 

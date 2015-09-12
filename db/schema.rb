@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150831214950) do
+ActiveRecord::Schema.define(version: 20150912125724) do
 
   create_table "attachment_headers", force: true do |t|
     t.integer  "message_attachment_id"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 20150831214950) do
     t.string   "mimeType"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "subject"
   end
 
   add_index "email_messages", ["email_thread_id"], name: "index_email_messages_on_email_thread_id"
@@ -87,9 +88,11 @@ ActiveRecord::Schema.define(version: 20150831214950) do
     t.integer  "size"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "inline"
   end
 
   add_index "message_attachments", ["email_message_id"], name: "index_message_attachments_on_email_message_id"
+  add_index "message_attachments", ["inline"], name: "index_message_attachments_on_inline"
 
   create_table "tokens", force: true do |t|
     t.integer  "user_id"
