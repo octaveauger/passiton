@@ -4,6 +4,11 @@ class EmailMessage < ActiveRecord::Base
   has_many :message_participants
   has_many :participants, through: :message_participants
 
+  # Returns participants with a delivery in: 'to', 'from', 'cc', 'bcc'
+  def participants_with_delivery(delivery)
+    self.participants.joins(:message_participants).where('message_participants.delivery = ?', delivery).uniq
+  end
+
   # Returns a decoded plain text body (use simple_format xxx in the view)
   def body_text
   	Base64.urlsafe_decode64(super).force_encoding("UTF-8")
