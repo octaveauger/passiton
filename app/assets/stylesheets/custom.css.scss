@@ -21,6 +21,10 @@ body {
   margin-top: 5px;
 }
 
+.page-title {
+    text-align: center;
+}
+
 .timeline {
   margin-bottom:  0.7em;
   padding-bottom: 0.7em;
@@ -170,26 +174,20 @@ a, a:visited {
   text-decoration: none;
 }
 
-.btn {
-  color: #595959 !important;
-}
-.btn:hover {
-  background-color: #d3d3d3;
-}
-
 .btn-primary {
-  background: #000080;
-  border-color: #000080;
+  background: #5092da;
+  border-color: #5092da;
   color: #fff !important;
 }
+
 .btn-primary:hover {
-  background: #5d5c5d;
-  border-color: #5d5c5d;
+  background: #2b78cc;
+  border-color: #2b78cc;
 }
 
-.pop.btn {
-  background: #e85c41;
-  border-color: #e85c41;
+.btn-hollow {
+  background: #5092da;
+  border: 1px solid #fff;
   color: #fff !important;
 }
 
@@ -218,13 +216,16 @@ textarea, textarea.form-control, input[type="text"], input[type="password"], inp
 }
 
 .form-group {
-  margin-bottom: 1.5em;
-  margin: 0 0 15px 0;
+  margin: 15px 10px;
 }
 
 .form-actions {
   margin-top: 20px;
   margin-bottom: 15px;
+}
+
+.form-horizontal .control-label{
+  text-align: left;
 }
 
 div.boolean {

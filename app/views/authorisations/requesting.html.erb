@@ -1,8 +1,10 @@
-<h1>Request access to specific emails</h1>
+<h1 class="page-title">Request access to specific emails</h1>
 
-<%= simple_form_for @authorisation, :url => authorisations_path  do |f| %>
-	<%= f.input :granter_email, label: 'Email', placeholder: 'The person who will grant access', required: true, autofocus: true %>
-	<%= f.input :scope, placeholder: 'E.g steve@apple.com or Apple' %>
-	<%= f.input :description, placeholder: 'You can add a couple of sentences explaining why you would like access to these emails' %>
-	<%= f.button :submit, "Request access", :class => 'pop col-xs-offset-3' %>
-<% end %>
+<div class="col-xs-offset-3 col-xs-6" >
+  <%= simple_form_for @authorisation, :url => authorisations_path  do |f| %>
+  	<%= f.input :granter_email, label: 'Email', placeholder: 'The person who will grant access', required: true, autofocus: true %>
+  	<%= f.input :scope, placeholder: 'E.g steve@apple.com or Apple' %>
+  	<%= f.input :description, placeholder: 'You can add a couple of sentences explaining why you would like access to these emails' %>
+  	<%= f.button :submit, "Request access", :class => 'btn btn-primary btn-block' %>
+  <% end %>
+</div>
