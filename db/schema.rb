@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150912154113) do
+ActiveRecord::Schema.define(version: 20150915192913) do
 
   create_table "attachment_headers", force: true do |t|
     t.integer  "message_attachment_id"
@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 20150912154113) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "inline"
+    t.string   "file"
   end
 
   add_index "message_attachments", ["email_message_id"], name: "index_message_attachments_on_email_message_id"
