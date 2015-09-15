@@ -55,10 +55,6 @@ body {
   padding: 5px 15px;
 }
 
-.top_header{
-    background-color: #ffdb99;
-}
-
 /* Header nav */
 
 #site-navbar {
@@ -189,6 +185,11 @@ a, a:visited {
   background: #5092da;
   border: 1px solid #fff;
   color: #fff !important;
+}
+
+.btn-inline{
+  float: left;
+  margin-right:10px;
 }
 
 button .badge.state-on {

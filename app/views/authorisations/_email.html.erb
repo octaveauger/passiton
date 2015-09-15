@@ -1,7 +1,9 @@
 <div class="modal-header">
   <h4><%= email.subject %> <small>(Testing: <%= email.id %>)</small></h4>
-  <p><b>NAME</b></p>
-  <p>To: , Cc: , Bcc: </p>
+  <p><b>From: <%= (email.participants_with_delivery('from').map {|p| p.fullname}).join(', ') %></b></p>
+  <p>To: <%= (email.participants_with_delivery('to').map {|p| p.fullname}).join(', ') %>,
+    Cc: <%= (email.participants_with_delivery('cc').map {|p| p.fullname}).join(', ') %>,
+    Bcc: <%= (email.participants_with_delivery('bcc').map {|p| p.fullname}).join(', ') %> </p>
 </div>
 <div class="modal-body">
   <% if email.body_html.empty? %>

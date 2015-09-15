@@ -23,14 +23,18 @@ class EmailMessage < ActiveRecord::Base
   def clean_html(html)
 
     # Removes special styling from Outlook
-    html.gsub!(/<head> .* <\/head>/,"")
     html.gsub!(/<body style=.*">/,"<body>")
-    html.gsub!(/<span style=.*">/,"")
 
     noko = Nokogiri::HTML(html)
     office_style = noko.at_css('head')
     if !office_style.nil?
       office_style.remove
+      html = noko.to_html
+    end
+
+    salesforce_style = noko.at_css('style') #remove style from embedded CSS sheet in email (found in Salesforce)
+    if !salesforce_style.nil?
+      salesforce_style.remove
       html = noko.to_html
     end
 
