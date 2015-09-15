@@ -160,12 +160,15 @@ class Authorisation < ActiveRecord::Base
 				filename: message_part['filename'],
 				attachmentId: message_part['body']['attachmentId'],
 				size: message_part['body']['size'],
+				content_id: '',
 				inline: false
 			}
 			message_part['headers'].each do |header|
 				case header['name']
-				when 'Content-Disposition'
+				when 'Content-Disposition' # If contains "inline", then it's inline
 					attachment[:inline] = true unless header['value'].index('inline').nil?
+				when 'X-Attachment-Id' # Indicates the position of the inline attachment
+					attachment[:content_id] = header['value']
 				end
 			end
 			attachment
