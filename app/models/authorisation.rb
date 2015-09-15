@@ -114,7 +114,9 @@ class Authorisation < ActiveRecord::Base
 					# Save the message itself and attachments and participants if any
 					e = EmailMessage.create(email_message)
 					attachments.each do |attachment|
-						e.message_attachments.create(attachment)
+						attachment_db = e.message_attachments.create(attachment)
+						# Asynchronously download the file if it's inline
+						AttachmentDownloadJob.new.async.perform(attachment_db) if attachment[:inline]
 					end
 					participants.each do |participant|
 						participant_db = Participant.find_by(email: participant[:email])
