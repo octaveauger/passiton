@@ -17,3 +17,6 @@
 
 # Custom files to ignore
 /config/local_env.yml
+
+# Ignore uploaded test images.
+/public/uploads
