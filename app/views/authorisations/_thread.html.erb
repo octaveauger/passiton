@@ -21,7 +21,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">&nbsp;</h4>
           </div>
-          <%= render partial: 'authorisations/email', collection: thread.email_messages %>
+          <%= render partial: 'authorisations/email', collection: thread.email_messages.order('internalDate desc') %>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
           </div>
@@ -33,9 +33,9 @@
     <ul>
         <% thread.participants.each do |participant| %>
           <li>
-            <%= participant[:name] %>
+            <%= participant.fullname %>
           <small>
-            <%= participant[:company] %>
+            <%= participant.company %>
           </small>
           </li>
         <% end %>

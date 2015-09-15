@@ -3,6 +3,8 @@
 	<td>
 		<% if authorisation.synced %>
 			<%= authorisation.scope %>
+		<% elsif !authorisation.enabled %>
+			<%= authorisation.scope %>
 		<% else %>
 			<%= authorisation.scope + ' (still syncing)' %>
 		<% end %>
@@ -10,7 +12,7 @@
 	<td><%= authorisation.status.capitalize %></td>
 	<td>
 		<% if authorisation.synced & authorisation.enabled %>
-			<%= link_to 'View', authorisation_path(authorisation), class: 'btn btn-block btn-default' %>
+			<%= link_to 'view', authorisation_path(authorisation), class: 'btn btn-block btn-default' %>
 		<% else %>
 			<a href="" class="btn btn-block btn-default" role="button" disabled="disabled">View</a>
 		<% end %>

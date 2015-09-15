@@ -5,8 +5,8 @@ namespace :testing do
   	Authorisation.destroy_all
   	EmailThread.destroy_all
   	EmailMessage.destroy_all
-  	EmailHeader.destroy_all
   	MessageAttachment.destroy_all
-  	AttachmentHeader.destroy_all
+  	MessageParticipant.destroy_all
+  	Participant.destroy_all
   end
 end
