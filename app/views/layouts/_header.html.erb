@@ -19,9 +19,9 @@
       </ul>
       <ul class="nav navbar-nav pull-right">
         <% if signed_in? %>
-  	        <li><%= link_to "Log out", destroy_user_session_path, method: "delete" %></li>
+  	        <li><%= link_to "Log out", destroy_user_session_path, method: "delete", :class => 'btn btn-hollow' %></li>
   	    <% else %>
-  	        <li class="list-button"><%= link_to "Connect", user_omniauth_authorize_path(:google_oauth2), :class => 'btn pop' %></li>
+  	        <li class="list-button"><%= link_to "Connect", user_omniauth_authorize_path(:google_oauth2), :class => 'btn btn-hollow' %></li>
   	    <% end %>
       </ul>
     </div>
