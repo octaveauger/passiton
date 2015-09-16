@@ -16,7 +16,13 @@ class EmailMessage < ActiveRecord::Base
 
   # Returns a decoded html body
   def body_html
-  	clean_html(Base64.urlsafe_decode64(super).html_safe.force_encoding("UTF-8"))
+  	enhance_html(Base64.urlsafe_decode64(super).html_safe.force_encoding("UTF-8"))
+  end
+
+  def enhance_html(html)
+    html = self.replace_inline_attachments(html)
+    html = self.clean_html(html)
+    html
   end
 
   # Removes html formatting that adds too much empty space and extra lines
@@ -78,6 +84,15 @@ class EmailMessage < ActiveRecord::Base
     end
     sections[:main].gsub!(/<!DOCTYPE.*>/, "")
     sections
+  end
+
+  def replace_inline_attachments(html)
+    self.message_attachments.each do |attachment|
+      if attachment.inline and !attachment.file.nil? # If inline and already downloaded
+        html.gsub!('cid:'+attachment.content_id, attachment.file.url)
+      end
+    end
+    html
   end
 
   # Returns the main part of the email and (if any) the expanded part which is all past emails linked in the body

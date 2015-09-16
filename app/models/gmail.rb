@@ -49,6 +49,13 @@ class Gmail
 		execute(opts)
 	end
 
+	def download_attachment(messageId, attachmentId)
+		opts = DEFAULT_OPTIONS.merge(api_method: @service.users.messages.attachments.get)
+		opts[:parameters]['id'] = attachmentId
+		opts[:parameters]['messageId'] = messageId
+		execute(opts)
+	end
+
 	private
 
 		def execute(opts)
