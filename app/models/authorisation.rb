@@ -158,7 +158,7 @@ class Authorisation < ActiveRecord::Base
 
 	# Analyses an email message part and returns nil if it's not a attachment, or a hash with the attachment data
 	def process_attachment(message_part)
-		if ['text/plain', 'text/html', 'multipart/alternative'].include?(message_part['mimeType'])
+		if ['text/plain', 'text/html', 'multipart/alternative', 'multipart/related'].include?(message_part['mimeType'])
 			nil
 		else
 			attachment = {
