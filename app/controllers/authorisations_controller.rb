@@ -2,7 +2,7 @@ class AuthorisationsController < ApplicationController
   before_action :logged_in_user
 
   def index
-  	@authorisations = current_user.requested_authorisations.all
+  	@authorisations = current_user.requested_authorisations.all.order('created_at desc')
     @users = User.all
   end
 
@@ -20,7 +20,7 @@ class AuthorisationsController < ApplicationController
   end
 
   def granting
-    @authorisations = current_user.granted_authorisations.all
+    @authorisations = current_user.granted_authorisations.all.order('created_at desc')
   end
 
   def create
