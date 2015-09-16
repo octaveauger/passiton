@@ -62,7 +62,6 @@ class Authorisation < ActiveRecord::Base
 					}
 					attachments = []
 					
-					puts 'MessageId: '+message['id']
 					# Find the body depending on the mimeType and process attachments
 					if message['payload']['mimeType'] == 'text/plain' or message['payload']['parts'].nil?
 						email_message[:body_text] = message['payload']['body']['data']
@@ -72,6 +71,9 @@ class Authorisation < ActiveRecord::Base
 								email_message[:body_text] = part['body']['data']
 							elsif part['mimeType'] == 'text/html'
 								email_message[:body_html] = part['body']['data']
+							else
+								part_attachment = self.process_attachment(part)
+								attachments.push(part_attachment) unless part_attachment.nil?
 							end
 							
 							if !part['parts'].nil? # go through parts if any
@@ -117,7 +119,11 @@ class Authorisation < ActiveRecord::Base
 					attachments.each do |attachment|
 						attachment_db = e.message_attachments.create!(attachment)
 						# Asynchronously download the file if it's inline
-						AttachmentDownloadJob.new.async.perform(attachment_db) if attachment[:inline]
+						if Rails.env.production?
+							AttachmentDownloadJob.new.async.perform(attachment_db) if attachment[:inline] #asynchronous only on postgres who can handle it
+						else
+							attachment_db.download if attachment[:inline]
+						end
 					end
 					participants.each do |participant|
 						participant_db = Participant.find_by(email: participant[:email])
@@ -143,6 +149,7 @@ class Authorisation < ActiveRecord::Base
 							delivery: participant[:delivery]
 						)
 					end
+					
 				end
 			end
 		end
@@ -151,8 +158,6 @@ class Authorisation < ActiveRecord::Base
 
 	# Analyses an email message part and returns nil if it's not a attachment, or a hash with the attachment data
 	def process_attachment(message_part)
-		require 'pp'
-		pp message_part
 		if ['text/plain', 'text/html', 'multipart/alternative'].include?(message_part['mimeType'])
 			nil
 		else
