@@ -71,6 +71,9 @@ class Authorisation < ActiveRecord::Base
 								email_message[:body_text] = part['body']['data']
 							elsif part['mimeType'] == 'text/html'
 								email_message[:body_html] = part['body']['data']
+							else
+								part_attachment = self.process_attachment(part)
+								attachments.push(part_attachment) unless part_attachment.nil?
 							end
 							
 							if !part['parts'].nil? # go through parts if any
@@ -112,11 +115,15 @@ class Authorisation < ActiveRecord::Base
 					end
 					
 					# Save the message itself and attachments and participants if any
-					e = EmailMessage.create(email_message)
+					e = EmailMessage.create!(email_message)
 					attachments.each do |attachment|
-						attachment_db = e.message_attachments.create(attachment)
+						attachment_db = e.message_attachments.create!(attachment)
 						# Asynchronously download the file if it's inline
-						AttachmentDownloadJob.new.async.perform(attachment_db) if attachment[:inline]
+						if Rails.env.production?
+							AttachmentDownloadJob.new.async.perform(attachment_db) if attachment[:inline] #asynchronous only on postgres who can handle it
+						else
+							attachment_db.download if attachment[:inline]
+						end
 					end
 					participants.each do |participant|
 						participant_db = Participant.find_by(email: participant[:email])
@@ -129,14 +136,12 @@ class Authorisation < ActiveRecord::Base
 								company: participant[:company]
 							)
 						else # Update the participant if we now have more information about them
-							participant_fields = ['first_name', 'last_name'].freeze
-							participant_update = {}
-							participant_fields.each do |field|
-								if participant[field] != '' and participant_db.method(field).call == ''
-									participant_update[field] = participant[field]
-								end
+							if participant[:first_name] != '' and participant_db.first_name == ''
+								participant_db.update(
+									first_name: participant[:first_name],
+									last_name: participant[:last_name],
+								)
 							end
-							participant_db.update(participant_update) unless participant_update.empty?
 						end
 						MessageParticipant.create(
 							email_message_id: e.id,
@@ -144,6 +149,7 @@ class Authorisation < ActiveRecord::Base
 							delivery: participant[:delivery]
 						)
 					end
+					
 				end
 			end
 		end
