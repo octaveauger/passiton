@@ -12,7 +12,7 @@ class AuthorisationsController < ApplicationController
   		flash[:alert] = "Either you are not authorised anymore or it hasn't finished syncing"
   		redirect_to authorisations_path
   	end
-  	@threads = @authorisation.email_threads.includes(:email_messages, :message_attachments, :message_participants, :participants).all.paginate(page: params[:page], :per_page => 10)
+  	@threads = @authorisation.email_threads.where(synced: true).includes(:email_messages, :message_attachments, :message_participants, :participants).all.paginate(page: params[:page], :per_page => 10)
   end
 
   def requesting

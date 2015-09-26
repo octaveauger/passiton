@@ -34,13 +34,15 @@ class Authorisation < ActiveRecord::Base
 					t = self.email_threads.create(
 						threadId: thread['id'],
 						snippet: thread['snippet'],
-						historyId: thread['historyId']) unless !email_thread.nil?
+						historyId: thread['historyId'],
+						synced: false) unless !email_thread.nil?
 				end
 			end
 		end
 
 		# Grab all threads from DB and add messages that don't exist yet (and their attachments)
 		self.email_threads.all.each do |thread|
+			thread.update(synced: false) unless !thread.synced
 			# Grab all messages in that thread
 			messages = client.get_thread(thread.threadId)
 			messages['messages'].each do |message|
@@ -156,6 +158,7 @@ class Authorisation < ActiveRecord::Base
 					flash[:alert] = 'An error has occured during the synchronisation with Gmail. We have been alerted.'
 					return false
 			    end
+			thread.update(synced: true)
 			end
 		end
 		self.update!(synced: true)
