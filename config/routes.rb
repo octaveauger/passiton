@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   resources :authorisations, only: [:index, :show, :create, :update]
   get 'authorisation/requesting', to: 'authorisations#requesting', as: 'authorisation_request'
   get 'authorisation/grant', to: 'authorisations#granting'
+  resources :attachment, only: [:show]
 end
