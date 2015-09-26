@@ -10,6 +10,8 @@ class AttachmentController < ApplicationController
 
   	# Download from Gmail and store
   	@attachment.download unless !@attachment.file.url.nil?
+  	# Remove in 60min
+  	RemoveAttachmentJob.new.async.later(3600, @attachment.id)
   	# Return the file
   	send_file File.join('public',@attachment.file.url), type: @attachment.mimeType, x_sendfile: true
   end
