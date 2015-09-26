@@ -1,4 +1,5 @@
 <tr>
+	<td><%= authorisation.created_at.strftime("%d/%m/%y") %></td>
 	<td><%= authorisation.granter.email %></td>
 	<td>
 		<% if authorisation.synced %>
