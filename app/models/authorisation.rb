@@ -157,7 +157,6 @@ class Authorisation < ActiveRecord::Base
 					end
 				rescue => e
 					Utility.log_exception(e, { user: self.requester.id, authorisation: self.id, message: message })
-					flash[:alert] = 'An error has occured during the synchronisation with Gmail. We have been alerted.'
 					return false
 			    end
 			thread.update(synced: true)
