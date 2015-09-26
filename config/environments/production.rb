@@ -91,4 +91,11 @@ Rails.application.configure do
     authentication:          'plain',
     enable_starttls_auto:    true
   }
+
+  config.middleware.use ExceptionNotification::Rack,
+     :email => {
+      :email_prefix => "[Passiton] ",
+      :sender_address => %{"notifier" <octave@gocardless.com>},
+      :exception_recipients => %w{octave.auger@gmail.com}
+    }
 end
