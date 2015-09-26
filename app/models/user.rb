@@ -41,6 +41,7 @@ class User < ActiveRecord::Base
         gender: access_token.extra['raw_info']['gender'],
         guest: false
       )
+      user.first_token(access_token)
     end
     ContinuousGmailSyncJob.new.async.perform(user)
     user
