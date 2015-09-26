@@ -27,11 +27,11 @@ class EmailMessage < ActiveRecord::Base
 
   # Removes html formatting that adds too much empty space and extra lines
   def clean_html(html)
+    noko = Nokogiri::HTML(html)
 
     # Removes special styling from Outlook
-    html.gsub!(/<body style=.*">/,"<body>")
+    noko.xpath('//body/@style').remove
 
-    noko = Nokogiri::HTML(html)
     office_style = noko.at_css('head')
     if !office_style.nil?
       office_style.remove
@@ -45,6 +45,7 @@ class EmailMessage < ActiveRecord::Base
     end
 
     html.gsub!(/(font-size: (\d{1,2}|\d{1,2}.\d{1,})px;)|(font size="\d{1,}")/,"") #removes any style that tries to set a different font size
+
     html
   end
 
