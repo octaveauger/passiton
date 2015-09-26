@@ -33,5 +33,7 @@
   	<% end %>
   <% end %>
 </div>
-<p><small>(Testing: <%= email.id %>)</small></p>
+<% if !Rails.env.production? %>
+  <p><small>(Testing: <%= email.id %>)</small></p>
+<% end %>
 <hr class="email-border" />
