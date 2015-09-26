@@ -44,113 +44,118 @@ class Authorisation < ActiveRecord::Base
 			# Grab all messages in that thread
 			messages = client.get_thread(thread.threadId)
 			messages['messages'].each do |message|
-				message_db = self.email_messages.find_by(messageId: message['id'])
-				# Process the message only if it's not in the DB yet
-				if message_db.nil?
-					# The data we're trying to find
-					email_message = {
-						email_thread_id: thread.id,
-						messageId: message['id'],
-						snippet: message['snippet'],
-						historyId: message['historyId'],
-						internalDate: message['internalDate'],
-						body_text: '',
-						body_html: '',
-						sizeEstimate: message['sizeEstimate'],
-						mimeType: message['payload']['mimeType'],
-						subject: ''
-					}
-					attachments = []
-					
-					# Find the body depending on the mimeType and process attachments
-					if message['payload']['mimeType'] == 'text/plain' or message['payload']['parts'].nil?
-						email_message[:body_text] = message['payload']['body']['data']
-					else
-						message['payload']['parts'].each do |part|
-							if part['mimeType'] == 'text/plain'
-								email_message[:body_text] = part['body']['data']
-							elsif part['mimeType'] == 'text/html'
-								email_message[:body_html] = part['body']['data']
-							else
-								part_attachment = self.process_attachment(part)
-								attachments.push(part_attachment) unless part_attachment.nil?
-							end
-							
-							if !part['parts'].nil? # go through parts if any
-								part['parts'].each do |subpart|
-									if subpart['mimeType'] == 'text/plain'
-										email_message[:body_text] = subpart['body']['data']
-									elsif subpart['mimeType'] == 'text/html'
-										email_message[:body_html] = subpart['body']['data']
-									else
-										subpart_attachment = self.process_attachment(subpart)
-										attachments.push(subpart_attachment) unless subpart_attachment.nil?
-									end
+				begin
+					message_db = self.email_messages.find_by(messageId: message['id'])
+					# Process the message only if it's not in the DB yet
+					if message_db.nil?
+						# The data we're trying to find
+						email_message = {
+							email_thread_id: thread.id,
+							messageId: message['id'],
+							snippet: message['snippet'],
+							historyId: message['historyId'],
+							internalDate: message['internalDate'],
+							body_text: '',
+							body_html: '',
+							sizeEstimate: message['sizeEstimate'],
+							mimeType: message['payload']['mimeType'],
+							subject: ''
+						}
+						attachments = []
+						
+						# Find the body depending on the mimeType and process attachments
+						if message['payload']['mimeType'] == 'text/plain' or message['payload']['parts'].nil?
+							email_message[:body_text] = message['payload']['body']['data']
+						else
+							message['payload']['parts'].each do |part|
+								if part['mimeType'] == 'text/plain'
+									email_message[:body_text] = part['body']['data']
+								elsif part['mimeType'] == 'text/html'
+									email_message[:body_html] = part['body']['data']
+								else
+									part_attachment = self.process_attachment(part)
+									attachments.push(part_attachment) unless part_attachment.nil?
+								end
+								
+								if !part['parts'].nil? # go through parts if any
+									part['parts'].each do |subpart|
+										if subpart['mimeType'] == 'text/plain'
+											email_message[:body_text] = subpart['body']['data']
+										elsif subpart['mimeType'] == 'text/html'
+											email_message[:body_html] = subpart['body']['data']
+										else
+											subpart_attachment = self.process_attachment(subpart)
+											attachments.push(subpart_attachment) unless subpart_attachment.nil?
+										end
 
-									if !subpart['parts'].nil?
-										subpart['parts'].each do |subsubpart| # go through parts if any
-											if subsubpart['mimeType'] == 'text/plain'
-												email_message[:body_text] = subsubpart['body']['data']
-											elsif subsubpart['mimeType'] == 'text/html'
-												email_message[:body_html] = subsubpart['body']['data']
-											else
-												subsubpart_attachment = self.process_attachment(subsubpart)
-												attachments.push(subsubpart_attachment) unless subsubpart_attachment.nil?
+										if !subpart['parts'].nil?
+											subpart['parts'].each do |subsubpart| # go through parts if any
+												if subsubpart['mimeType'] == 'text/plain'
+													email_message[:body_text] = subsubpart['body']['data']
+												elsif subsubpart['mimeType'] == 'text/html'
+													email_message[:body_html] = subsubpart['body']['data']
+												else
+													subsubpart_attachment = self.process_attachment(subsubpart)
+													attachments.push(subsubpart_attachment) unless subsubpart_attachment.nil?
+												end
 											end
 										end
 									end
 								end
 							end
 						end
-					end
 
-					# Extract all interesting data from the headers for that message
-					participants = []
-					message['payload']['headers'].each do |header|
-						if header['name'] == 'Subject'
-							email_message[:subject] = header['value']
-						elsif ['To', 'Cc', 'Bcc', 'From'].include?(header['name'])
-							participants += self.process_participants(header['name'], header['value'])
-						end
-					end
-					
-					# Save the message itself and attachments and participants if any
-					e = EmailMessage.create!(email_message)
-					attachments.each do |attachment|
-						attachment_db = e.message_attachments.create!(attachment)
-						# Asynchronously download the file if it's inline
-						if Rails.env.production?
-							AttachmentDownloadJob.new.async.perform(attachment_db) if attachment[:inline] #asynchronous only on postgres who can handle it
-						else
-							attachment_db.download if attachment[:inline]
-						end
-					end
-					participants.each do |participant|
-						participant_db = Participant.find_by(email: participant[:email])
-						if participant_db.nil? # Just create the participant
-							participant_db = Participant.create(
-								first_name: participant[:first_name],
-								last_name: participant[:last_name],
-								email: participant[:email],
-								domain: participant[:domain],
-								company: participant[:company]
-							)
-						else # Update the participant if we now have more information about them
-							if participant[:first_name] != '' and participant_db.first_name == ''
-								participant_db.update(
-									first_name: participant[:first_name],
-									last_name: participant[:last_name],
-								)
+						# Extract all interesting data from the headers for that message
+						participants = []
+						message['payload']['headers'].each do |header|
+							if header['name'] == 'Subject'
+								email_message[:subject] = header['value']
+							elsif ['To', 'Cc', 'Bcc', 'From'].include?(header['name'])
+								participants += self.process_participants(header['name'], header['value'])
 							end
 						end
-						MessageParticipant.create(
-							email_message_id: e.id,
-							participant_id: participant_db.id,
-							delivery: participant[:delivery]
-						)
+						
+						# Save the message itself and attachments and participants if any
+						e = EmailMessage.create!(email_message)
+						attachments.each do |attachment|
+							attachment_db = e.message_attachments.create!(attachment)
+							# Asynchronously download the file if it's inline
+							if Rails.env.production?
+								AttachmentDownloadJob.new.async.perform(attachment_db) if attachment[:inline] #asynchronous only on postgres who can handle it
+							else
+								attachment_db.download if attachment[:inline]
+							end
+						end
+						participants.each do |participant|
+							participant_db = Participant.find_by(email: participant[:email])
+							if participant_db.nil? # Just create the participant
+								participant_db = Participant.create(
+									first_name: participant[:first_name],
+									last_name: participant[:last_name],
+									email: participant[:email],
+									domain: participant[:domain],
+									company: participant[:company]
+								)
+							else # Update the participant if we now have more information about them
+								if participant[:first_name] != '' and participant_db.first_name == ''
+									participant_db.update(
+										first_name: participant[:first_name],
+										last_name: participant[:last_name],
+									)
+								end
+							end
+							MessageParticipant.create(
+								email_message_id: e.id,
+								participant_id: participant_db.id,
+								delivery: participant[:delivery]
+							)
+						end
 					end
-					
-				end
+				rescue => e
+					Utility.log_exception(e, { user: self.requester.id, authorisation: self.id, message: message })
+					flash[:alert] = 'An error has occured during the synchronisation with Gmail. We have been alerted.'
+					return false
+			    end
 			end
 		end
 		self.update!(synced: true)
