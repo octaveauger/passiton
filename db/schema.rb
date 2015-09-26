@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150926170442) do
+ActiveRecord::Schema.define(version: 20150926231032) do
 
   create_table "attachment_headers", force: true do |t|
     t.integer  "message_attachment_id"
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 20150926170442) do
     t.integer  "email_thread_id"
     t.string   "messageId"
     t.text     "snippet"
-    t.integer  "historyId"
+    t.string   "historyId"
     t.integer  "internalDate"
     t.text     "body_text"
     t.text     "body_html"
