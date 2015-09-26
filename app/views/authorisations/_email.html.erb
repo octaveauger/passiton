@@ -1,9 +1,14 @@
 <div class="modal-header">
-  <h4><%= email.subject %> <small>(Testing: <%= email.id %>)</small></h4>
-  <p><b>From: <%= (email.participants_with_delivery('from').map {|p| p.fullname}).join(', ') %></b></p>
-  <p>To: <%= (email.participants_with_delivery('to').map {|p| p.fullname}).join(', ') %>,
-    Cc: <%= (email.participants_with_delivery('cc').map {|p| p.fullname}).join(', ') %>,
-    Bcc: <%= (email.participants_with_delivery('bcc').map {|p| p.fullname}).join(', ') %> </p>
+  <p>
+    <b><%= (email.participants_with_delivery('from').map {|p| p.fullname + " <" + p.email + ">"}).join(', ') %></b>
+  </p>
+  <p>to <%= (email.participants_with_delivery('to').map {|p| p.fullname + " <" + p.email + ">"}).join(', ') %>,
+    <% if !(email.participants_with_delivery('cc').map {|p| p.fullname}).empty? %>
+      <%= (email.participants_with_delivery('cc').map {|p| p.fullname + " <" + p.email + ">"}).join(', ') %>
+    <% end %>
+    <% if !(email.participants_with_delivery('bcc').map {|p| p.fullname}).empty? %>
+      Bcc: <%= (email.participants_with_delivery('bcc').map {|p| p.fullname + " <" + p.email + ">"}).join(', bcc: ') %> </p>
+    <% end %>
 </div>
 <div class="modal-body">
   <% if email.body_html.empty? %>
@@ -28,4 +33,5 @@
   	<% end %>
   <% end %>
 </div>
+<p><small>(Testing: <%= email.id %>)</small></p>
 <hr class="email-border" />
