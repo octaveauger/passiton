@@ -42,6 +42,7 @@ class User < ActiveRecord::Base
         guest: false
       )
     end
+    ContinuousGmailSyncJob.new.async.perform(user)
     user
   end
 
