@@ -51,9 +51,9 @@
       <% if !attachment.inline %>
         <div class="row attachment"> <!-- List attachment as rows-->
           <div class="col-md-3">
-            <button type="button" class="btn btn-primary" aria-label="Left Align">
+            <a href="<%= attachment_path(attachment) %>" target="_blank" class="btn btn-primary" aria-label="Left Align">
               <span class="glyphicon <%= mimetype_visual(attachment.mimeType) %>" aria-hidden="true"></span>
-            </button>
+            </a>
           </div>
           <div class="col-md-9">
             <%= attachment.filename %>

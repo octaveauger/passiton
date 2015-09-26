@@ -41,4 +41,11 @@ Rails.application.configure do
     address:                 '127.0.0.1',
     port:                     1025
   }
+
+  config.middleware.use ExceptionNotification::Rack,
+     :email => {
+      :email_prefix => "[Passiton] ",
+      :sender_address => %{"notifier" <octave@gocardless.com>},
+      :exception_recipients => %w{octave.auger@gmail.com}
+    }
 end

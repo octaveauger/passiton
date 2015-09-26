@@ -36,7 +36,8 @@ gem 'google-api-client', require: 'google/api_client'
 gem 'sucker_punch', '~> 1.0'
 gem 'roadie-rails', '~> 1.0.6'
 gem 'nokogiri', '~> 1.6.6.2'
-gem 'sanitize'
+gem 'boxview.rb'
+gem 'exception_notification'
 
 group :doc do
   gem 'sdoc', '0.3.20', require: false
