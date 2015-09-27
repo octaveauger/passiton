@@ -14,12 +14,12 @@ class EmailThread < ActiveRecord::Base
 
 	# Returns the datetime of the first email in the thread
 	def first_email_date
-		Time.at((self.email_messages.order('internalDate asc').first.internalDate/1000).to_i).utc.to_datetime
+		Time.at((self.email_messages.order('internalDate asc').first.internalDate.to_i/1000).to_i).utc.to_datetime
 	end
 
 	# Returns the datetime of the last email in the thread
 	def last_email_date
-		Time.at((self.email_messages.order('internalDate desc').first.internalDate/1000).to_i).utc.to_datetime
+		Time.at((self.email_messages.order('internalDate desc').first.internalDate.to_i/1000).to_i).utc.to_datetime
 	end
 
 	def participants
