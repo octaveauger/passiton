@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150926232457) do
+ActiveRecord::Schema.define(version: 20150927174940) do
 
   create_table "attachment_headers", force: true do |t|
     t.integer  "message_attachment_id"
@@ -86,7 +86,7 @@ ActiveRecord::Schema.define(version: 20150926232457) do
     t.integer  "email_message_id"
     t.string   "mimeType"
     t.text     "filename"
-    t.string   "attachmentId"
+    t.text     "attachmentId",     limit: 255
     t.integer  "size"
     t.datetime "created_at"
     t.datetime "updated_at"
