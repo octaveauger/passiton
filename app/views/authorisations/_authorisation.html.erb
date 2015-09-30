@@ -1,7 +1,7 @@
 <tr>
-	<td><%= authorisation.created_at.strftime("%d/%m/%y") %></td>
-	<td><%= authorisation.granter.email %></td>
-	<td>
+	<td class="vertical-centered"><%= authorisation.created_at.strftime("%d/%m/%y") %></td>
+	<td class="vertical-centered"><%= authorisation.granter.email %></td>
+	<td class="vertical-centered">
 		<% if authorisation.synced %>
 			<%= authorisation.scope %>
 		<% elsif !authorisation.enabled %>
@@ -10,8 +10,8 @@
 			<%= authorisation.scope + ' (still syncing)' %>
 		<% end %>
 	</td>
-	<td><%= authorisation.status.capitalize %></td>
-	<td>
+	<td class="vertical-centered"><%= authorisation.status.capitalize %></td>
+	<td class="vertical-centered">
 		<% if authorisation.synced & authorisation.enabled %>
 			<%= link_to 'view', authorisation_path(authorisation), class: 'btn btn-block btn-default' %>
 		<% else %>

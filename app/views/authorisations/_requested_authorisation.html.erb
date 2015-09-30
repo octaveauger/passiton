@@ -1,20 +1,20 @@
 <tr>
-	<td><%= requested_authorisation.created_at.strftime("%d/%m/%y") %></td>
-	<td><%= requested_authorisation.requester.full_identity %></td>
-	<td><%= requested_authorisation.scope %></td>
-	<td><%= requested_authorisation.status.capitalize %></td>
-	<td class="col-md-2">
+	<td class="vertical-centered"><%= requested_authorisation.created_at.strftime("%d/%m/%y") %></td>
+	<td class="vertical-centered"><%= requested_authorisation.requester.full_identity %></td>
+	<td class="vertical-centered"><%= requested_authorisation.scope %></td>
+	<td class="vertical-centered"><%= requested_authorisation.status.capitalize %></td>
+	<td class="col-md-2 vertical-centered">
 		<div class="row">
 			<% requested_authorisation.possible_statuses.each do |possible_status| %>
 				<div>
 					<%= simple_form_for requested_authorisation, :url => authorisation_path(requested_authorisation)  do |f| %>
 						<%= f.input :status, as: :hidden, :input_html => { value: possible_status } %>
 						<% if possible_status == 'granted' %>
-							<%= f.button :submit, "grant", :class => 'btn btn-primary btn-inline' %>
+							<%= f.button :submit, "grant", :class => 'btn btn-primary btn-inline obj-size-3of9' %>
 						<% elsif possible_status == 'revoked' %>
-							<%= f.button :submit, "revoke", :class => 'btn btn-danger' %>
+							<%= f.button :submit, "revoke", :class => 'btn btn-warning obj-size-3of9' %>
 						<% elsif possible_status == 'denied' %>
-							<%= f.button :submit, "deny", :class => 'btn btn-danger btn-inline' %>
+							<%= f.button :submit, "deny", :class => 'btn btn-danger btn-inline obj-size-3of9' %>
 						<% end %>
 					<% end %>
 				</div>
