@@ -13,6 +13,6 @@ class AttachmentController < ApplicationController
   	# Remove in 60min
   	RemoveAttachmentJob.new.async.later(3600, @attachment.id)
   	# Return the file
-  	send_file File.join('public',@attachment.file.url), type: @attachment.mime_type, x_sendfile: true
+  	send_file (Rails.env.production? ? @attachment.file.url : File.join('public', @attachment.file.url)), type: @attachment.mime_type, x_sendfile: true
   end
 end
