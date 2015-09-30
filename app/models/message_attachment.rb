@@ -4,7 +4,7 @@ class MessageAttachment < ActiveRecord::Base
 
   def download
   	client = Gmail.new(self.email_message.email_thread.authorisation.granter.tokens.last.fresh_token)
-  	attachment = client.download_attachment(self.email_message.messageId, self.attachmentId)
+  	attachment = client.download_attachment(self.email_message.message_id, self.attachment_id)
   	if attachment['data'].nil?
   		false
   	else

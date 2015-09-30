@@ -9,17 +9,17 @@ class EmailThread < ActiveRecord::Base
 
 	# Returns the subject line of a thread
 	def subject
-		self.email_messages.order('email_messages.internalDate asc').first.subject
+		self.email_messages.order('email_messages.internal_date asc').first.subject
 	end
 
 	# Returns the datetime of the first email in the thread
 	def first_email_date
-		Time.at((self.email_messages.order('email_messages.internalDate asc').first.internalDate.to_i/1000).to_i).utc.to_datetime
+		Time.at((self.email_messages.order('email_messages.internal_date asc').first.internal_date.to_i/1000).to_i).utc.to_datetime
 	end
 
 	# Returns the datetime of the last email in the thread
 	def last_email_date
-		Time.at((self.email_messages.order('email_messages.internalDate desc').first.internalDate.to_i/1000).to_i).utc.to_datetime
+		Time.at((self.email_messages.order('email_messages.internal_date desc').first.internal_date.to_i/1000).to_i).utc.to_datetime
 	end
 
 	def participants

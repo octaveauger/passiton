@@ -21,7 +21,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h2><%= thread.subject %></h2>
           </div>
-          <%= render partial: 'authorisations/email', collection: thread.email_messages.order('internalDate desc')%>
+          <%= render partial: 'authorisations/email', collection: thread.email_messages.order('internal_date desc')%>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
           </div>
@@ -52,7 +52,7 @@
         <div class="row attachment"> <!-- List attachment as rows-->
           <div class="col-md-3">
             <a href="<%= attachment_path(attachment) %>" target="_blank" class="btn btn-primary" aria-label="Left Align">
-              <span class="glyphicon <%= mimetype_visual(attachment.mimeType) %>" aria-hidden="true"></span>
+              <span class="glyphicon <%= mimetype_visual(attachment.mime_type) %>" aria-hidden="true"></span>
             </a>
           </div>
           <div class="col-md-9">

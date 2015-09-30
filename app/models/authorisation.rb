@@ -32,11 +32,11 @@ class Authorisation < ActiveRecord::Base
 			thread_pages.each do |threads|
 				# Grab all threads from Gmail and save the ones that don't exist in the DB
 				threads['threads'].each do |thread|
-					email_thread = self.email_threads.find_by(threadId: thread['id'])
+					email_thread = self.email_threads.find_by(thread_id: thread['id'])
 					t = self.email_threads.create(
-						threadId: thread['id'],
+						thread_id: thread['id'],
 						snippet: thread['snippet'],
-						historyId: thread['historyId'],
+						history_id: thread['historyId'],
 						synced: false) unless !email_thread.nil?
 				end
 			end
@@ -46,23 +46,23 @@ class Authorisation < ActiveRecord::Base
 		self.email_threads.all.each do |thread|
 			thread.update(synced: false) unless !thread.synced
 			# Grab all messages in that thread
-			messages = client.get_thread(thread.threadId)
+			messages = client.get_thread(thread.thread_id)
 			messages['messages'].each do |message|
 				begin
-					message_db = self.email_messages.find_by(messageId: message['id'])
+					message_db = self.email_messages.find_by(message_id: message['id'])
 					# Process the message only if it's not in the DB yet
 					if message_db.nil?
 						# The data we're trying to find
 						email_message = {
 							email_thread_id: thread.id,
-							messageId: message['id'],
+							message_id: message['id'],
 							snippet: message['snippet'],
-							historyId: message['historyId'],
-							internalDate: message['internalDate'],
+							history_id: message['historyId'],
+							internal_date: message['internalDate'],
 							body_text: '',
 							body_html: '',
-							sizeEstimate: message['sizeEstimate'],
-							mimeType: message['payload']['mimeType'],
+							size_estimate: message['sizeEstimate'],
+							mime_type: message['payload']['mimeType'],
 							subject: ''
 						}
 						attachments = []
@@ -171,9 +171,9 @@ class Authorisation < ActiveRecord::Base
 			nil
 		else
 			attachment = {
-				mimeType: message_part['mimeType'],
+				mime_type: message_part['mimeType'],
 				filename: message_part['filename'],
-				attachmentId: message_part['body']['attachmentId'],
+				attachment_id: message_part['body']['attachmentId'],
 				size: message_part['body']['size'],
 				content_id: '',
 				inline: false
