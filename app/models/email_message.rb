@@ -89,7 +89,7 @@ class EmailMessage < ActiveRecord::Base
 
   def replace_inline_attachments(html)
     self.message_attachments.each do |attachment|
-      if attachment.inline and !attachment.file.nil? # If inline and already downloaded
+      if attachment.inline and !attachment.file.url.nil? # If inline and already downloaded
         html.gsub!('cid:'+attachment.content_id, attachment.file.url)
       end
     end
