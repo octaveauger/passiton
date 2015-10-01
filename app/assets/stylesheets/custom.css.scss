@@ -21,9 +21,15 @@ body {
   margin-top: 5px;
 }
 
-.page-title {
-    text-align: center;
+.centered {
+  text-align: center;
 }
+
+table.table td.vertical-centered {
+  vertical-align: middle;
+}
+
+/*  Page specific */
 
 .timeline {
   margin-bottom:  0.7em;
@@ -44,6 +50,41 @@ body {
   border-style: solid none;
   border-width: 5px 0;
 }
+
+/* Size */
+
+.obj-size-1of9 {
+    width: 11.11111%;
+}
+
+.obj-size-2of9 {
+    width: 22.22222%;
+}
+
+.obj-size-3of9 {
+    width: 33.33333%;
+}
+
+.obj-size-4of9 {
+    width: 44.44444%;
+}
+
+.obj-size-5of9 {
+    width: 55.55555%;
+}
+
+.obj-size-6of9 {
+    width: 66.66666%;
+}
+
+.obj-size-7of9 {
+    width: 77.77777%;
+}
+
+.obj-size-8of9 {
+    width: 88.88888%;
+}
+
 
 /* Modal */
 
