@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150926170442) do
+ActiveRecord::Schema.define(version: 20150929175442) do
 
   create_table "attachment_headers", force: true do |t|
     t.integer  "message_attachment_id"
@@ -54,14 +54,14 @@ ActiveRecord::Schema.define(version: 20150926170442) do
 
   create_table "email_messages", force: true do |t|
     t.integer  "email_thread_id"
-    t.string   "messageId"
+    t.string   "message_id"
     t.text     "snippet"
-    t.integer  "historyId"
-    t.integer  "internalDate"
+    t.string   "history_id"
+    t.string   "internal_date"
     t.text     "body_text"
     t.text     "body_html"
-    t.integer  "sizeEstimate"
-    t.string   "mimeType"
+    t.string   "size_estimate"
+    t.string   "mime_type"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "subject"
@@ -71,22 +71,22 @@ ActiveRecord::Schema.define(version: 20150926170442) do
 
   create_table "email_threads", force: true do |t|
     t.integer  "authorisation_id"
-    t.string   "threadId"
+    t.string   "thread_id"
     t.text     "snippet"
-    t.integer  "historyId"
+    t.integer  "history_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "synced"
   end
 
   add_index "email_threads", ["synced"], name: "index_email_threads_on_synced"
-  add_index "email_threads", ["threadId"], name: "index_email_threads_on_threadId"
+  add_index "email_threads", ["thread_id"], name: "index_email_threads_on_thread_id"
 
   create_table "message_attachments", force: true do |t|
     t.integer  "email_message_id"
-    t.string   "mimeType"
+    t.string   "mime_type"
     t.text     "filename"
-    t.string   "attachmentId"
+    t.text     "attachment_id",    limit: 255
     t.integer  "size"
     t.datetime "created_at"
     t.datetime "updated_at"
