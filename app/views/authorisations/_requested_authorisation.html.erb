@@ -8,11 +8,11 @@
 				<%= simple_form_for requested_authorisation, :url => authorisation_path(requested_authorisation)  do |f| %>
 					<%= f.input :status, as: :hidden, :input_html => { value: possible_status } %>
 					<% if possible_status == 'granted' %>
-						<%= f.button :submit, "grant", :class => 'btn btn-primary btn-block' %>
+						<%= f.button :submit, "grant", :class => 'btn btn-primary btn-block btn-space' %>
 					<% elsif possible_status == 'revoked' %>
-						<%= f.button :submit, "revoke", :class => 'btn btn-warning btn-block' %>
+						<%= f.button :submit, "revoke", :class => 'btn btn-warning btn-block btn-space' %>
 					<% elsif possible_status == 'denied' %>
-						<%= f.button :submit, "deny", :class => 'btn btn-danger btn-block' %>
+						<%= f.button :submit, "deny", :class => 'btn btn-danger btn-block btn-space' %>
 					<% end %>
 				<% end %>
 		<% end %>
