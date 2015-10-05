@@ -1,9 +1,9 @@
-Acces request
+Access request
 ======================================
 
 <%= @authorisation.requester.full_identity %> has requested access for a part of your Gmail inbox, to see everything that has to do with "<%= @authorisation.scope %>".
 
-<% if !@authorisation.description.empty? %>	
+<% if !@authorisation.description.empty? %>
 	Here's why they request access:
 	<%= @authorisation.description %>
 <% end %>
