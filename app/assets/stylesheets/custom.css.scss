@@ -173,13 +173,11 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
 h1, .h1 {
   font-size: 2.5em;
   line-height: 1.2em;
-  margin-bottom: 1.15em;
 }
 
 h2, .h2 {
   font-size: 1.625em;
   line-height: 1.15em;
-  margin-bottom: .92em;
 }
 
 h3, .h3 {
@@ -191,7 +189,6 @@ h3, .h3 {
 h4, .h4 {
   font-size: 1.125em;
   line-height: 1.67em;
-  margin-bottom: .33em;
   font-weight: 500;
 }
 
@@ -217,6 +214,11 @@ a, a:visited {
   color: #fff !important;
 }
 
+.btn-space{
+  margin-bottom: 2px;
+  margin-top: 2px;
+}
+
 .btn-primary:hover {
   background: #2b78cc;
   border-color: #2b78cc;
@@ -226,11 +228,6 @@ a, a:visited {
   background: #5092da;
   border: 1px solid #fff;
   color: #fff !important;
-}
-
-.btn-inline{
-  float: left;
-  margin-right:10px;
 }
 
 button .badge.state-on {

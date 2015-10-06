@@ -1,13 +1,13 @@
 <h1 class="text-center">Access requests from others</h1>
 
 <% if @authorisations.any? %>
-	<table class="table table-hover">
+	<table class="table table-hover table-responsive">
   <tr>
     <th>Date</th>
     <th>Requester</th>
     <th>About</th>
     <th>Status</th>
-    <th>Action</th>
+    <th class="centered">Action</th>
   <tr>
 		<%= render partial: 'authorisations/requested_authorisation', collection: @authorisations %>
 	</table>
