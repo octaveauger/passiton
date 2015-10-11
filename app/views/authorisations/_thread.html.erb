@@ -52,8 +52,8 @@
       <% if !attachment.inline %>
         <div class="row"> <!-- List attachment as rows-->
           <div class="col-md-3">
-            <a href="<%= attachment_path(attachment) %>" target="_blank" class="btn btn-primary attachment" aria-label="Left Align">
-              <span class="attachment-glyphicon glyphicon <%= mimetype_visual(attachment.mime_type) %>" aria-hidden="true"></span>
+            <a href="<%= attachment_path(attachment) %>" target="_blank" class="btn btn-primary attachment attachment-glyphicon" aria-label="Left Align">
+              <span class="glyphicon <%= mimetype_visual(attachment.mime_type) %>" aria-hidden="true"></span>
             </a>
           </div>
           <div class="col-md-9">
