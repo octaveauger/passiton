@@ -23,10 +23,10 @@
 
   <div class="col-md-1">
     <p>
-      <% if thread.first_email_date == thread.last_email_date %>
+      <% if thread.first_email_date.strftime("%d/%m/%y") == thread.last_email_date.strftime("%d/%m/%y") %>
       <%= thread.first_email_date.strftime("%d/%m/%y") %>
       <% else %>
-      <%= thread.first_email_date.strftime("%d/%m/%y") %> - <%= thread.last_email_date.strftime("%d/%m/%y") %>
+      <%= thread.last_email_date.strftime("%d/%m/%y") %> - <%= thread.first_email_date.strftime("%d/%m/%y") %>
       <% end %>
     </p>
   </div>
