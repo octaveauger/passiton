@@ -28,7 +28,7 @@
       <% else %>
       <%= thread.last_email_date.strftime("%d %b %y") %> -<br>
       <%= thread.first_email_date.strftime("%d %b %y") %> <br>
-      (<%= (thread.last_email_date - thread.first_email_date).to_i %> days)
+      (<%= (thread.last_email_date.jd - thread.first_email_date.jd).to_i %> days)
       <% end %>
     </p>
   </div>
@@ -47,6 +47,9 @@
   <div class="col-md-2">
     <p>
       <%= thread.subject %>
+      <% if thread.email_messages.count > 1 %>
+        (<%= thread.email_messages.count %>)
+      <% end %>
     </p>
   </div>
   <div class="col-md-4"> <!-- Merge last two columns-->
