@@ -118,4 +118,18 @@ class EmailMessage < ActiveRecord::Base
     end
     sections
   end
+
+  # See if an email is internal communication (there is prob a better way of doing this)
+  def internal
+    sender = self.participants_with_delivery('from').map {|d| d.domain}
+    recipients = self.participants_with_delivery('to').map {|d| d.domain} + self.participants_with_delivery('cc').map {|d| d.domain}
+    all = sender + recipients
+    # I can't do this => requester = parse_email(Authorisation.self.requester.email)[:domain]
+    # 2 criterias: recipients domain (cc + to) must match the sender (to), and all must match the requester domain
+      if recipients.uniq.length == 1 && recipients.uniq == sender # && all.uniq == requester
+        true
+      else
+        false
+    end
+  end
 end

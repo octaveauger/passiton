@@ -1,3 +1,9 @@
+<% if email.internal %>
+<div class="modal-header">
+      <p> Internal communication to <%= email.participants_with_delivery('from').map {|d| d.domain}%> </p>
+</div>
+<% else %>
+
 <div class="modal-header">
   <div class="row">
     <div class="col-md-9">
@@ -41,7 +47,7 @@
   	<% end %>
   <% end %>
 </div>
-<% if !Rails.env.production? %>
-  <p><small>(Testing: <%= email.id %>)</small></p>
 <% end %>
+
+
 <hr class="email-border" />
