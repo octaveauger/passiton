@@ -44,7 +44,7 @@
         <% end %>
     </ul>
   </div>
-  <div class="col-md-2">
+  <div class="col-md-3">
     <p>
       <%= thread.subject %>
       <% if thread.email_messages.count > 1 %>
@@ -53,20 +53,20 @@
     </p>
   </div>
   <div class="col-md-4"> <!-- Merge last two columns-->
-    <% thread.message_attachments.each do |attachment| %>
+    <ul class="no-bullet">
+      <% thread.message_attachments.each do |attachment| %>
       <% if !attachment.inline %>
-        <div class="row"> <!-- List attachment as rows-->
-          <div class="col-md-3">
-            <a href="<%= attachment_path(attachment) %>" target="_blank" class="btn btn-primary attachment attachment-glyphicon" aria-label="Left Align">
-              <span class="glyphicon <%= mimetype_visual(attachment.mime_type) %>" aria-hidden="true"></span>
-            </a>
-          </div>
-          <div class="col-md-9">
-            <%= attachment.filename %>
-          </div>
-        </div>
+      <li>
+        <% if !attachment.filename.empty?  %>
+        <a href="<%= attachment_path(attachment) %>" target="_blank" class="attachment" aria-label="Left Align">
+          (<%= attachment.type %>)
+          <%= attachment.filename %>
+        </a>
+        <% end %>
+      </li>
       <% end %>
-    <% end %>
+      <% end %>
+    </ul>
   </div>
 </div>
 

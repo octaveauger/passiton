@@ -13,4 +13,10 @@ class MessageAttachment < ActiveRecord::Base
   		true
   	end
   end
+
+  def type
+    extension = File.extname(self.filename)
+    extension[0] = ''
+    extension.upcase
+  end
 end
