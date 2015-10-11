@@ -26,7 +26,9 @@
       <% if thread.first_email_date.strftime("%d/%m/%y") == thread.last_email_date.strftime("%d/%m/%y") %>
       <%= thread.first_email_date.strftime("%d %b %y") %>
       <% else %>
-      <%= thread.last_email_date.strftime("%d %b %y") %> -<br> <%= thread.first_email_date.strftime("%d %b %y") %>
+      <%= thread.last_email_date.strftime("%d %b %y") %> -<br>
+      <%= thread.first_email_date.strftime("%d %b %y") %> <br>
+      (<%= (thread.last_email_date - thread.first_email_date).to_i %> days)
       <% end %>
     </p>
   </div>
