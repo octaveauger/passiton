@@ -49,7 +49,7 @@ table.table td.vertical-centered {
   background-image: url('empty.gif')
 }
 
-.attachment-glyphicon{
+.attachment{
   position:relative;
   z-index:2;
 }
@@ -217,6 +217,11 @@ h4, .h4 {
 h1 .controls {
   font-size: 18px;
   float: right;
+}
+
+.no-bullet{
+  list-style-type: none;
+  padding-left: 0px;
 }
 
 /* Buttons */
