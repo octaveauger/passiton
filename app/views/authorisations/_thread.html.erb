@@ -1,4 +1,26 @@
 <div class="row timeline">
+
+<!-- Modal launcher -->
+<a class="modal-link" data-toggle="modal" data-target="#thread-<%= thread.id %>">
+  <span></span>
+</a>
+
+<!-- Modal -->
+<div class="modal fade" id="thread-<%= thread.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header top_header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2><%= thread.subject %></h2>
+      </div>
+      <%= render partial: 'authorisations/email', collection: thread.email_messages.order('internal_date desc')%>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
   <div class="col-md-1">
     <p>
       <% if thread.first_email_date == thread.last_email_date %>
@@ -7,27 +29,6 @@
       <%= thread.first_email_date.strftime("%d/%m/%y") %> - <%= thread.last_email_date.strftime("%d/%m/%y") %>
       <% end %>
     </p>
-  </div>
-  <div class="col-md-1">
-    <button type="button" class="btn btn-primary" aria-label="Left Align"
-    data-toggle="modal" data-target="#thread-<%= thread.id %>">
-      <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-    </button>
-    <!-- Modal -->
-    <div class="modal fade" id="thread-<%= thread.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header top_header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h2><%= thread.subject %></h2>
-          </div>
-          <%= render partial: 'authorisations/email', collection: thread.email_messages.order('internal_date desc')%>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
   <div class="col-md-3">
     <ul>
@@ -49,9 +50,9 @@
   <div class="col-md-4"> <!-- Merge last two columns-->
     <% thread.message_attachments.each do |attachment| %>
       <% if !attachment.inline %>
-        <div class="row attachment"> <!-- List attachment as rows-->
+        <div class="row"> <!-- List attachment as rows-->
           <div class="col-md-3">
-            <a href="<%= attachment_path(attachment) %>" target="_blank" class="btn btn-primary" aria-label="Left Align">
+            <a href="<%= attachment_path(attachment) %>" target="_blank" class="btn btn-primary attachment attachment-glyphicon" aria-label="Left Align">
               <span class="glyphicon <%= mimetype_visual(attachment.mime_type) %>" aria-hidden="true"></span>
             </a>
           </div>
