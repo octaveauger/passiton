@@ -33,6 +33,14 @@
     </p>
   </div>
   <div class="col-md-3">
+    <p>
+      <%= thread.subject %>
+      <% if thread.email_messages.count > 1 %>
+        (<%= thread.email_messages.count %>)
+      <% end %>
+    </p>
+  </div>
+  <div class="col-md-3">
     <ul class="no-bullet">
         <% thread.participants.each do |participant| %>
           <li>
@@ -44,29 +52,31 @@
         <% end %>
     </ul>
   </div>
-  <div class="col-md-3">
-    <p>
-      <%= thread.subject %>
-      <% if thread.email_messages.count > 1 %>
-        (<%= thread.email_messages.count %>)
-      <% end %>
-    </p>
-  </div>
   <div class="col-md-4"> <!-- Merge last two columns-->
-    <ul class="no-bullet">
-      <% thread.message_attachments.each do |attachment| %>
-      <% if !attachment.inline %>
-      <li>
-        <% if !attachment.filename.empty?  %>
-        <a href="<%= attachment_path(attachment) %>" target="_blank" class="attachment" aria-label="Left Align">
-          (<%= attachment.type %>)
-          <%= attachment.filename %>
-        </a>
-        <% end %>
-      </li>
+    <div class="col-md-1">
+    <% if !thread.message_attachments.empty? %>
+        <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>
+        <p>(<%= thread.message_attachments.not_inline.count %>)</p>
+    <% end %>
+    </div>
+    <div class="col-md-11">
+      <% if thread.message_attachments.not_inline.count > 3 %>
+        <button class="glyphicon glyphicon-collapse-down attachment" type="button" data-toggle="collapse" data-target="#collapse-<%= thread.id %>" aria-expanded="false" aria-controls="collapse-<%= thread.id %>">
+        </button>
+        <!-- Attachment collapse -->
+        <div class="collapse" id="collapse-<%= thread.id %>">
+          <div>
+            <ul class="no-bullet">
+              <%= render partial: 'authorisations/attachment', collection: thread.message_attachments %>
+            </ul>
+          </div>
+        </div>
+      <% elsif thread.message_attachments.not_inline.count > 0 %>
+        <ul class="no-bullet">
+          <%= render partial: 'authorisations/attachment', collection: thread.message_attachments %>
+        </ul>
       <% end %>
-      <% end %>
-    </ul>
+    </div>
   </div>
 </div>
 

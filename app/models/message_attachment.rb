@@ -19,4 +19,8 @@ class MessageAttachment < ActiveRecord::Base
     extension[0] = ''
     extension.upcase
   end
+
+  def self.not_inline
+    self.where(inline: false)
+  end
 end
