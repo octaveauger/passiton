@@ -35,6 +35,15 @@ class EmailThread < ActiveRecord::Base
 		self.email_messages.count
 	end
 
+	# How many attachments in the thread
+	def count_attachments(include_inline = true)
+		if include_inline
+			self.message_attachments.count
+		else
+			self.message_attachments.not_inline.count
+		end
+	end
+
 	# Is the thread conversation internal? TODO: add more types, e.g internal only, external...
 	def conversation_type
 		# Check if the conversation is internal only, i.e everyone has the same company
@@ -68,7 +77,7 @@ class EmailThread < ActiveRecord::Base
 	# Go through the rules for tags and bulk add / remove them
 	def update_tags
 		# Email count rule
-		if self.count_emails >= 5
+		if self.count_emails >= 5 or self.count_attachments(false) > 0
 			self.add_tag('highlight')
 		end
 		# Internal discussion rule
