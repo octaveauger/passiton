@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150929175442) do
+ActiveRecord::Schema.define(version: 20151018133716) do
 
   create_table "attachment_headers", force: true do |t|
     t.integer  "message_attachment_id"
@@ -123,6 +123,16 @@ ActiveRecord::Schema.define(version: 20150929175442) do
   add_index "participants", ["company"], name: "index_participants_on_company"
   add_index "participants", ["domain"], name: "index_participants_on_domain"
   add_index "participants", ["email"], name: "index_participants_on_email"
+
+  create_table "tags", force: true do |t|
+    t.integer  "email_thread_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tags", ["email_thread_id"], name: "index_tags_on_email_thread_id"
+  add_index "tags", ["name"], name: "index_tags_on_name"
 
   create_table "tokens", force: true do |t|
     t.integer  "user_id"

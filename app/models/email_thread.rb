@@ -6,6 +6,7 @@ class EmailThread < ActiveRecord::Base
 	has_many :message_attachments, through: :email_messages
 	has_many :message_participants, through: :email_messages
 	has_many :participants, through: :message_participants
+	has_many :tags
 
 	# Returns the subject line of a thread
 	def subject
