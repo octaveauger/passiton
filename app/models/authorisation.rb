@@ -159,6 +159,7 @@ class Authorisation < ActiveRecord::Base
 					Utility.log_exception(e, { user: self.requester.id, authorisation: self.id, message: message })
 					return false
 			    end
+			thread.update_tags
 			thread.update(synced: true)
 			end
 		end
