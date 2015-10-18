@@ -34,8 +34,9 @@ table.table td.vertical-centered {
 .timeline-header, .timeline {
   padding-bottom: 0.3em;
   padding-top: 0.3em;
-  border-bottom: 1px solid #000000;
+  border-top: 1px solid #d3d3d3;
   position:relative;
+  background-color: #E8E8E8;
 }
 
 .timeline .modal-link span{
@@ -67,6 +68,10 @@ cursor: pointer;
   border-color: #A9A9A9;
   border-style: solid none;
   border-width: 5px 0;
+}
+
+#results {
+  margin-top: 10px;
 }
 
 /* Size */

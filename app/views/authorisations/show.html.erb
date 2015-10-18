@@ -3,21 +3,17 @@
     <h1><%= @authorisation.scope %></h1>
   </div>
 
-  <ul class="nav nav-tabs">
-    <% [{target: 'highlight', display: 'Highlight'}, {target: 'internal', display: 'Internal'},{target: 'all', display: 'All'}].each do |tab| %>
-      <li role="presentation" <%= 'class=active' if @tab_filter == tab[:target] %>>
-        <a href="<%= authorisation_path(@authorisation, tab_filter: tab[:target]) %>"><%= tab[:display] %></a>
-      </li>
-    <% end %>
-  </ul>
+  <div class="row">
+    <ul class="nav nav-tabs">
+      <% [{target: 'highlight', display: 'Highlight'}, {target: 'internal', display: 'Internal'},{target: 'all', display: 'All'}].each do |tab| %>
+        <li role="presentation" <%= 'class=active' if @tab_filter == tab[:target] %>>
+          <a href="<%= authorisation_path(@authorisation, tab_filter: tab[:target]) %>"><%= tab[:display] %></a>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 
   <div id="results">
-    <div class="row timeline-header table-header">
-        <div class="col-md-2">Date</div>
-        <div class="col-md-3">People</div>
-        <div class="col-md-3">Subject</div>
-        <div class="col-md-4">Attachment</div>
-    </div>
     <div>
       <% if @threads.any? %>
       	<%= render partial: 'authorisations/thread', collection: @threads %>
