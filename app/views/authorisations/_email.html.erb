@@ -1,16 +1,28 @@
+<% if email.internal %>
 <div class="modal-header">
-  <p>
-    <b><%= (email.participants_with_delivery('from').map {|p| p.fullname + " <" + p.email + ">"}).join(', ') %></b>
-  </p>
-  <p>
-    to <%= (email.participants_with_delivery('to').map {|p| p.fullname + " <" + p.email + ">"}).join(', ') %>,
-    <% if !(email.participants_with_delivery('cc').map {|p| p.fullname}).empty? %>
-      <%= (email.participants_with_delivery('cc').map {|p| p.fullname + " <" + p.email + ">"}).join(', ') %>
-    <% end %>
-    <% if !(email.participants_with_delivery('bcc').map {|p| p.fullname}).empty? %>
-      Bcc: <%= (email.participants_with_delivery('bcc').map {|p| p.fullname + " <" + p.email + ">"}).join(', bcc: ') %>
-    <% end %>
-  </p>
+      <p> Internal communication to <%= email.participants_with_delivery('from').map {|d| d.domain}%> </p>
+</div>
+<% else %>
+
+<div class="modal-header">
+  <div class="row">
+    <div class="col-md-9">
+      <p>
+        <b><%= (email.participants_with_delivery('from').map {|p| p.fullname + " <" + p.email + ">"}).join(', ') %></b>
+        <br>
+        to <%= (email.participants_with_delivery('to').map {|p| p.fullname + " <" + p.email + ">"}).join(', ') %>,
+        <% if !(email.participants_with_delivery('cc').map {|p| p.fullname}).empty? %>
+          <%= (email.participants_with_delivery('cc').map {|p| p.fullname + " <" + p.email + ">"}).join(', ') %>
+        <% end %>
+        <% if !(email.participants_with_delivery('bcc').map {|p| p.fullname}).empty? %>
+          Bcc: <%= (email.participants_with_delivery('bcc').map {|p| p.fullname + " <" + p.email + ">"}).join(', bcc: ') %>
+        <% end %>
+      </p>
+    </div>
+    <div class="col-md-3">
+      <p class="text-right"><%= email.created_at.strftime("%d %b %y") %></p>
+    </div>
+  </div>
 </div>
 <div class="modal-body">
   <% if email.body_html.empty? %>
@@ -35,7 +47,7 @@
   	<% end %>
   <% end %>
 </div>
-<% if !Rails.env.production? %>
-  <p><small>(Testing: <%= email.id %>)</small></p>
 <% end %>
+
+
 <hr class="email-border" />
