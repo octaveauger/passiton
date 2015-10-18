@@ -1,6 +1,8 @@
 include ThreadHelper
 
 class EmailThread < ActiveRecord::Base
+	include Filterable
+
 	belongs_to :authorisation
 	has_many :email_messages
 	has_many :message_attachments, through: :email_messages
@@ -92,6 +94,20 @@ class EmailThread < ActiveRecord::Base
 	# Remove a tag from this thread (if it existed)
 	def remove_tag(tag_name)
 		self.tags.where(name: tag_name).destroy_all
+	end
+
+	# Filters based on a tab name
+	def self.tab_filter(tab)
+		case tab
+		when 'all'
+			self.all
+		when 'highlight'
+			self.where('tags.name = ?', tab)
+		when 'internal'
+			self.where('tags.name = ?', tab)
+		else
+			self.all
+		end
 	end
 
 end
