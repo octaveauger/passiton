@@ -8,5 +8,6 @@ $(function () {
             	$.getScript(more_url);
 			}
 		});
+		$(window).scroll(); // Triggers it at page load in case it's not below the fold
 	}
 });
