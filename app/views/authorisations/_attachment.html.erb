@@ -1,0 +1,11 @@
+<% if !attachment.inline %>
+<li>
+  <% if !attachment.filename.empty?  %>
+  <a href="<%= attachment_path(attachment) %>" class="attachment" aria-label="Left Align">
+    (<%= attachment.type %>)
+    <%= attachment.filename %>
+  </a>
+  <% end %>
+</li>
+<% end %>
+
