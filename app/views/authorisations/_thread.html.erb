@@ -33,16 +33,20 @@
     </p>
   </div>
   <div class="col-md-3">
-    <ul class="no-bullet">
-        <% thread.participants.each do |participant| %>
-          <li>
-            <%= participant.fullname %>
-          <small>
-            <%= participant.company %>
-          </small>
-          </li>
+    <p>
+      <% if thread.email_messages.count == 1 %>
+        <%= thread.participants_with_delivery('from').first.fullname %>
+        <small> (<%= thread.participants_with_delivery('from').first.company %>)</small>
+      <% else %>
+        <% thread.participants_with_delivery('from').each_with_index do |senders, i| %>
+          <% if i < thread.participants_with_delivery('from').count - 1 %>
+            <%= senders.first_name %><small> (<%= senders.company %>)</small>,
+          <% else i == thread.participants_with_delivery('from').count - 1 %>
+            <%= senders.first_name %><small> (<%= senders.company %>)</small>
+          <% end %>
         <% end %>
-    </ul>
+      <% end %>
+    </p>
   </div>
   <div class="col-md-4"> <!-- Merge last two columns-->
     <div class="col-md-1">

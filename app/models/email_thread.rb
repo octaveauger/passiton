@@ -26,9 +26,18 @@ class EmailThread < ActiveRecord::Base
 	end
 
 	# Unique participants to this thread
-	def participants
-		super.uniq
+	def unique_participants
+		self.participants.uniq
 	end
+
+	 # Returns participants with a delivery in: 'to', 'from', 'cc', 'bcc'
+  def participants_with_delivery(delivery)
+    self.participants.joins(:message_participants).where('message_participants.delivery = ?', delivery).uniq
+  end
+
+  def unique_senders
+  	self.participants_with_delivery('from').uniq
+  end
 
 	# How many emails in the thread
 	def count_emails
@@ -56,7 +65,7 @@ class EmailThread < ActiveRecord::Base
 			end
 		end
 		return 'internal_only' if internal_only
-		
+
 		# Check if the conversation has any internal emails (email by email), where all participants have the same company
 		self.email_messages.each do |email|
 			internal = true
