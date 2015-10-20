@@ -9,4 +9,11 @@ namespace :testing do
   	MessageParticipant.destroy_all
   	Participant.destroy_all
   end
+
+  desc "Update tags for all threads"
+  task update_all_tags: :environment do
+  	EmailThread.all.each do |thread|
+  		thread.update_tags if !thread.participants.empty?
+  	end
+  end
 end

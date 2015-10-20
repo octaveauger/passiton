@@ -1,3 +1,5 @@
+include ThreadHelper
+
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -74,5 +76,10 @@ class User < ActiveRecord::Base
     else
       self.first_name + ' ' + self.last_name + ' (' + self.email + ')'
     end
+  end
+
+  # Returns a hash with the name, domain name and email address
+  def parse_email
+    parse_email(self.email)
   end
 end

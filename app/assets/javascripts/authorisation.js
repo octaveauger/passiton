@@ -1,2 +1,13 @@
-// Place all the behaviors and hooks related to the matching controller here.
-// All this logic will automatically be available in application.js.
+$(function () {
+	// Infinite scrolling
+	if($('#infinite-scrolling').size() > 0) {
+		$(window).on('scroll', function(e) {
+			more_url = $('.pagination .next_page a').attr('href');
+			if(more_url && $(window).scrollTop() > $(document).height() - $(window).height() - 120) {
+				$('.pagination').html('<img src="/assets/ajax-loader.gif" alt="Loading..." title="Loading..." />');
+            	$.getScript(more_url);
+			}
+		});
+		$(window).scroll(); // Triggers it at page load in case it's not below the fold
+	}
+});

@@ -1,0 +1,7 @@
+$('#results').append("<%= j render partial: 'authorisations/thread', collection: @threads %>");
+<% if @threads.next_page %>
+  $('.pagination').replaceWith('<%= j will_paginate @threads %>');
+<% else %>
+  $(window).off('scroll');
+  $('.pagination').remove();
+<% end %>

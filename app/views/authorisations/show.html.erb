@@ -2,16 +2,31 @@
   <div class="row centered">
     <h1><%= @authorisation.scope %></h1>
   </div>
+  <div class="row">
+    <ul class="nav nav-tabs">
+      <% [{target: 'highlight', display: 'Highlight'}, {target: 'internal', display: 'Internal'},{target: 'all', display: 'All'}].each do |tab| %>
+        <li role="presentation" <%= 'class=active' if @tab_filter == tab[:target] %>>
+          <a href="<%= authorisation_path(@authorisation, tab_filter: tab[:target]) %>"><%= tab[:display] %></a>
+        </li>
+      <% end %>
+    </ul>
+  </div>
   <div class="row timeline-header table-header">
       <div class="col-md-2">Date</div>
       <div class="col-md-3">Subject</div>
       <div class="col-md-3">Date</div>
       <div class="col-md-4">Attachment</div>
   </div>
-  <div>
-  <% if @threads.any? %>
-  	<%= render partial: 'authorisations/thread', collection: @threads %>
-  	<%= will_paginate @threads %>
-  <% end %>
+
+  <div id="results">
+    <div>
+      <% if @threads.any? %>
+      	<%= render partial: 'authorisations/thread', collection: @threads %>
+      <% end %>
+    </div>
+  </div>
+
+  <div id="infinite-scrolling">
+    <%= will_paginate @threads %>
   </div>
 </div>

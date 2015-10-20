@@ -12,7 +12,14 @@ class AuthorisationsController < ApplicationController
   		flash[:alert] = "Either you are not authorised anymore or it hasn't finished syncing"
   		redirect_to authorisations_path
   	end
-  	@threads = @authorisation.email_threads.where(synced: true).includes(:email_messages, :message_attachments, :message_participants, :participants).all.paginate(page: params[:page], :per_page => 10)
+  	params[:tab_filter] = 'highlight' if params['tab_filter'].nil? # default tab
+    @tab_filter = params[:tab_filter]
+    params_filters = params.slice(:tab_filter)
+    @threads = @authorisation.email_threads.joins(:tags).where(synced: true).filter(params_filters).includes(:email_messages, :message_attachments, :message_participants, :participants).distinct.all.paginate(page: params[:page], :per_page => 10)
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def requesting
