@@ -23,7 +23,7 @@
     </ul>
   </div>
 
-  <div>
+  <div id="results">
     <% if @threads.any? %>
     	<%= render partial: 'authorisations/thread', collection: @threads %>
     <% end %>
