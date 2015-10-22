@@ -1,5 +1,6 @@
 <div class="container">
   <div class="row heading">
+    <div class="col-md-9">
       <dl class="dl-horizontal no-margin">
           <dt><p>You are watching:</p></dt>
           <dd><p><%= @authorisation.scope %></p></dd>
@@ -7,6 +8,10 @@
           <dd><p><%= @authorisation.granter.first_name %> <%= @authorisation.granter.last_name %>
             (<%= @authorisation.granter.email %>)</p></dd>
       </dl>
+    </div>
+    <div class="col-md-3">
+      <%= link_to 'Ask for new access', authorisation_request_path, class: 'btn btn-primary pull-right' %>
+    </div>
   </div>
   <div class="row">
     <ul class="nav nav-tabs">
