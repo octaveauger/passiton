@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row timeline">
 
 <!-- Modal launcher -->
 <a class="modal-link" data-toggle="modal" data-target="#thread-<%= thread.id %>" href="<%= thread_url(thread) %>">
@@ -18,15 +18,15 @@
       <% if thread.first_email_date.strftime("%d/%m/%y") == thread.last_email_date.strftime("%d/%m/%y") %>
       <%= thread.first_email_date.strftime("%d %b %y") %>
       <% else %>
-      <%= thread.last_email_date.strftime("%d %b %y") %> -<br>
-      <%= thread.first_email_date.strftime("%d %b %y") %> <br>
-      (<%= (thread.last_email_date.jd - thread.first_email_date.jd).to_i %> days)
+      <%= thread.last_email_date.strftime("%d %b %y") %>
+      <br>
+      <small>(<%= (thread.last_email_date.jd - thread.first_email_date.jd).to_i %> days)</small>
       <% end %>
     </p>
   </div>
   <div class="col-md-3">
     <p>
-      <%= thread.subject %>
+      <b><%= thread.subject %></b>
       <% if thread.email_messages.count > 1 %>
         (<%= thread.email_messages.count %>)
       <% end %>
@@ -56,7 +56,7 @@
     <% end %>
     </div>
     <div class="col-md-11">
-      <% if thread.message_attachments.not_inline.count > 3 %>
+      <% if thread.message_attachments.not_inline.count > 2 %>
         <button class="glyphicon glyphicon-collapse-down attachment" type="button" data-toggle="collapse" data-target="#collapse-<%= thread.id %>" aria-expanded="false" aria-controls="collapse-<%= thread.id %>">
         </button>
         <!-- Attachment collapse -->
