@@ -1,6 +1,12 @@
 <div class="container">
-  <div class="row centered">
-    <h1><%= @authorisation.scope %></h1>
+  <div class="row heading">
+      <dl class="dl-horizontal no-margin">
+          <dt><p>You are watching:</p></dt>
+          <dd><p><%= @authorisation.scope %></p></dd>
+          <dt><p>Granter:</p></dt>
+          <dd><p><%= @authorisation.granter.first_name %> <%= @authorisation.granter.last_name %>
+            (<%= @authorisation.granter.email %>)</p></dd>
+      </dl>
   </div>
   <div class="row">
     <ul class="nav nav-tabs">
@@ -12,12 +18,10 @@
     </ul>
   </div>
 
-  <div id="results">
-    <div>
-      <% if @threads.any? %>
-      	<%= render partial: 'authorisations/thread', collection: @threads %>
-      <% end %>
-    </div>
+  <div class="row timeline">
+    <% if @threads.any? %>
+    	<%= render partial: 'authorisations/thread', collection: @threads %>
+    <% end %>
   </div>
 
   <div id="infinite-scrolling">

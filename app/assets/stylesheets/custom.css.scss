@@ -29,6 +29,10 @@ table.table td.vertical-centered {
   vertical-align: middle;
 }
 
+dl.no-margin {
+  margin: 0;
+}
+
 /*  Page specific */
 
 .timeline-header, .timeline {
@@ -72,6 +76,15 @@ cursor: pointer;
 
 #results {
   margin-top: 10px;
+}
+
+.heading {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  border: 1px solid #DDD;
+  border-radius: 4px;
+  background: #fff;
 }
 
 /* Size */
