@@ -10,4 +10,9 @@ $(function () {
 		});
 		$(window).scroll(); // Triggers it at page load in case it's not below the fold
 	}
+
+	// Highlight / Un-highlight a thread
+	$('input.checkbox-highlight').on('change', function(e) {
+		$(this).parents('form.form-highlight').submit();
+	});
 });

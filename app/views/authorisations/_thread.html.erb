@@ -1,28 +1,41 @@
 <div class="row timeline">
 
-<!-- Modal launcher -->
-<a class="modal-link" data-toggle="modal" data-target="#thread-<%= thread.id %>" href="<%= thread_url(thread) %>">
-  <span></span>
-</a>
+  <!-- Modal launcher -->
+  <a class="modal-link" data-toggle="modal" data-target="#thread-<%= thread.id %>" href="<%= thread_url(thread) %>">
+    <span></span>
+  </a>
 
-<!-- Modal (loaded by ajax) -->
-<div class="modal fade" id="thread-<%= thread.id %>" tabindex="-1" role="dialog" aria-labelledby="Thread">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
+  <!-- Modal (loaded by ajax) -->
+  <div class="modal fade" id="thread-<%= thread.id %>" tabindex="-1" role="dialog" aria-labelledby="Thread">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+      </div>
     </div>
   </div>
-</div>
 
   <div class="col-md-2">
-    <p>
-      <% if thread.first_email_date.strftime("%d/%m/%y") == thread.last_email_date.strftime("%d/%m/%y") %>
-      <%= thread.first_email_date.strftime("%d %b %y") %>
-      <% else %>
-      <%= thread.last_email_date.strftime("%d %b %y") %>
-      <br>
-      <small>(<%= (thread.last_email_date.jd - thread.first_email_date.jd).to_i %> days)</small>
-      <% end %>
-    </p>
+    <div class="col-md-3">
+      <form action="<%= threads_update_tags_path %>" method="post" data-remote="true" class="form-highlight">
+        <input type="hidden" name="thread_id" value="<%= thread.id %>">
+        <div class="checkbox hide">
+          <label><input type="checkbox" name="tag_highlight" <%= 'checked="checked"' if thread.is_highlighted? %> class="checkbox-highlight" id="checkbox-higlight-<%= thread.id %>">&nbsp;<%= thread.id %></label>
+        </div>
+        <a href="" data-action="toggle-checkbox" data-target="checkbox-higlight-<%= thread.id %>">
+          <span class="glyphicon glyphicon-lg glyphicon-pushpin <%= thread.is_highlighted? ? 'active' : 'inactive' %>" aria-hidden="true" data-role="checkbox-indicator"></span>
+        </a>
+      </form>
+    </div>
+    <div class="col-md-9">
+      <p>
+        <% if thread.first_email_date.strftime("%d/%m/%y") == thread.last_email_date.strftime("%d/%m/%y") %>
+        <%= thread.first_email_date.strftime("%d %b %y") %>
+        <% else %>
+        <%= thread.last_email_date.strftime("%d %b %y") %>
+        <br>
+        <small>(<%= (thread.last_email_date.jd - thread.first_email_date.jd).to_i %> days)</small>
+        <% end %>
+      </p>
+    </div>
   </div>
   <div class="col-md-3">
     <p>

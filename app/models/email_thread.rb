@@ -83,6 +83,27 @@ class EmailThread < ActiveRecord::Base
 		return 'external'
 	end
 
+	# Check if the thread has a specific tag
+	def has_tag?(tag)
+		self.tags.where(name: tag).count > 0
+	end
+
+	# Check if the thread is highlighted
+	def is_highlighted?
+		self.tags.where(name: ['highlight', 'user_highlight']).where.not(name: 'user_not_highlight').count > 0
+	end
+
+	# Change whether a user highlighted a thread or not
+	def set_highlight(action = true)
+		if action
+			self.add_tag('user_highlight')
+			self.remove_tag('user_not_highlight')
+		else
+			self.add_tag('user_not_highlight')
+			self.remove_tag('user_highlight')
+		end
+	end
+
 	# Go through the rules for tags and bulk add / remove them
 	def update_tags
 		# Email count rule
@@ -120,7 +141,7 @@ class EmailThread < ActiveRecord::Base
 		when 'all'
 			self.all
 		when 'highlight'
-			self.where('tags.name = ?', tab)
+			self.where('tags.name = ? OR tags.name = ?', 'highlight', 'user_highlight').where.not('tags.name = ?', 'user_not_highlight')
 		when 'internal'
 			self.where('tags.name = ?', tab)
 		else

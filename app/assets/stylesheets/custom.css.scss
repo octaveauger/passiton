@@ -337,6 +337,20 @@ table {
   margin-top: 20px;
 }
 
+/* Icons */
+
+.glyphicon.glyphicon-lg {
+  font-size: 1.5em;
+}
+
+.glyphicon.active {
+  color: #5092da;
+}
+
+.glyphicon.inactive {
+  color: #595959;
+}
+
 /* mixins, variables, etc. */
 
 $grayMediumLight: #eaeaea;
