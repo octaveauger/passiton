@@ -1,4 +1,4 @@
-<tr>
+<tr class="<%= (!authorisation.synced or !authorisation.enabled) ? 'refresh-authorisation-status' : '' %>">
 	<td class="vertical-centered"><%= authorisation.created_at.strftime("%d/%m/%y") %></td>
 	<td class="vertical-centered"><%= authorisation.granter.email %></td>
 	<td class="vertical-centered">
@@ -12,10 +12,10 @@
 	</td>
 	<td class="vertical-centered"><%= authorisation.status.capitalize %></td>
 	<td class="vertical-centered">
-		<% if authorisation.synced & authorisation.enabled %>
+		<% if authorisation.synced & !authorisation.enabled %>
 			<%= link_to 'View', authorisation_path(authorisation), class: 'btn btn-block btn-default' %>
-		<% else %>
-			<a href="" class="btn btn-block btn-default" role="button" disabled="disabled">View</a>
+		<% elsif authorisation.enabled %>
+			<%= image_tag 'ajax-loader.gif', alt: 'Loading...', title: 'Loading...' %>
 		<% end %>
 	</td>
 </tr>

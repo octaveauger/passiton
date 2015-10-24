@@ -11,7 +11,7 @@
 
   <div class="row">
     <% if @authorisations.any? %>
-    	<table class="table table-hover table-responsive">
+    	<table class="table table-hover table-responsive" id="results" data-target="<%= authorisations_path %>">
         <tr>
           <th>Date</th>
           <th>From</th>
