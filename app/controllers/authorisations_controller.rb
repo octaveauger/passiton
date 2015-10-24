@@ -4,6 +4,10 @@ class AuthorisationsController < ApplicationController
   def index
   	@authorisations = current_user.requested_authorisations.all.order('created_at desc')
     @users = User.all
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def show
