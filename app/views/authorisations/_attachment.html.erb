@@ -2,7 +2,7 @@
 <li>
   <% if !attachment.filename.empty?  %>
   <a href="<%= attachment_path(attachment) %>" class="attachment" aria-label="Left Align">
-    (<%= attachment.type %>)
+    <span class="<%= attachment.glyphicon %>" aria-hidden="true"></span>
     <%= attachment.filename %>
   </a>
   <% end %>

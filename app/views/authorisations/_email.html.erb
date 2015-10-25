@@ -14,13 +14,16 @@
       </p>
     </div>
     <div class="col-md-3">
-      <p class="text-right"><%= email.created_at.strftime("%d %b %y") %></p>
+      <p class="text-right"><%= email.email_date.strftime("%d %b %y, %H:%M") %></p>
     </div>
   </div>
 </div>
 <div class="modal-body">
   <% if email.body_html.empty? %>
   	<%= simple_format email.body_text_sections[:main] %>
+      <ul class="no-bullet">
+        <%= render partial: 'authorisations/attachment', collection: email.message_attachments %>
+      </ul>
   	<% if !email.body_text_sections[:expanded].empty? %>
   	  <div class="expanded-email">
   	  	 <a class="btn btn-default btn-xs" role="button" data-toggle="collapse" href="#<%= email.id %>" aria-expanded="false" aria-controls="<%= email.id %>">...</a>
@@ -40,6 +43,11 @@
   	  </div>
   	<% end %>
   <% end %>
+  <hr>
+  <ul class="no-bullet">
+    <%= render partial: 'authorisations/attachment', collection: email.message_attachments %>
+  </ul>
+
 </div>
 <% if !Rails.env.production? %>
   <p><small>(Testing: <%= email.id %>)</small></p>
