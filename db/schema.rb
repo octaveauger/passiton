@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151018133716) do
+ActiveRecord::Schema.define(version: 20151025195740) do
 
   create_table "attachment_headers", force: true do |t|
     t.integer  "message_attachment_id"
@@ -77,10 +77,24 @@ ActiveRecord::Schema.define(version: 20151018133716) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "synced"
+    t.text     "labels"
   end
 
   add_index "email_threads", ["synced"], name: "index_email_threads_on_synced"
   add_index "email_threads", ["thread_id"], name: "index_email_threads_on_thread_id"
+
+  create_table "labels", force: true do |t|
+    t.integer  "user_id"
+    t.string   "label_id"
+    t.string   "name"
+    t.string   "label_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "labels", ["label_id"], name: "index_labels_on_label_id"
+  add_index "labels", ["label_type"], name: "index_labels_on_label_type"
+  add_index "labels", ["user_id"], name: "index_labels_on_user_id"
 
   create_table "message_attachments", force: true do |t|
     t.integer  "email_message_id"

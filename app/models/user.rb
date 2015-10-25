@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   has_many :email_threads, through: :requested_authorisations
   has_many :email_messages, through: :email_threads
   has_many :message_attachments, through: :email_messages
+  has_many :labels
 
   # Manages the connection to Gmail and the User population
   def self.find_for_google_oauth2(access_token, signed_in_resource=nil)

@@ -25,8 +25,12 @@ class Authorisation < ActiveRecord::Base
 		return false unless self.enabled # only enabled authorisations can be synced
 
 		client = Gmail.new(self.granter.tokens.last.fresh_token)
-		thread_pages = client.list_threads(self.scope)
-		
+
+		# Create or update the list of labels of the granter
+		Label.sync_gmail(granter)
+		user_labels = Label.to_array(granter)
+
+		thread_pages = client.list_threads(self.scope)	
 		ActiveRecord::Base.transaction do
 			# Grab all pages of threads
 			thread_pages.each do |threads|
@@ -45,6 +49,7 @@ class Authorisation < ActiveRecord::Base
 		# Grab all threads from DB and add messages that don't exist yet (and their attachments)
 		self.email_threads.all.each do |thread|
 			thread.update(synced: false) unless !thread.synced
+			thread_labels = []
 			# Grab all messages in that thread
 			messages = client.get_thread(thread.thread_id)
 			messages['messages'].each do |message|
@@ -66,6 +71,11 @@ class Authorisation < ActiveRecord::Base
 							subject: ''
 						}
 						attachments = []
+
+						# Add the labels if they're not included yet
+						message['labelIds'].each do |label|
+							thread_labels.push(label) unless thread_labels.include? label or !user_labels.include? label
+						end
 						
 						# Find the body depending on the mimeType and process attachments
 						if message['payload']['mimeType'] == 'text/plain' or message['payload']['parts'].nil?
@@ -159,9 +169,10 @@ class Authorisation < ActiveRecord::Base
 					Utility.log_exception(e, { user: self.requester.id, authorisation: self.id, message: message })
 					return false
 			    end
+			end
+			thread.update(labels: thread_labels.to_json)
 			thread.update_tags
 			thread.update(synced: true)
-			end
 		end
 		self.update!(synced: true)
 	end

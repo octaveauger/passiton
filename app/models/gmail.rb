@@ -56,6 +56,11 @@ class Gmail
 		execute(opts)
 	end
 
+	def list_labels
+		opts = DEFAULT_OPTIONS.merge(:api_method => @service.users.labels.list)
+		execute(opts)
+	end
+
 	private
 
 		def execute(opts)

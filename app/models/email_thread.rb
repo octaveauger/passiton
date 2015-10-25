@@ -25,19 +25,32 @@ class EmailThread < ActiveRecord::Base
 		Time.at((self.email_messages.order('email_messages.internal_date desc').first.internal_date.to_i/1000).to_i).utc.to_datetime
 	end
 
+	# Returns an array of label names for the thread
+	def readable_labels
+		user_labels = {}
+		self.authorisation.granter.labels.all.each do |user_label|
+			user_labels[user_label.label_id] = user_label.name
+		end
+		readable_labels = []
+		JSON.parse(self.labels).each do |label_id|
+			readable_labels.push(user_labels[label_id]) unless user_labels[label_id].nil?
+		end
+		readable_labels
+	end
+
 	# Unique participants to this thread
 	def unique_participants
 		self.participants.uniq
 	end
 
-	 # Returns participants with a delivery in: 'to', 'from', 'cc', 'bcc'
-  def participants_with_delivery(delivery)
-    self.participants.joins(:message_participants).where('message_participants.delivery = ?', delivery).uniq
-  end
+	# Returns participants with a delivery in: 'to', 'from', 'cc', 'bcc'
+	def participants_with_delivery(delivery)
+		self.participants.joins(:message_participants).where('message_participants.delivery = ?', delivery).uniq
+	end
 
-  def unique_senders
-  	self.participants_with_delivery('from').uniq
-  end
+	def unique_senders
+		self.participants_with_delivery('from').uniq
+	end
 
 	# How many emails in the thread
 	def count_emails
