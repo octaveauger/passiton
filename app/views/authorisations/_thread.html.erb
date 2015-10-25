@@ -65,12 +65,13 @@
     <div class="col-md-1">
     <% if !thread.message_attachments.empty? %>
         <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>
-        <p>(<%= thread.message_attachments.not_inline.count %>)</p>
     <% end %>
     </div>
     <div class="col-md-11">
       <% if thread.message_attachments.not_inline.count > 2 %>
-        <button class="glyphicon glyphicon-collapse-down attachment" type="button" data-toggle="collapse" data-target="#collapse-<%= thread.id %>" aria-expanded="false" aria-controls="collapse-<%= thread.id %>">
+        <button class="btn btn-default btn-xs attachment" style="vertical-align: middle" type="button" data-toggle="collapse" data-target="#collapse-<%= thread.id %>" aria-expanded="false" aria-controls="collapse-<%= thread.id %>">
+          <span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
+          <%= thread.message_attachments.not_inline.count %>
         </button>
         <!-- Attachment collapse -->
         <div class="collapse" id="collapse-<%= thread.id %>">

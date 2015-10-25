@@ -50,14 +50,18 @@ module ThreadHelper
 	end
 
 	# Returns the bootstrap class for the glyphicon if the mimetype is known, or a default file style otherwise
-	def mimetype_visual(mimetype)
-		visuals = {
-			'application/pdf' => 'glyphicon-file',
-			'application/msword' => 'glyphicon-file',
-			'text/csv' => 'glyphicon-file',
-			'image/png' => 'glyphicon-picture'
-		}
-		default = 'glyphicon-file'
-		visuals[mimetype].present? ? visuals[mimetype] : default
-	end
+  def glyphicon(type)
+    if %w(PNG GIF JPG).include? type
+      'glyphicon glyphicon-picture'
+    elsif type == 'ICS'
+      'glyphicon glyphicon-calendar'
+    elsif %w(DOC DOCX PDF XLS).include? type
+      'glyphicon glyphicon-list-alt'
+    elsif type == 'ZIP'
+      'glyphicon glyphicon-folder-close'
+    else
+      'glyphicon glyphicon-file'
+    end
+  end
+
 end

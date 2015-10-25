@@ -4,6 +4,11 @@ class EmailMessage < ActiveRecord::Base
   has_many :message_participants
   has_many :participants, through: :message_participants
 
+  # Returns time of email
+  def email_date
+    Time.at((self.internal_date.to_i/1000).to_i).utc.to_datetime
+  end
+
   # Returns participants with a delivery in: 'to', 'from', 'cc', 'bcc'
   def participants_with_delivery(delivery)
     self.participants.joins(:message_participants).where('message_participants.delivery = ?', delivery).uniq
