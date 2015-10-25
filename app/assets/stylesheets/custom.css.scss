@@ -42,28 +42,6 @@ dl.no-margin {
   position:relative;
 }
 
-.timeline .modal-link span{
-  position:absolute;
-  width:100%;
-  height:100%;
-  top:0;
-  left:0;
-  text-decoration:none;
-  z-index:1;
-  background-image: url('empty.gif')
-}
-
-.attachment{
-  position:relative;
-  z-index:2;
-  width:30%;
-}
-
-.timeline:hover{
-background-color: #e1e1e8;
-cursor: pointer;
-}
-
 .table-header {
   font-weight: bold;
 }
@@ -81,6 +59,34 @@ cursor: pointer;
   border: 1px solid #DDD;
   border-radius: 4px;
   background: #fff;
+}
+
+/* Timeline page */
+
+.timeline .modal-link span{
+  position:absolute;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  text-decoration:none;
+  z-index:1;
+  background-image: url('empty.gif')
+}
+
+.attachment{
+  position:relative;
+  z-index:2;
+  width:30%;
+}
+
+.glyphicon-pushpin{
+  z-index: 3;
+}
+
+.timeline:hover{
+background-color: #e1e1e8;
+cursor: pointer;
 }
 
 /* Size */
@@ -348,7 +354,7 @@ table {
 }
 
 .glyphicon.inactive {
-  color: #595959;
+  color: #E0E0E0;
 }
 
 /* mixins, variables, etc. */
