@@ -12,7 +12,7 @@
 	</td>
 	<td class="vertical-centered"><%= authorisation.status.capitalize %></td>
 	<td class="vertical-centered">
-		<% if authorisation.synced & !authorisation.enabled %>
+		<% if authorisation.synced & authorisation.enabled %>
 			<%= link_to 'View', authorisation_path(authorisation), class: 'btn btn-block btn-default' %>
 		<% elsif authorisation.enabled %>
 			<%= image_tag 'ajax-loader.gif', alt: 'Loading...', title: 'Loading...' %>
