@@ -25,8 +25,12 @@ class MessageAttachment < ActiveRecord::Base
       'glyphicon glyphicon-picture'
     elsif self.type == 'ICS'
       'glyphicon glyphicon-calendar'
-    elsif %w(DOC DOCX PDF).include? self.type
+    elsif %w(DOC DOCX PDF XLS).include? self.type
       'glyphicon glyphicon-list-alt'
+    elsif self.type == 'ZIP'
+      'glyphicon glyphicon-folder-close'
+    else
+      'glyphicon glyphicon-file'
     end
   end
 

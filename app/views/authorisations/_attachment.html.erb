@@ -1,6 +1,7 @@
 <% if !attachment.inline %>
 <li>
   <% if !attachment.filename.empty?  %>
+  <%= attachment.email_message.email_date.strftime("%d %b") %>
   <a href="<%= attachment_path(attachment) %>" class="attachment" aria-label="Left Align">
     <span class="<%= attachment.glyphicon %>" aria-hidden="true"></span>
     <%= attachment.filename %>
