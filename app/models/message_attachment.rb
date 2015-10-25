@@ -20,20 +20,6 @@ class MessageAttachment < ActiveRecord::Base
     extension.upcase
   end
 
-  def glyphicon
-    if %w(PNG GIF JPG).include? self.type
-      'glyphicon glyphicon-picture'
-    elsif self.type == 'ICS'
-      'glyphicon glyphicon-calendar'
-    elsif %w(DOC DOCX PDF XLS).include? self.type
-      'glyphicon glyphicon-list-alt'
-    elsif self.type == 'ZIP'
-      'glyphicon glyphicon-folder-close'
-    else
-      'glyphicon glyphicon-file'
-    end
-  end
-
   def self.not_inline
     self.where(inline: false)
   end
