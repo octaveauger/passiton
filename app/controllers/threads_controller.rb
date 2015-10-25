@@ -9,4 +9,18 @@ class ThreadsController < ApplicationController
 	  	@emails = @thread.email_messages.includes(:message_attachments, :message_participants, :participants)
 	end
   end
+
+  def update_tags
+  	thread = current_user.email_threads.find_by(id: params['thread_id'])
+  	if !thread.nil?
+  		if params[:tag_highlight] # Thread to be highlighted
+  			thread.set_highlight(true)
+  		else
+  			thread.set_highlight(false)
+  		end
+  	end
+  	respond_to do |format|
+      format.js
+    end
+  end
 end

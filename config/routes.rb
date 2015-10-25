@@ -5,5 +5,6 @@ Rails.application.routes.draw do
   get 'authorisation/requesting', to: 'authorisations#requesting', as: 'authorisation_request'
   get 'authorisation/grant', to: 'authorisations#granting'
   resources :threads, only: [:show]
+  post 'threads/update_tags'
   resources :attachment, only: [:show]
 end
