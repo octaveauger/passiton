@@ -359,6 +359,19 @@ table {
   color: #E0E0E0;
 }
 
+.glyphicon.glyphicon-xl {
+  font-size: 3em;
+}
+
+.glyphicon.glyphicon-warning{
+  color: #f0ad4e;
+}
+
+
+.glyphicon.glyphicon-success{
+  color: #5CB858;
+}
+
 /* mixins, variables, etc. */
 
 $grayMediumLight: #eaeaea;
