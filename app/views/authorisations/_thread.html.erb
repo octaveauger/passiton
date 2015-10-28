@@ -42,12 +42,14 @@
       <% thread.readable_labels.each do |labels| %>
         <% if labels[:label_type] == 'system' %>
           <% if labels[:name] == 'IMPORTANT' %>
-            <span class="glyphicon glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <% elsif labels[:name] == 'STARRED' %>
+            <span class="glyphicon glyphicon-star warning" aria-hidden="true"></span>
             <% else %>
             <span class="label label-default"><%= labels[:name] %></span>
           <% end %>
         <% elsif (labels[:label_type] == 'user' && labels[:name] != 'Boomerang' && labels[:name] != 'Boomerang-Returned') %>
-          <span class="label label-warning"><%= labels[:name] %></span>
+          <span class="label label-primary"><%= labels[:name] %></span>
         <% end %>
       <% end %>
       <b><%= thread.subject %></b>
