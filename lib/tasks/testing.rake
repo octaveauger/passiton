@@ -8,6 +8,8 @@ namespace :testing do
   	MessageAttachment.destroy_all
   	MessageParticipant.destroy_all
   	Participant.destroy_all
+    Tag.destroy_all
+    Label.destroy_all
   end
 
   desc "Update tags for all threads"
