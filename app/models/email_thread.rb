@@ -25,11 +25,11 @@ class EmailThread < ActiveRecord::Base
 		Time.at((self.email_messages.order('email_messages.internal_date desc').first.internal_date.to_i/1000).to_i).utc.to_datetime
 	end
 
-	# Returns an array of label names for the thread
+	# Returns an array of label names, types etc. for the thread
 	def readable_labels
 		user_labels = {}
 		self.authorisation.granter.labels.all.each do |user_label|
-			user_labels[user_label.label_id] = user_label.name
+			user_labels[user_label.label_id] = { id: user_label.id, label_id: user_label.label_id, name: user_label.name, label_type: user_label.label_type }
 		end
 		readable_labels = []
 		JSON.parse(self.labels).each do |label_id|

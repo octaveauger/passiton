@@ -39,6 +39,17 @@
   </div>
   <div class="col-md-3">
     <p>
+      <% thread.readable_labels.each do |labels| %>
+        <% if labels[:label_type] == 'system' %>
+          <% if labels[:name] == 'IMPORTANT' %>
+            <span class="glyphicon glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <% else %>
+            <span class="label label-default"><%= labels[:name] %></span>
+          <% end %>
+        <% elsif (labels[:label_type] == 'user' && labels[:name] != 'Boomerang' && labels[:name] != 'Boomerang-Returned') %>
+          <span class="label label-warning"><%= labels[:name] %></span>
+        <% end %>
+      <% end %>
       <b><%= thread.subject %></b>
       <% if thread.email_messages.count > 1 %>
         (<%= thread.email_messages.count %>)
