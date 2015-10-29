@@ -190,6 +190,7 @@ class Authorisation < ActiveRecord::Base
 				content_id: '',
 				inline: false
 			}
+			return nil if message_part['headers'].nil? # To make sure if there's a new type of mimeType that's not an attachment, it doesn't crash
 			message_part['headers'].each do |header|
 				case header['name']
 				when 'Content-Disposition' # If contains "inline", then it's inline
