@@ -14,7 +14,7 @@ class AuthorisationsController < ApplicationController
   	@authorisation = current_user.requested_authorisations.find(params[:id])
   	if @authorisation.nil? or !@authorisation.enabled or !@authorisation.synced
   		flash[:alert] = "Either you are not authorised anymore or it hasn't finished syncing"
-  		redirect_to authorisations_path
+  		redirect_to authorisations_path and return
   	end
   	params[:tab_filter] = 'highlight' if params['tab_filter'].nil? # default tab
     @tab_filter = params[:tab_filter]
@@ -42,7 +42,7 @@ class AuthorisationsController < ApplicationController
     if @authorisation.save
       AuthorisationMailer.request_authorisation(@authorisation).deliver
       flash[:notice] = 'Authorisation requested!'
-      redirect_to authorisations_path
+      redirect_to authorisations_path and return
     else
       flash[:alert] = 'Something went wrong, try again'
       render 'requesting'
@@ -56,7 +56,7 @@ class AuthorisationsController < ApplicationController
       render 'granting'
     else
       @authorisation.update_status(params['authorisation']['status'])
-      redirect_to authorisation_grant_path
+      redirect_to authorisation_grant_path and return
     end
   end
 
