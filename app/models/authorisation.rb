@@ -14,6 +14,7 @@ class Authorisation < ActiveRecord::Base
 	has_many :message_attachments, through: :email_messages
 	has_many :message_participants, through: :email_messages
 	has_many :participants, through: :message_participants
+	has_many :synchronisation_errors
   	scope :authorised,  -> { where(:status => 'granted') }
   	scope :uptodate,  -> { where(:synced => true) } # initial sync has been done
 
@@ -167,6 +168,7 @@ class Authorisation < ActiveRecord::Base
 					end
 				rescue => e
 					Utility.log_exception(e, { user: self.requester.id, authorisation: self.id, message: message })
+					self.synchronisation_errors.create(content: message.to_json)
 					return false
 			    end
 			end
@@ -190,6 +192,7 @@ class Authorisation < ActiveRecord::Base
 				content_id: '',
 				inline: false
 			}
+			return nil if message_part['headers'].nil? # To make sure if there's a new type of mimeType that's not an attachment, it doesn't crash
 			message_part['headers'].each do |header|
 				case header['name']
 				when 'Content-Disposition' # If contains "inline", then it's inline
