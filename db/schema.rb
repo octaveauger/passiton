@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151025195740) do
+ActiveRecord::Schema.define(version: 20151101214156) do
 
   create_table "attachment_headers", force: true do |t|
     t.integer  "message_attachment_id"
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 20151025195740) do
     t.datetime "updated_at"
     t.boolean  "synced"
     t.text     "labels"
+    t.datetime "latest_email_date"
   end
 
   add_index "email_threads", ["synced"], name: "index_email_threads_on_synced"
@@ -137,6 +138,15 @@ ActiveRecord::Schema.define(version: 20151025195740) do
   add_index "participants", ["company"], name: "index_participants_on_company"
   add_index "participants", ["domain"], name: "index_participants_on_domain"
   add_index "participants", ["email"], name: "index_participants_on_email"
+
+  create_table "synchronisation_errors", force: true do |t|
+    t.integer  "authorisation_id"
+    t.text     "content",          limit: 10485760
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "synchronisation_errors", ["authorisation_id"], name: "index_synchronisation_errors_on_authorisation_id"
 
   create_table "tags", force: true do |t|
     t.integer  "email_thread_id"
