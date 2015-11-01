@@ -53,6 +53,19 @@ class EmailThread < ActiveRecord::Base
 		self.participants_with_delivery('from').uniq
 	end
 
+	# Checks if one of the participants belongs to the scope of the authorisation (e.g octave@gocardless.com belongs to 'GoCardless')
+	def has_participant_from_scope?
+		scope_words = self.authorisation.scope.downcase.split(' ')
+		self.unique_participants.each do |participant|
+			check = false
+			scope_words.each do |keyword|
+				check = participant.company.include? keyword.downcase
+			end
+			return true if check
+		end
+		false
+	end
+
 	# How many emails in the thread
 	def count_emails
 		self.email_messages.count
@@ -121,8 +134,10 @@ class EmailThread < ActiveRecord::Base
 	# Go through the rules for tags and bulk add / remove them
 	def update_tags
 		# Email count rule
-		if self.count_emails >= 5 or self.count_attachments(false) > 0
+		if (self.count_emails >= 5 or self.count_attachments(false) > 0) and self.has_participant_from_scope?
 			self.add_tag('highlight')
+		else
+			self.remove_tag('highlight')
 		end
 		# Internal discussion rule
 		case self.conversation_type
