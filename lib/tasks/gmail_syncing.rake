@@ -6,4 +6,11 @@ namespace :gmail_syncing do
   	end
   end
 
+  desc "Adds the latest email date to existing threads"
+  task upgrade_latest_email_date: :environment do
+  	EmailThread.all do |thread|
+  		thread.update(latest_email_date: thread.last_email_date)
+  	end
+  end
+
 end

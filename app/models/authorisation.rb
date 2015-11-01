@@ -51,6 +51,7 @@ class Authorisation < ActiveRecord::Base
 		self.email_threads.all.each do |thread|
 			thread.update(synced: false) unless !thread.synced
 			thread_labels = []
+			latest_email_date = thread.latest_email_date
 			# Grab all messages in that thread
 			messages = client.get_thread(thread.thread_id)
 			messages['messages'].each do |message|
@@ -165,6 +166,10 @@ class Authorisation < ActiveRecord::Base
 								delivery: participant[:delivery]
 							)
 						end
+
+						# Check if the date of the email is later than the latest date for the thread
+						email_date = Time.at((e.internal_date.to_i/1000).to_i).utc.to_datetime
+						latest_email_date = email_date if latest_email_date.nil? or email_date > latest_email_date
 					end
 				rescue => e
 					Utility.log_exception(e, { user: self.requester.id, authorisation: self.id, message: message })
@@ -172,7 +177,7 @@ class Authorisation < ActiveRecord::Base
 					return false
 			    end
 			end
-			thread.update(labels: thread_labels.to_json)
+			thread.update(labels: thread_labels.to_json, latest_email_date: latest_email_date)
 			thread.update_tags
 			thread.update(synced: true)
 		end
