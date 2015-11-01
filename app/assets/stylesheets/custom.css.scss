@@ -33,6 +33,67 @@ dl.no-margin {
   margin: 0;
 }
 
+/* Home page */
+@media (min-width: 992px) {
+  .jumbotron.jumbotron-home{
+    position: relative;
+    background: #000 url('160H.jpg') 80% 70%;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    overflow: hidden;
+    color: #e6e6e6;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6); /** to have the white readable **/
+    text-align: center;
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 992px) {
+  .jumbotron.jumbotron-home{
+    position: relative;
+    background: #000 url('160H.jpg') 100% 90%;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    overflow: hidden;
+    color: #e6e6e6;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6); /** to have the white readable **/
+    text-align: center;
+    min-height: 300px;
+  }
+}
+
+.thumbnail-home{
+  border: 0;
+  margin-top: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 15px;
+  width: 70%;
+  text-align: center;
+  color: white;
+}
+
+.thumbnail-red{
+  background: #E69794;
+}
+
+.thumbnail-yellow{
+  background: #deb56a;
+}
+
+.thumbnail-dark-blue{
+  background: #203E5C;
+}
+
+.caption.caption-home{
+  padding: 0;
+  h2, h3, p, glyphicon{
+    color: white;
+  }
+}
+
 /*  Page specific */
 
 .timeline-header, .timeline {
