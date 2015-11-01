@@ -13,4 +13,11 @@ namespace :gmail_syncing do
   	end
   end
 
+  desc "Updates tags to existing threads"
+  task update_all_tags: :environment do
+    EmailThread.all do |thread|
+      thread.update_tags
+    end
+  end
+
 end
