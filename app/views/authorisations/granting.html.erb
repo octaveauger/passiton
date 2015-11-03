@@ -1,20 +1,18 @@
-<div class="container">
-  <div class="row">
-    <h1 class="text-center">Access requests from others</h1>
+<div class="row">
+  <h1 class="text-center">Access requests from others</h1>
 
-    <% if @authorisations.any? %>
-    	<table class="table table-hover table-responsive">
-      <tr>
-        <th>Date</th>
-        <th>Requester</th>
-        <th>About</th>
-        <th>Status</th>
-        <th class="centered">Action</th>
-      <tr>
-    		<%= render partial: 'authorisations/requested_authorisation', collection: @authorisations %>
-    	</table>
-    <% else %>
-    	<p>No one has requested access to your emails yet.</p>
-    <% end %>
-  </div>
+  <% if @authorisations.any? %>
+  	<table class="table table-hover table-responsive">
+    <tr>
+      <th>Date</th>
+      <th>Requester</th>
+      <th>About</th>
+      <th>Status</th>
+      <th class="centered">Action</th>
+    <tr>
+  		<%= render partial: 'authorisations/requested_authorisation', collection: @authorisations %>
+  	</table>
+  <% else %>
+  	<p>No one has requested access to your emails yet.</p>
+  <% end %>
 </div>
