@@ -1,2 +1,79 @@
 <% provide(:title, 'Home') %>
-<h1>PassItOn home page</h1>
+<div class="jumbotron jumbotron-home">
+   <div class="container">
+    <h1 class="text-uppercase">Handoffs made easy</h1>
+    <p class="hidden-xs">See emails exchanged with others</p>
+    <p class="hidden-xs">and get quickly up to speed</p>
+    <p class="visible-xs">Pass on your emails to colleagues</p>
+    <div class="row">
+      <%= link_to "Connect your inbox", user_omniauth_authorize_path(:google_oauth2), :class => 'btn btn-hollow btn-lg' %>
+    </div>
+  </div>
+</div>
+<div class="cover">
+  <div class="container">
+    <div class="row centered">
+      <h1 class="centered">We bet you hate handoffs</h1>
+      <p class="centered lead">People get on holidays. They get off projects. They closed the deal. And you have to pick up where they left...</br>
+      Stop relying on others to give you context & get access to the history</p>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="thumbnail thumbnail-home thumbnail-red">
+          <span class="glyphicon glyphicon-heart glyphicon-xl" aria-hidden="true"></span>
+          <div class="caption caption-home">
+            <h3>Get context</h3>
+            <p>Find out which commitments were made by others to help you ramp
+              up on the work</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="thumbnail thumbnail-home thumbnail-yellow">
+          <span class="glyphicon glyphicon-search glyphicon-xl" aria-hidden="true"></span>
+          <div class="caption caption-home">
+            <h3>Never lose anything</h3>
+            <p>Get every mails and attachments exchanged on a topic or a relationship,
+              synced-up in real-time</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="thumbnail thumbnail-home thumbnail-dark-blue">
+          <span class="glyphicon glyphicon-signal glyphicon-xl" aria-hidden="true"></span>
+          <div class="caption caption-home">
+            <h3>Grow your network</h3>
+            <p>Spot new relationships and opportunities for new collaboration, sales or cross/up-sells</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="cover cover-grey-gradient">
+  <div class="container">
+    <div class="row centered">
+      <h1>How it works</h1>
+      <div class="col-md-4">
+        <h2 class="">Step 1</h2>
+        <span class="glyphicon glyphicon-eye-open glyphicon-xl active" aria-hidden="true"></span>
+        <p>Request to see emails on a specific <br>topic or relationship</p>
+      </div>
+      <div class="col-md-4">
+        <h2>Step 2</h2>
+        <span class="glyphicon glyphicon-question-sign glyphicon-xl glyphicon-warning" aria-hidden="true"></span>
+        <p>Your colleagues will get an email to <br>approve your request</p>
+      </div>
+      <div class="col-md-4">
+        <h2>Step 3</h2>
+        <span class="glyphicon glyphicon-ok-circle glyphicon-xl glyphicon-success" aria-hidden="true"></span>
+        <p>Once approved, you can see requested<br> emails until access is revoked</p>
+      </div>
+    </div>
+    <hr>
+    <div class="row centered">
+      <p><%= link_to "Request access", user_omniauth_authorize_path(:google_oauth2), :class => 'btn btn-hollow btn-lg' %>
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,15 +1,13 @@
-<div class="container">
-  <div class="row">
-    <h1 class="text-center">Request access to specific emails</h1>
-  </div>
-  <div class="row">
-    <div class="col-xs-offset-3 col-xs-6" >
-      <%= simple_form_for @authorisation, :url => authorisations_path  do |f| %>
-      	<%= f.input :granter_email, label: 'Granter', hint: 'Whose emails you would like to see', placeholder: 'email@example.com', required: true, autofocus: true %>
-      	<%= f.input :scope, hint: 'Which emails you would like to see', placeholder: 'apple, apple.com, steve@apple.com' %>
-      	<%= f.input :description, hint: 'Why you are requesting', placeholder: 'get up to speed on our client' %>
-      	<%= f.button :submit, "Request access", :class => 'btn btn-primary btn-block' %>
-      <% end %>
-    </div>
+<div class="row">
+  <h1 class="text-center">Request access to specific emails</h1>
+</div>
+<div class="row">
+  <div class="col-xs-offset-3 col-xs-6" >
+    <%= simple_form_for @authorisation, :url => authorisations_path  do |f| %>
+    	<%= f.input :granter_email, label: 'Granter', hint: 'Whose emails you would like to see', placeholder: 'email@example.com', required: true, autofocus: true %>
+    	<%= f.input :scope, hint: 'Which emails you would like to see', placeholder: 'apple, apple.com, steve@apple.com' %>
+    	<%= f.input :description, hint: 'Why you are requesting', placeholder: 'get up to speed on our client' %>
+    	<%= f.button :submit, "Request access", :class => 'btn btn-primary btn-block' %>
+    <% end %>
   </div>
 </div>
