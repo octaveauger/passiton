@@ -195,7 +195,12 @@ cursor: pointer;
 }
 
 .modal-header{
-  padding: 5px 15px;
+  padding-top: 3px;
+  padding-bottom:3px;
+  border: 0;
+  p {
+    margin-bottom: 0;
+  }
 }
 
 /* Header nav */

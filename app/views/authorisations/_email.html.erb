@@ -2,15 +2,26 @@
   <div class="row">
     <div class="col-md-9">
       <p>
-        <b><%= (email.participants_with_delivery('from').map {|p| p.fullname + " <" + p.email + ">"}).join(', ') %></b>
-        <br>
-        to <%= (email.participants_with_delivery('to').map {|p| p.fullname + " <" + p.email + ">"}).join(', ') %>,
-        <% if !(email.participants_with_delivery('cc').map {|p| p.fullname}).empty? %>
-          <%= (email.participants_with_delivery('cc').map {|p| p.fullname + " <" + p.email + ">"}).join(', ') %>
-        <% end %>
-        <% if !(email.participants_with_delivery('bcc').map {|p| p.fullname}).empty? %>
-          Bcc: <%= (email.participants_with_delivery('bcc').map {|p| p.fullname + " <" + p.email + ">"}).join(', bcc: ') %>
-        <% end %>
+        <b>
+          <span data-toggle="tooltip" data-placement="top" title="<%= (email.participants_with_delivery('from').map {|p| p.fullname + " | " + p.email + " (" + p.company + ")"}).join(', ') %>">
+            <%= (email.participants_with_delivery('from').map {|p| p.fullname}).join(', ') %>
+          </span>
+        </b>
+      </p>
+      <p>
+        <small>
+          to
+          <% email.participants_with_delivery('to').each do |receiver| %>
+            <span data-toggle="tooltip" data-placement="top" title="<%= (receiver[:firstname] %>">
+              <%= receiver[:firstname] %>
+            </span>
+          <% end %>
+          <% if !(email.participants_with_delivery('cc').map {|p| p.fullname}).empty? %>
+          <span data-toggle="tooltip" data-placement="top" title="<%= (email.participants_with_delivery('cc').map {|p| p.fullname + " | " + p.email + " (" + p.company + ")"}).join(', ') %>">
+            <%= (email.participants_with_delivery('cc').map {|p| p.first_name}).join(', ') %>
+          </span>
+          <% end %>
+        </small>
       </p>
     </div>
     <div class="col-md-3">
@@ -19,30 +30,34 @@
   </div>
 </div>
 <div class="modal-body">
-  <% if email.body_html.empty? %>
-  	<%= simple_format email.body_text_sections[:main] %>
-      <ul class="no-bullet">
-        <%= render partial: 'authorisations/attachment', collection: email.message_attachments %>
-      </ul>
-  	<% if !email.body_text_sections[:expanded].empty? %>
-  	  <div class="expanded-email">
-  	  	 <a class="btn btn-default btn-xs" role="button" data-toggle="collapse" href="#<%= email.id %>" aria-expanded="false" aria-controls="<%= email.id %>">...</a>
-  	  	 <div id="<%= email.id %>" class="panel-collapse collapse">
-  	  	 	<%= simple_format email.body_text_sections[:expanded] %>
-  	  	 </div>
-  	  </div>
-  	<% end %>
-  <% else %>
-  	<%= email.body_html_sections[:main].html_safe %>
-  	<% if !email.body_html_sections[:expanded].empty? %>
-  	  <div class="expanded-email">
-  	  	 <a class="btn btn-default btn-xs" role="button" data-toggle="collapse" href="#<%= email.id %>" aria-expanded="false" aria-controls="<%= email.id %>">...</a>
-  	  	 <div id="<%= email.id %>" class="panel-collapse collapse">
-  	  	 	<%= email.body_html_sections[:expanded].html_safe %>
-  	  	 </div>
-  	  </div>
-  	<% end %>
-  <% end %>
+  <div class="row">
+    <div class="col-md-12"
+      <% if email.body_html.empty? %>
+      	<%= simple_format email.body_text_sections[:main] %>
+          <ul class="no-bullet">
+            <%= render partial: 'authorisations/attachment', collection: email.message_attachments %>
+          </ul>
+      	<% if !email.body_text_sections[:expanded].empty? %>
+      	  <div class="expanded-email">
+      	  	 <a class="btn btn-default btn-xs" role="button" data-toggle="collapse" href="#<%= email.id %>" aria-expanded="false" aria-controls="<%= email.id %>">...</a>
+      	  	 <div id="<%= email.id %>" class="panel-collapse collapse">
+      	  	 	<%= simple_format email.body_text_sections[:expanded] %>
+      	  	 </div>
+      	  </div>
+      	<% end %>
+      <% else %>
+      	<%= email.body_html_sections[:main].html_safe %>
+      	<% if !email.body_html_sections[:expanded].empty? %>
+      	  <div class="expanded-email">
+      	  	 <a class="btn btn-default btn-xs" role="button" data-toggle="collapse" href="#<%= email.id %>" aria-expanded="false" aria-controls="<%= email.id %>">...</a>
+      	  	 <div id="<%= email.id %>" class="panel-collapse collapse">
+      	  	 	<%= email.body_html_sections[:expanded].html_safe %>
+      	  	 </div>
+      	  </div>
+      	<% end %>
+      <% end %>
+    </div>
+  </div>
   <hr>
   <ul class="no-bullet">
     <%= render partial: 'authorisations/attachment', collection: email.message_attachments %>
