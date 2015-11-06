@@ -33,18 +33,24 @@ class Authorisation < ActiveRecord::Base
 
 		thread_pages = client.list_threads(self.scope)	
 		ActiveRecord::Base.transaction do
-			# Grab all pages of threads
-			thread_pages.each do |threads|
-				# Grab all threads from Gmail and save the ones that don't exist in the DB
-				threads['threads'].each do |thread|
-					email_thread = self.email_threads.find_by(thread_id: thread['id'])
-					t = self.email_threads.create(
-						thread_id: thread['id'],
-						snippet: thread['snippet'],
-						history_id: thread['historyId'],
-						synced: false) unless !email_thread.nil?
+			begin
+				# Grab all pages of threads
+				thread_pages.each do |threads|
+					# Grab all threads from Gmail and save the ones that don't exist in the DB
+					threads['threads'].each do |thread|
+						email_thread = self.email_threads.find_by(thread_id: thread['id'])
+						t = self.email_threads.create(
+							thread_id: thread['id'],
+							snippet: thread['snippet'],
+							history_id: thread['historyId'],
+							synced: false) unless !email_thread.nil?
+					end
 				end
-			end
+			rescue => e
+				Utility.log_exception(e, { user: self.requester.id, authorisation: self.id })
+				self.synchronisation_errors.create(content: thread_pages.to_json)
+				return false
+		    end
 		end
 
 		# Grab all threads from DB and add messages that don't exist yet (and their attachments)

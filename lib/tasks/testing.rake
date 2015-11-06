@@ -18,4 +18,18 @@ namespace :testing do
   		thread.update_tags if !thread.participants.empty?
   	end
   end
+
+  desc "Destroy everything belonging to an authorisation and try re-syncing again"
+  # Call with e.g rake testing:resync_authorisation\[4\] when using ZSH
+  task :resync_authorisation, [:authorisation_id] => :environment do |task, args|
+    auth = Authorisation.find_by(id: args.authorisation_id)
+    if !auth.nil?
+      auth.email_threads.destroy_all
+      auth.email_messages.destroy_all
+      auth.message_attachments.destroy_all
+      auth.message_participants.destroy_all
+      auth.update(synced: false)
+      auth.sync_gmail
+    end
+  end
 end
