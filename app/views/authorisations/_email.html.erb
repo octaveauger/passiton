@@ -1,24 +1,32 @@
+<script type="text/javascript">
+  $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>
+
 <div class="modal-header">
   <div class="row">
     <div class="col-md-9">
       <p>
         <b>
-          <span data-toggle="tooltip" data-placement="top" title="<%= (email.participants_with_delivery('from').map {|p| p.fullname + " | " + p.email + " (" + p.company + ")"}).join(', ') %>">
-            <%= (email.participants_with_delivery('from').map {|p| p.fullname}).join(', ') %>
-          </span>
+          <% email.participants_with_delivery('from').each do |sender| %>
+          <span data-toggle="tooltip" data-placement="bottom" data-html="true" title="<%= sender.first_name + " " + sender.last_name + " (" + sender.company + ") " + sender.email %>">
+              <%= sender.first_name + " " + sender.last_name %>
+            </span>
+          <% end %>
         </b>
       </p>
       <p>
         <small>
           to
-          <% email.participants_with_delivery('to').each do |receiver| %>
-            <span data-toggle="tooltip" data-placement="top" title="<%= (receiver[:firstname] %>">
-              <%= receiver[:firstname] %>
-            </span>
-          <% end %>
-          <% if !(email.participants_with_delivery('cc').map {|p| p.fullname}).empty? %>
-          <span data-toggle="tooltip" data-placement="top" title="<%= (email.participants_with_delivery('cc').map {|p| p.fullname + " | " + p.email + " (" + p.company + ")"}).join(', ') %>">
-            <%= (email.participants_with_delivery('cc').map {|p| p.first_name}).join(', ') %>
+          <% recipients = email.participants_with_delivery('to') + email.participants_with_delivery('cc') %>
+          <% recipients.each do |recipient| %>
+          <span data-toggle="tooltip" data-placement="bottom" data-html="true" title="<%= recipient.first_name + " " + recipient.last_name + " (" + recipient.company + ") " + recipient.email %>">
+              <% if recipient != recipients.last %>
+                <%= recipient.first_name %>,
+              <% else %>
+                <%= recipient.first_name %>
+              <% end %>
           </span>
           <% end %>
         </small>
