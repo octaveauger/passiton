@@ -1,74 +1,108 @@
 <script type="text/javascript">
   $(document).ready(function(){
-      $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="tooltip"]').tooltip();
+
+    $("#heading-<%=email.id %>").click(function(){
+      $("#heading-<%=email.id %>").hide();
+      $("#collapse-<%=email.id %>").show();
+    });
+
+    $("#collapse-<%=email.id %>").click(function(){
+      $("#collapse-<%=email.id %>").hide();
+      $("#heading-<%=email.id %>").show();
+    });
+
   });
 </script>
 
-<div class="modal-body">
-  <div class="row">
-    <div class="col-md-9">
-      <ul class="list-unstyled">
-        <li>
-          <strong>
-            <% email.participants_with_delivery('from').each do |sender| %>
-            <span data-toggle="tooltip" data-placement="bottom" data-html="true" title="<%= sender.first_name + " " + sender.last_name + " (" + sender.company + ") " + sender.email %>">
-                <%= sender.first_name + " " + sender.last_name %>
-              </span>
-            <% end %>
-          </strong>
-        </li>
-        <li>
-          <small>
-          to
-          <% recipients = email.participants_with_delivery('to') + email.participants_with_delivery('cc') %>
-          <% recipients.each do |recipient| %>
-          <span data-toggle="tooltip" data-placement="bottom" data-html="true" title="<%= recipient.first_name + " " + recipient.last_name + " (" + recipient.company + ") " + recipient.email %>">
-              <% if recipient != recipients.last %>
-                <%= recipient.first_name %>,
+<div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading" id="heading-<%=email.id %>">
+      <div class="col-md-9">
+        <p>
+          <strong><%= email.participants_with_delivery('from').first.first_name + " " + email.participants_with_delivery('from').first.last_name %></strong>
+          <br>
+          <p class="ellipsis">
+            <%= email.snippet.html_safe %>
+          </p>
+      </div>
+      <div class="col-md-3">
+        <p class="text-right"><%= email.email_date.strftime("%d %b %y, %H:%M") %></p>
+      </div>
+    </div>
+    <div id="collapse-<%=email.id %>" class="panel-collapse collapse" >
+      <div class="panel-body">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-9">
+              <ul class="list-unstyled">
+                <li>
+                  <strong>
+                    <% email.participants_with_delivery('from').each do |sender| %>
+                    <span data-toggle="tooltip" data-placement="bottom" data-html="true" title="<%= sender.first_name + " " + sender.last_name + " (" + sender.company + ") " + sender.email %>">
+                        <%= sender.first_name + " " + sender.last_name %>
+                      </span>
+                    <% end %>
+                  </strong>
+                </li>
+                <li>
+                  <small>
+                  to
+                  <% recipients = email.participants_with_delivery('to') + email.participants_with_delivery('cc') %>
+                  <% recipients.each do |recipient| %>
+                  <span data-toggle="tooltip" data-placement="bottom" data-html="true" title="<%= recipient.first_name + " " + recipient.last_name + " (" + recipient.company + ") " + recipient.email %>">
+                      <% if recipient != recipients.last %>
+                        <%= recipient.first_name %>,
+                      <% else %>
+                        <%= recipient.first_name %>
+                      <% end %>
+                  </span>
+                  <% end %>
+                  </small>
+                </li>
+              </p>
+            </div>
+            <div class="col-md-3">
+              <p class="text-right"><%= email.email_date.strftime("%d %b %y, %H:%M") %></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12"
+              <% if email.body_html.empty? %>
+                <%= simple_format email.body_text_sections[:main] %>
+                <% if !email.body_text_sections[:expanded].empty? %>
+                  <div class="expanded-email">
+                     <a class="btn btn-default btn-xs" role="button" data-toggle="collapse" href="#<%= email.id %>" aria-expanded="false" aria-controls="<%= email.id %>">...</a>
+                     <div id="<%= email.id %>" class="panel-collapse collapse">
+                      <%= simple_format email.body_text_sections[:expanded] %>
+                     </div>
+                  </div>
+                <% end %>
               <% else %>
-                <%= recipient.first_name %>
+                <%= email.body_html_sections[:main].html_safe %>
+                <% if !email.body_html_sections[:expanded].empty? %>
+                  <div class="expanded-email">
+                     <a class="btn btn-default btn-xs" role="button" data-toggle="collapse" href="#<%= email.id %>" aria-expanded="false" aria-controls="<%= email.id %>">...</a>
+                     <div id="<%= email.id %>" class="panel-collapse collapse">
+                      <%= email.body_html_sections[:expanded].html_safe %>
+                     </div>
+                  </div>
+                <% end %>
               <% end %>
-          </span>
+            </div>
+          </div>
+          <hr class="hr-dotted">
+          <ul class="no-bullet">
+            <%= render partial: 'authorisations/attachment', collection: email.message_attachments %>
+          </ul>
+          <% if !Rails.env.production? %>
+            <p><small>(Testing: <%= email.id %>)</small></p>
           <% end %>
-          </small>
-        </li>
-      </p>
-    </div>
-    <div class="col-md-3">
-      <p class="text-right"><%= email.email_date.strftime("%d %b %y, %H:%M") %></p>
+      </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-12"
-      <% if email.body_html.empty? %>
-      	<%= simple_format email.body_text_sections[:main] %>
-      	<% if !email.body_text_sections[:expanded].empty? %>
-      	  <div class="expanded-email">
-      	  	 <a class="btn btn-default btn-xs" role="button" data-toggle="collapse" href="#<%= email.id %>" aria-expanded="false" aria-controls="<%= email.id %>">...</a>
-      	  	 <div id="<%= email.id %>" class="panel-collapse collapse">
-      	  	 	<%= simple_format email.body_text_sections[:expanded] %>
-      	  	 </div>
-      	  </div>
-      	<% end %>
-      <% else %>
-      	<%= email.body_html_sections[:main].html_safe %>
-      	<% if !email.body_html_sections[:expanded].empty? %>
-      	  <div class="expanded-email">
-      	  	 <a class="btn btn-default btn-xs" role="button" data-toggle="collapse" href="#<%= email.id %>" aria-expanded="false" aria-controls="<%= email.id %>">...</a>
-      	  	 <div id="<%= email.id %>" class="panel-collapse collapse">
-      	  	 	<%= email.body_html_sections[:expanded].html_safe %>
-      	  	 </div>
-      	  </div>
-      	<% end %>
-      <% end %>
-    </div>
-  </div>
-  <hr class="hr-dotted">
-  <ul class="no-bullet">
-    <%= render partial: 'authorisations/attachment', collection: email.message_attachments %>
-  </ul>
-  <% if !Rails.env.production? %>
-    <p><small>(Testing: <%= email.id %>)</small></p>
-  <% end %>
+</div>
+
+
 
 </div>
