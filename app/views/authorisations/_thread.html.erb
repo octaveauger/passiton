@@ -37,7 +37,7 @@
       </p>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-6">
     <p>
       <% thread.readable_labels.each do |labels| %>
         <% if labels[:label_type] == 'system' %>
@@ -54,12 +54,9 @@
       <% end %>
       <b><%= thread.subject %></b>
       <% if thread.email_messages.count > 1 %>
-        (<%= thread.email_messages.count %>)
+        <span class="badge"><%= thread.email_messages.count %></span>
       <% end %>
-    </p>
-  </div>
-  <div class="col-md-3">
-    <p>
+      <br>
       <% if thread.email_messages.count == 1 %>
         <%= thread.participants_with_delivery('from').first.fullname %>
         <small> (<%= thread.participants_with_delivery('from').first.company %>)</small>
@@ -82,7 +79,7 @@
     </div>
     <div class="col-md-11">
       <% if thread.message_attachments.not_inline.count > 2 %>
-        <button class="btn btn-default btn-xs attachment" style="vertical-align: middle" type="button" data-toggle="collapse" data-target="#collapse-<%= thread.id %>" aria-expanded="false" aria-controls="collapse-<%= thread.id %>">
+        <button class="btn btn-default btn-xs btn-attachment" style="vertical-align: middle" type="button" data-toggle="collapse" data-target="#collapse-<%= thread.id %>" aria-expanded="false" aria-controls="collapse-<%= thread.id %>">
           <span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
           <%= thread.message_attachments.not_inline.count %>
         </button>

@@ -160,11 +160,17 @@ dl.no-margin {
 }
 
 .attachment{
-  position:relative;
-  z-index:2;
-  width:30%;
-  line-height:1;
-  margin-bottom:10px;
+  p {
+    display:block;
+    line-height:1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  a {
+    position:relative;
+    z-index:2;
+  }
 }
 
 .glyphicon-pushpin{
@@ -217,7 +223,7 @@ cursor: pointer;
   padding-top:62px ;
 }
 
-.modal-header {;
+.modal-header {
   border-bottom: 1px solid $gray-light;
   padding-top: 3px;
   padding-bottom:3px;
@@ -377,6 +383,12 @@ a, a:visited {
 
 button .badge.state-on {
   background-color: #e85c41;
+}
+
+.btn-attachment {
+  position:relative;
+  z-index:2;
+  margin-bottom: 10px;
 }
 
 /* Form */
