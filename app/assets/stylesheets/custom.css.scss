@@ -1,6 +1,25 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+/* mixins, variables, etc. */
+
+$grayMediumLight: #eaeaea;
+
+$brand-color: rgba(80, 146, 218, 1);
+
+$gray-lighter: #e6e6e6;
+$gray-light: #d3d3d3;
+$gray: #b8b8b8;
+
+$warning-color: #f0ad4e;
+$success-color: #5CB858;
+
+@mixin box_sizing {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 /* General */
 
 body {
@@ -33,6 +52,10 @@ dl.no-margin {
   margin: 0;
 }
 
+.hr-dotted{
+  border: 1px dotted $gray-lighter;
+}
+
 /* Home page */
 @media (min-width: 992px) {
   .jumbotron.jumbotron-home{
@@ -42,7 +65,7 @@ dl.no-margin {
     height: 100%;
     background-size: cover;
     overflow: hidden;
-    color: #e6e6e6;
+    color: $gray-lighter;
     text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6); /** to have the white readable **/
     text-align: center;
     min-height: 400px;
@@ -57,7 +80,7 @@ dl.no-margin {
     height: 100%;
     background-size: cover;
     overflow: hidden;
-    color: #e6e6e6;
+    color: $gray-lighter;
     text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6); /** to have the white readable **/
     text-align: center;
     min-height: 300px;
@@ -86,12 +109,12 @@ dl.no-margin {
 
 .cover-grey-gradient{
   background: #ffffff; /* Old browsers */
-  background: -moz-linear-gradient(-45deg, #ffffff 0%, #e5e5e5 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#ffffff), color-stop(100%,#e5e5e5)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(-45deg, #ffffff 0%,#e5e5e5 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(-45deg, #ffffff 0%,#e5e5e5 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(-45deg, #ffffff 0%,#e5e5e5 100%); /* IE10+ */
-  background: linear-gradient(135deg, #ffffff 0%,#e5e5e5 100%); /* W3C */
+  background: -moz-linear-gradient(-45deg, #ffffff 0%, $gray-lighter 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#ffffff), color-stop(100%,$gray-lighter)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(-45deg, #ffffff 0%,$gray-lighter 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(-45deg, #ffffff 0%,$gray-lighter 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(-45deg, #ffffff 0%,$gray-lighter 100%); /* IE10+ */
+  background: linear-gradient(135deg, #ffffff 0%,$gray-lighter 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
@@ -100,7 +123,7 @@ dl.no-margin {
 .timeline-header, .timeline {
   padding-bottom: 0.3em;
   padding-top: 0.3em;
-  border-top: 1px solid #d3d3d3;
+  border-top: 1px solid $gray-light;
   position:relative;
 }
 
@@ -109,7 +132,7 @@ dl.no-margin {
 }
 
 .email-border {
-  border-color: #A9A9A9;
+  border-color: $gray;
   border-style: solid none;
   border-width: 5px 0;
 }
@@ -149,7 +172,7 @@ dl.no-margin {
 }
 
 .timeline:hover{
-background-color: #e1e1e8;
+background-color: $gray-lighter;
 cursor: pointer;
 }
 
@@ -194,13 +217,17 @@ cursor: pointer;
   padding-top:62px ;
 }
 
-.modal-header {
+.modal-header {;
+  border-bottom: 1px solid $gray-light;
   padding-top: 3px;
   padding-bottom:3px;
-  border: 0;
   p {
     margin-bottom: 0;
   }
+}
+
+.modal-body {
+  border-bottom: 2px solid $gray-light;
 }
 
 /* Header nav */
@@ -212,7 +239,7 @@ cursor: pointer;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #5092da;
+  background-color: $brand-color;
   color: #ffffff;
   z-index: 2000;
   -webkit-backface-visibility: hidden;
@@ -228,11 +255,11 @@ cursor: pointer;
 }
 
 #site-navbar li:hover, #site-navbar li:focus {
- background-color: #5092da;
+ background-color: $brand-color;
 }
 
 #site-navbar li.list-button:hover, #site-navbar lli.list-button:focus {
-  background-color: #5092da;
+  background-color: $brand-color;
 }
 
 #site-navbar a {
@@ -327,8 +354,8 @@ a, a:visited {
 }
 
 .btn-primary {
-  background: #5092da;
-  border-color: #5092da;
+  background: $brand-color;
+  border-color: $brand-color;
   color: #fff !important;
 }
 
@@ -338,12 +365,12 @@ a, a:visited {
 }
 
 .btn-primary:hover {
-  background: #2b78cc;
-  border-color: #2b78cc;
+  background: $brand-color;
+  border-color: $brand-color;
 }
 
 .btn-hollow {
-  background: #5092da;
+  background: $brand-color;
   border: 1px solid #fff;
   color: #fff !important;
 }
@@ -369,7 +396,7 @@ textarea, textarea.form-control, input[type="text"], input[type="password"], inp
   width: 100%;
   min-height: 36px;
   background-color: #fff;
-  border: 2px solid #c9c9c9;
+  border: 2px solid $gray-light;
 }
 
 .form-group {
@@ -425,11 +452,11 @@ table {
 }
 
 .glyphicon.active {
-  color: #5092da;
+  color: $brand-color;
 }
 
 .glyphicon.inactive {
-  color: #E0E0E0;
+  color: $gray-lighter;
 }
 
 .glyphicon.glyphicon-xl {
@@ -437,26 +464,16 @@ table {
 }
 
 .glyphicon.glyphicon-warning{
-  color: #f0ad4e;
+  color: $warning-color;
 }
 
 .glyphicon.glyphicon-success{
-  color: #5CB858;
+  color: success-color;
 }
 
 .glyphicon.warning {
-  color : #f0ad4e;
+  color : $warning-color;
   font-size : 16px ;
-}
-
-/* mixins, variables, etc. */
-
-$grayMediumLight: #eaeaea;
-
-@mixin box_sizing {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
 }
 
 

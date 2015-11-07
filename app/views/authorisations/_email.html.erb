@@ -4,20 +4,21 @@
   });
 </script>
 
-<div class="modal-header">
+<div class="modal-body">
   <div class="row">
     <div class="col-md-9">
-      <p>
-        <b>
-          <% email.participants_with_delivery('from').each do |sender| %>
-          <span data-toggle="tooltip" data-placement="bottom" data-html="true" title="<%= sender.first_name + " " + sender.last_name + " (" + sender.company + ") " + sender.email %>">
-              <%= sender.first_name + " " + sender.last_name %>
-            </span>
-          <% end %>
-        </b>
-      </p>
-      <p>
-        <small>
+      <ul class="list-unstyled">
+        <li>
+          <strong>
+            <% email.participants_with_delivery('from').each do |sender| %>
+            <span data-toggle="tooltip" data-placement="bottom" data-html="true" title="<%= sender.first_name + " " + sender.last_name + " (" + sender.company + ") " + sender.email %>">
+                <%= sender.first_name + " " + sender.last_name %>
+              </span>
+            <% end %>
+          </strong>
+        </li>
+        <li>
+          <small>
           to
           <% recipients = email.participants_with_delivery('to') + email.participants_with_delivery('cc') %>
           <% recipients.each do |recipient| %>
@@ -29,22 +30,18 @@
               <% end %>
           </span>
           <% end %>
-        </small>
+          </small>
+        </li>
       </p>
     </div>
     <div class="col-md-3">
       <p class="text-right"><%= email.email_date.strftime("%d %b %y, %H:%M") %></p>
     </div>
   </div>
-</div>
-<div class="modal-body">
   <div class="row">
     <div class="col-md-12"
       <% if email.body_html.empty? %>
       	<%= simple_format email.body_text_sections[:main] %>
-          <ul class="no-bullet">
-            <%= render partial: 'authorisations/attachment', collection: email.message_attachments %>
-          </ul>
       	<% if !email.body_text_sections[:expanded].empty? %>
       	  <div class="expanded-email">
       	  	 <a class="btn btn-default btn-xs" role="button" data-toggle="collapse" href="#<%= email.id %>" aria-expanded="false" aria-controls="<%= email.id %>">...</a>
@@ -66,13 +63,12 @@
       <% end %>
     </div>
   </div>
-  <hr>
+  <hr class="hr-dotted">
   <ul class="no-bullet">
     <%= render partial: 'authorisations/attachment', collection: email.message_attachments %>
   </ul>
+  <% if !Rails.env.production? %>
+    <p><small>(Testing: <%= email.id %>)</small></p>
+  <% end %>
 
 </div>
-<% if !Rails.env.production? %>
-  <p><small>(Testing: <%= email.id %>)</small></p>
-<% end %>
-<hr class="email-border" />
