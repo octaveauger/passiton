@@ -26,6 +26,6 @@ function autorefresh_authorisations_index() {
 			$.getScript($('#result').attr('data-target'));
 			autorefresh_authorisations_index(); // create loop
 		}, 10000); // every 10s
-		
+
 	}
 }

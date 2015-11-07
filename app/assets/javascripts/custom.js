@@ -12,4 +12,7 @@ $(function () {
 			$(this).find('[data-role="checkbox-indicator"]').addClass('inactive').removeClass('active');
 		}
 	});
+
+	// Activate tooltip
+	$('[data-toggle="tooltip"]').tooltip();
 });
