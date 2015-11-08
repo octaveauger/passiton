@@ -1,16 +1,3 @@
-<script type="text/javascript">
-  $(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();
-
-    // Toggle elements on click (hide the one clicked, show all others)
-    $('[data-role="toggle-collapse"]').click(function(e) {
-      $('[data-role="toggle-collapse"][data-id="' + $(this).attr('data-id') + '"]').show(); // show all those who have the same data-id
-      $(this).hide(); // hide the one clicked
-    });
-
-  });
-</script>
-
 <div class="panel-group">
   <div class="panel panel-default">
     <div class="panel-heading" data-role="toggle-collapse" data-id="<%= email.message_id %>">
