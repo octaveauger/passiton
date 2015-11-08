@@ -6,7 +6,8 @@ class ThreadsController < ApplicationController
   def show
   	@thread = current_user.email_threads.where(synced: true).find_by(id: params['id'])
   	if !@thread.nil?
-	  	@emails = @thread.email_messages.includes(:message_attachments, :message_participants, :participants) # TODO: change to download emails from Gmail
+	  	@emails = GmailSync.get_emails(@thread.authorisation, @thread.thread_id).sort_by { |e| e.internal_date }.reverse
+      @message_attachments = @thread.message_attachments
 	 end
   end
 

@@ -1,8 +1,12 @@
-class EmailMessage < ActiveRecord::Base
- # belongs_to :email_thread
- # has_many :message_attachments
- # has_many :message_participants
- # has_many :participants, through: :message_participants
+class EmailMessage
+  include ActiveModel::Model
+  attr_accessor :email_thread_id, :message_id, :snippet, :history_id, :internal_date, :body_text_raw, :body_html_raw, :size_estimate, :mime_type, :subject
+
+  def initialize(attributes = {})
+    attributes.each do |name, value|
+      send("#{name}=", value)
+    end
+  end
 
   # Returns time of email
   def email_date
@@ -11,21 +15,21 @@ class EmailMessage < ActiveRecord::Base
 
   # Returns participants with a delivery in: 'to', 'from', 'cc', 'bcc'
   def participants_with_delivery(delivery)
-    self.participants.joins(:message_participants).where('message_participants.delivery = ?', delivery).uniq
+    Participant.joins(:message_participants).where('message_participants.email_message_id = ?', self.message_id).where('message_participants.delivery = ?', delivery).uniq
   end
 
   # Returns a decoded plain text body (use simple_format xxx in the view)
   def body_text
-  	Base64.urlsafe_decode64(super).force_encoding("UTF-8")
+  	Base64.urlsafe_decode64(self.body_text_raw).force_encoding("UTF-8")
   end
 
   # Returns a decoded html body
   def body_html
-  	enhance_html(Base64.urlsafe_decode64(super).html_safe.force_encoding("UTF-8"))
+  	enhance_html(Base64.urlsafe_decode64(self.body_html_raw).html_safe.force_encoding("UTF-8"))
   end
 
   def enhance_html(html)
-    html = self.replace_inline_attachments(html)
+    #html = self.replace_inline_attachments(html) # TODO: uncomment once inline attachments handled
     html = self.clean_html(html)
     html
   end
@@ -92,7 +96,7 @@ class EmailMessage < ActiveRecord::Base
     sections
   end
 
-  def replace_inline_attachments(html)
+  def replace_inline_attachments(html) # TODO: handle inline attachment download + no association with message_attachments
     self.message_attachments.each do |attachment|
       if attachment.inline and !attachment.file.url.nil? # If inline and already downloaded
         html.gsub!('cid:'+attachment.content_id, attachment.file.url)

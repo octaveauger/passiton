@@ -23,4 +23,9 @@ class MessageAttachment < ActiveRecord::Base
   def self.not_inline
     self.where(inline: false)
   end
+
+  # Returns message attachments for a given email message
+  def self.find_for_message(message_id)
+    self.where('email_message_id = ?', message_id)
+  end
 end

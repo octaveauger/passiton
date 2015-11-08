@@ -82,7 +82,7 @@ class GmailSync
 		client = Gmail.new(authorisation.granter.tokens.last.fresh_token)
 
 		thread_db = authorisation.email_threads.all
-		threads = client.list_threads(authorisation.scope)	
+		threads = client.list_threads(authorisation.scope)
 		# Grab all threads from Gmail and save them if they don't exist in the DB yet
 		threads.each do |thread|
 			begin
@@ -99,6 +99,20 @@ class GmailSync
 				authorisation.synchronisation_errors.create(content: threads.to_json)
 		    end
 		end
+	end
+
+	# Retrieves email messages from Gmail for a given thread and returns an array of EmailMessage
+	def self.get_emails(authorisation, thread_id)
+		client = Gmail.new(authorisation.granter.tokens.last.fresh_token)
+		
+		messages = client.get_thread(thread_id) # messages are returned in an ascending by internalDate order (i.e latest email is last)
+		results = []
+		
+		messages['messages'].each do |message|
+			email_message = self.analyse_message_content(message) # extract all that's needed from the message
+			results.push(EmailMessage.new(email_message)) # add the EmailMessage to the results array
+		end # end loop messages
+		results
 	end
 
 	# Handles participants for a message
@@ -219,13 +233,13 @@ class GmailSync
 	def self.analyse_message_content(message)
 		# The data we're trying to find
 		email_message = {
-			email_thread_id: message['threadId'], # TODO: changed from the DB id of the thread
+			email_thread_id: message['threadId'],
 			message_id: message['id'],
 			snippet: message['snippet'],
 			history_id: message['historyId'],
 			internal_date: message['internalDate'],
-			body_text: '',
-			body_html: '',
+			body_text_raw: '',
+			body_html_raw: '',
 			size_estimate: message['sizeEstimate'],
 			mime_type: message['payload']['mimeType'],
 			subject: ''
@@ -233,29 +247,29 @@ class GmailSync
 		
 		# Find the body depending on the mimeType and process attachments
 		if message['payload']['mimeType'] == 'text/plain' or message['payload']['parts'].nil?
-			email_message[:body_text] = message['payload']['body']['data']
+			email_message[:body_text_raw] = message['payload']['body']['data']
 		else
 			message['payload']['parts'].each do |part|
 				if part['mimeType'] == 'text/plain'
-					email_message[:body_text] = part['body']['data']
+					email_message[:body_text_raw] = part['body']['data']
 				elsif part['mimeType'] == 'text/html'
-					email_message[:body_html] = part['body']['data']
+					email_message[:body_html_raw] = part['body']['data']
 				end
 				
 				if !part['parts'].nil? # go through parts if any
 					part['parts'].each do |subpart|
 						if subpart['mimeType'] == 'text/plain'
-							email_message[:body_text] = subpart['body']['data']
+							email_message[:body_text_raw] = subpart['body']['data']
 						elsif subpart['mimeType'] == 'text/html'
-							email_message[:body_html] = subpart['body']['data']
+							email_message[:body_html_raw] = subpart['body']['data']
 						end
 
 						if !subpart['parts'].nil?
 							subpart['parts'].each do |subsubpart| # go through parts if any
 								if subsubpart['mimeType'] == 'text/plain'
-									email_message[:body_text] = subsubpart['body']['data']
+									email_message[:body_text_raw] = subsubpart['body']['data']
 								elsif subsubpart['mimeType'] == 'text/html'
-									email_message[:body_html] = subsubpart['body']['data']
+									email_message[:body_html_raw] = subsubpart['body']['data']
 								end
 							end
 						end
