@@ -3,7 +3,7 @@ class AttachmentController < ApplicationController
 
   def show
   	@attachment = current_user.message_attachments.find_by(id: params[:id])
-  	if @attachment.nil? or !@attachment.email_message.email_thread.authorisation.enabled
+  	if @attachment.nil? or !@attachment.email_thread.authorisation.enabled
   		flash[:alert] = "This attachment doesn't exist or you don't have access to it"
   		redirect_to authorisations_path and return
   	end

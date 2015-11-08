@@ -27,12 +27,12 @@
     </div>
     <div class="col-md-9">
       <p>
-        <% if thread.first_email_date.strftime("%d/%m/%y") == thread.last_email_date.strftime("%d/%m/%y") %>
-        <%= thread.first_email_date.strftime("%d %b %y") %>
+        <% if thread.earliest_email_date.strftime("%d/%m/%y") == thread.latest_email_date.strftime("%d/%m/%y") %>
+        <%= thread.earliest_email_date.strftime("%d %b %y") %>
         <% else %>
-        <%= thread.last_email_date.strftime("%d %b %y") %>
+        <%= thread.latest_email_date.strftime("%d %b %y") %>
         <br>
-        <small>(<%= (thread.last_email_date.jd - thread.first_email_date.jd).to_i %> days)</small>
+        <small>(<%= (thread.latest_email_date.to_date - thread.earliest_email_date.to_date).to_i %> days)</small>
         <% end %>
       </p>
     </div>
@@ -48,19 +48,19 @@
             <% else %>
             <span class="label label-default"><%= labels[:name] %></span>
           <% end %>
-        <% elsif (labels[:label_type] == 'user' && labels[:name] != 'Boomerang' && labels[:name] != 'Boomerang-Returned') %>
+        <% elsif labels[:label_type] == 'user' %>
           <span class="label label-primary"><%= labels[:name] %></span>
         <% end %>
       <% end %>
       <b><%= thread.subject %></b>
-      <% if thread.email_messages.count > 1 %>
-        (<%= thread.email_messages.count %>)
+      <% if thread.email_count > 1 %>
+        (<%= thread.email_count %>)
       <% end %>
     </p>
   </div>
   <div class="col-md-3">
     <p>
-      <% if thread.email_messages.count == 1 %>
+      <% if thread.email_count == 1 %>
         <%= thread.participants_with_delivery('from').first.fullname %>
         <small> (<%= thread.participants_with_delivery('from').first.company %>)</small>
       <% else %>

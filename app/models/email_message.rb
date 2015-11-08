@@ -1,8 +1,8 @@
 class EmailMessage < ActiveRecord::Base
-  belongs_to :email_thread
-  has_many :message_attachments
-  has_many :message_participants
-  has_many :participants, through: :message_participants
+ # belongs_to :email_thread
+ # has_many :message_attachments
+ # has_many :message_participants
+ # has_many :participants, through: :message_participants
 
   # Returns time of email
   def email_date

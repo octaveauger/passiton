@@ -4,7 +4,6 @@ namespace :testing do
   task empty_db: :environment do
   	Authorisation.destroy_all
   	EmailThread.destroy_all
-  	EmailMessage.destroy_all
   	MessageAttachment.destroy_all
   	MessageParticipant.destroy_all
   	Participant.destroy_all
@@ -25,7 +24,6 @@ namespace :testing do
     auth = Authorisation.find_by(id: args.authorisation_id)
     if !auth.nil?
       auth.email_threads.destroy_all
-      auth.email_messages.destroy_all
       auth.message_attachments.destroy_all
       auth.message_participants.destroy_all
       auth.update(synced: false)

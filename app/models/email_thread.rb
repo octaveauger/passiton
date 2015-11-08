@@ -4,27 +4,11 @@ class EmailThread < ActiveRecord::Base
 	include Filterable
 
 	belongs_to :authorisation
-	has_many :email_messages
-	has_many :message_attachments, through: :email_messages
-	has_many :message_participants, through: :email_messages
+	has_many :message_attachments
+	has_many :message_participants
 	has_many :participants, through: :message_participants
 	has_many :tags
   	scope :by_latest_email,  -> { order('latest_email_date desc') }
-
-	# Returns the subject line of a thread
-	def subject
-		self.email_messages.order('email_messages.internal_date asc').first.subject
-	end
-
-	# Returns the datetime of the first email in the thread
-	def first_email_date
-		Time.at((self.email_messages.order('email_messages.internal_date asc').first.internal_date.to_i/1000).to_i).utc.to_datetime
-	end
-
-	# Returns the datetime of the last email in the thread
-	def last_email_date
-		Time.at((self.email_messages.order('email_messages.internal_date desc').first.internal_date.to_i/1000).to_i).utc.to_datetime
-	end
 
 	# Returns an array of label names, types etc. for the thread
 	def readable_labels
@@ -73,11 +57,6 @@ class EmailThread < ActiveRecord::Base
 		false
 	end
 
-	# How many emails in the thread
-	def count_emails
-		self.email_messages.count
-	end
-
 	# How many attachments in the thread
 	def count_attachments(include_inline = true)
 		if include_inline
@@ -87,7 +66,7 @@ class EmailThread < ActiveRecord::Base
 		end
 	end
 
-	# Is the thread conversation internal? TODO: add more types, e.g internal only, external...
+	# Is the thread conversation internal?
 	def conversation_type
 		# Check if the conversation is internal only, i.e everyone has the same company
 		company = self.participants.first.company
@@ -101,17 +80,18 @@ class EmailThread < ActiveRecord::Base
 		return 'internal_only' if internal_only
 
 		# Check if the conversation has any internal emails (email by email), where all participants have the same company
-		self.email_messages.each do |email|
-			internal = true
-			company = email.participants.first.company
-			email.participants.each do |participant|
-				if participant.company != company
-					internal = false
-					break
-				end
-			end
-			return 'internal' if internal
-		end
+		# TODO: this is no longer possible unless we check it in the initial gmail sync
+	#	self.email_messages.each do |email|
+	#		internal = true
+	#		company = email.participants.first.company
+	#		email.participants.each do |participant|
+	#			if participant.company != company
+	#				internal = false
+	#				break
+	#			end
+	#		end
+	#		return 'internal' if internal
+	#	end
 
 		# If we reach this point, it means nothing was internal
 		return 'external'
@@ -141,7 +121,7 @@ class EmailThread < ActiveRecord::Base
 	# Go through the rules for tags and bulk add / remove them
 	def update_tags
 		# Email count rule
-		if (self.count_emails >= 5 or self.count_attachments(false) > 0) and self.has_participant_from_scope?
+		if (self.email_count >= 5 or self.count_attachments(false) > 0) and self.has_participant_from_scope?
 			self.add_tag('highlight')
 		else
 			self.remove_tag('highlight')

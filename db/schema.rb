@@ -11,18 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151101214156) do
-
-  create_table "attachment_headers", force: true do |t|
-    t.integer  "message_attachment_id"
-    t.string   "name"
-    t.text     "value"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "attachment_headers", ["message_attachment_id"], name: "index_attachment_headers_on_message_attachment_id"
-  add_index "attachment_headers", ["name"], name: "index_attachment_headers_on_name"
+ActiveRecord::Schema.define(version: 20151107234143) do
 
   create_table "authorisations", force: true do |t|
     t.integer  "requester_id"
@@ -41,34 +30,6 @@ ActiveRecord::Schema.define(version: 20151101214156) do
   add_index "authorisations", ["status"], name: "index_authorisations_on_status"
   add_index "authorisations", ["synced"], name: "index_authorisations_on_synced"
 
-  create_table "email_headers", force: true do |t|
-    t.integer  "email_message_id"
-    t.string   "name"
-    t.text     "value"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "email_headers", ["email_message_id"], name: "index_email_headers_on_email_message_id"
-  add_index "email_headers", ["name"], name: "index_email_headers_on_name"
-
-  create_table "email_messages", force: true do |t|
-    t.integer  "email_thread_id"
-    t.string   "message_id"
-    t.text     "snippet"
-    t.string   "history_id"
-    t.string   "internal_date"
-    t.text     "body_text"
-    t.text     "body_html"
-    t.string   "size_estimate"
-    t.string   "mime_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "subject"
-  end
-
-  add_index "email_messages", ["email_thread_id"], name: "index_email_messages_on_email_thread_id"
-
   create_table "email_threads", force: true do |t|
     t.integer  "authorisation_id"
     t.string   "thread_id"
@@ -79,6 +40,9 @@ ActiveRecord::Schema.define(version: 20151101214156) do
     t.boolean  "synced"
     t.text     "labels"
     t.datetime "latest_email_date"
+    t.integer  "email_count"
+    t.datetime "earliest_email_date"
+    t.string   "subject"
   end
 
   add_index "email_threads", ["synced"], name: "index_email_threads_on_synced"
@@ -98,7 +62,7 @@ ActiveRecord::Schema.define(version: 20151101214156) do
   add_index "labels", ["user_id"], name: "index_labels_on_user_id"
 
   create_table "message_attachments", force: true do |t|
-    t.integer  "email_message_id"
+    t.string   "email_message_id"
     t.string   "mime_type"
     t.text     "filename"
     t.text     "attachment_id",    limit: 255
@@ -108,21 +72,26 @@ ActiveRecord::Schema.define(version: 20151101214156) do
     t.boolean  "inline"
     t.string   "file"
     t.string   "content_id"
+    t.integer  "email_thread_id"
+    t.datetime "email_date"
   end
 
   add_index "message_attachments", ["email_message_id"], name: "index_message_attachments_on_email_message_id"
+  add_index "message_attachments", ["email_thread_id"], name: "index_message_attachments_on_email_thread_id"
   add_index "message_attachments", ["inline"], name: "index_message_attachments_on_inline"
 
   create_table "message_participants", force: true do |t|
-    t.integer  "email_message_id"
+    t.string   "email_message_id"
     t.integer  "participant_id"
     t.string   "delivery"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "email_thread_id"
   end
 
   add_index "message_participants", ["delivery"], name: "index_message_participants_on_delivery"
   add_index "message_participants", ["email_message_id"], name: "index_message_participants_on_email_message_id"
+  add_index "message_participants", ["email_thread_id"], name: "index_message_participants_on_email_thread_id"
   add_index "message_participants", ["participant_id"], name: "index_message_participants_on_participant_id"
 
   create_table "participants", force: true do |t|

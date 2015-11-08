@@ -1,10 +1,10 @@
 class MessageAttachment < ActiveRecord::Base
-  belongs_to :email_message
+  belongs_to :email_thread
   mount_uploader :file, AttachmentUploader
 
   def download
-  	client = Gmail.new(self.email_message.email_thread.authorisation.granter.tokens.last.fresh_token)
-  	attachment = client.download_attachment(self.email_message.message_id, self.attachment_id)
+  	client = Gmail.new(self.email_thread.authorisation.granter.tokens.last.fresh_token)
+  	attachment = client.download_attachment(self.email_message_id, self.attachment_id)
   	if attachment['data'].nil?
   		false
   	else
