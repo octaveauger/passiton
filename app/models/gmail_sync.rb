@@ -9,6 +9,7 @@ class GmailSync
 
 		# Get current list of Participants
 		participants_db = Participant.all
+		message_participants_db = authorisation.message_participants.all
 		participants_scope = [] # will contain all new participants we add here
 
 		# Find the latest labels that the granter has in Gmail
@@ -17,9 +18,9 @@ class GmailSync
 		
 		# Loop through threads
 		threads.each do |thread|
-			thread.update(synced: false) unless !thread.synced
+			next unless !thread.synced # Only update the unsynced threads
 			
-			email_count = 0
+			email_count = thread.email_count.to_i
 			subject = thread.subject.to_s
 			thread_labels = []
 			earliest_email_date = thread.earliest_email_date
@@ -31,6 +32,8 @@ class GmailSync
 			# Go through each message and prepare what needs to be stored in the DB
 			messages['messages'].each do |message|
 				begin
+					next if message_participants_db.any? { |mp| mp.email_message_id == message['id'] and mp.email_thread_id == thread.id } # Skip if we've already analysed that message
+
 					email_count += 1
 					subject = (message['payload']['headers'].detect { |h| h['name'] == 'Subject' })['value'].to_s if subject.blank?
 
@@ -86,13 +89,16 @@ class GmailSync
 		# Grab all threads from Gmail and save them if they don't exist in the DB yet
 		threads.each do |thread|
 			begin
-				if !(thread_db.any? { |t| t.thread_id == thread['id'] })
+				thread_found = thread_db.detect { |t| t.thread_id == thread['id'] }
+				if thread_found.nil? # thread doesn't exit yet
 					authorisation.email_threads.create(
 						thread_id: thread['id'],
 						snippet: thread['snippet'],
 						history_id: thread['historyId'],
 						synced: false
 					)
+				elsif thread_found.history_id.to_s != thread['historyId'].to_s # thread has been updated in Gmail and should be synced again
+					thread_found.update(synced: false)
 				end
 			rescue => e
 				Utility.log_exception(e, { user: authorisation.requester.id, authorisation: authorisation.id })

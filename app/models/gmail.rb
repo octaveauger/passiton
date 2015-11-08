@@ -22,7 +22,7 @@ class Gmail
 		next_page_token = nil
 		loop do
 			results = list_threads_page(scope, next_page_token)
-			threads += results['threads']
+			threads += results['threads'] if results['threads']
 			next_page_token = results['nextPageToken']
 			break if results['nextPageToken'].nil?
 		end
