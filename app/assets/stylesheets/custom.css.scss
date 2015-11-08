@@ -56,6 +56,14 @@ dl.no-margin {
   border: 1px dotted $gray-lighter;
 }
 
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    -moz-binding: url('assets/xml/ellipsis.xml#ellipsis');
+}
+
 /* Home page */
 @media (min-width: 992px) {
   .jumbotron.jumbotron-home{
@@ -150,6 +158,14 @@ dl.no-margin {
   border: 1px solid #DDD;
   border-radius: 4px;
   background: #fff;
+}
+
+.panel-heading{
+  height: 75px;
+}
+
+.panel-group{
+  margin-bottom: 0;
 }
 
 /* Timeline page */
