@@ -1,7 +1,7 @@
 <div class="row timeline">
 
   <!-- Modal launcher -->
-  <a class="modal-link" data-toggle="modal" data-target="#thread-<%= thread.id %>" href="<%= thread_url(thread) %>">
+  <a class="modal-link" data-toggle="modal" data-role="thread-modal-link" data-target="thread-<%= thread.id %>" data-path="<%= thread_url(thread) %>">
     <span></span>
   </a>
 
@@ -13,8 +13,8 @@
     </div>
   </div>
 
-  <div class="col-md-2">
-    <div class="col-md-3">
+  <div class="col-md-8">
+    <div class="col-md-1">
       <form action="<%= threads_update_tags_path %>" method="post" data-remote="true" class="form-highlight">
         <input type="hidden" name="thread_id" value="<%= thread.id %>">
         <div class="checkbox hide">
@@ -27,52 +27,51 @@
     </div>
     <div class="col-md-9">
       <p>
-        <% if thread.earliest_email_date.strftime("%d/%m/%y") == thread.latest_email_date.strftime("%d/%m/%y") %>
-        <%= thread.earliest_email_date.strftime("%d %b %y") %>
-        <% else %>
-        <%= thread.latest_email_date.strftime("%d %b %y") %>
+        <% thread.readable_labels.each do |labels| %>
+          <% if labels[:label_type] == 'system' %>
+            <% if labels[:name] == 'IMPORTANT' %>
+              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+              <% elsif labels[:name] == 'STARRED' %>
+              <span class="glyphicon glyphicon-star warning" aria-hidden="true"></span>
+              <% else %>
+              <span class="label label-default"><%= labels[:name] %></span>
+            <% end %>
+          <% elsif (labels[:label_type] == 'user' && labels[:name] != 'Boomerang' && labels[:name] != 'Boomerang-Returned') %>
+            <span class="label label-primary"><%= labels[:name] %></span>
+          <% end %>
+        <% end %>
+        <b><%= thread.subject %></b>
+        <% if thread.email_count > 1 %>
+          <span class="badge"><%= thread.email_count %></span>
+        <% end %>
         <br>
-        <small>(<%= (thread.latest_email_date.to_date - thread.earliest_email_date.to_date).to_i %> days)</small>
+        <% if thread.email_count == 1 %>
+          <%= thread.participants_with_delivery('from').first.fullname %>
+          <small> (<%= thread.participants_with_delivery('from').first.company %>)</small>
+        <% else %>
+          <% thread.participants_with_delivery('from').each_with_index do |senders, i| %>
+            <% if i < thread.participants_with_delivery('from').count - 1 %>
+              <%= senders.first_name %><small> (<%= senders.company %>)</small>,
+            <% else i == thread.participants_with_delivery('from').count - 1 %>
+              <%= senders.first_name %><small> (<%= senders.company %>)</small>
+            <% end %>
+          <% end %>
+        <% end %>
+        <br>
+        <small><%= thread.snippet.html_safe %></small>
+      </p>
+    </div>
+    <div class="col-md-2">
+      <p>
+        <% if thread.earliest_email_date.strftime("%d/%m/%y") == thread.latest_email_date.strftime("%d/%m/%y") %>
+          <%= thread.earliest_email_date.strftime("%d %b %y") %>
+        <% else %>
+          <%= thread.latest_email_date.strftime("%d %b %y") %>
+          <br>
+          <small>(<%= (thread.latest_email_date.to_date - thread.earliest_email_date.to_date).to_i %> days)</small>
         <% end %>
       </p>
     </div>
-  </div>
-  <div class="col-md-3">
-    <p>
-      <% thread.readable_labels.each do |labels| %>
-        <% if labels[:label_type] == 'system' %>
-          <% if labels[:name] == 'IMPORTANT' %>
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <% elsif labels[:name] == 'STARRED' %>
-            <span class="glyphicon glyphicon-star warning" aria-hidden="true"></span>
-            <% else %>
-            <span class="label label-default"><%= labels[:name] %></span>
-          <% end %>
-        <% elsif labels[:label_type] == 'user' %>
-          <span class="label label-primary"><%= labels[:name] %></span>
-        <% end %>
-      <% end %>
-      <b><%= thread.subject %></b>
-      <% if thread.email_count > 1 %>
-        (<%= thread.email_count %>)
-      <% end %>
-    </p>
-  </div>
-  <div class="col-md-3">
-    <p>
-      <% if thread.email_count == 1 %>
-        <%= thread.participants_with_delivery('from').first.fullname %>
-        <small> (<%= thread.participants_with_delivery('from').first.company %>)</small>
-      <% else %>
-        <% thread.participants_with_delivery('from').each_with_index do |senders, i| %>
-          <% if i < thread.participants_with_delivery('from').count - 1 %>
-            <%= senders.first_name %><small> (<%= senders.company %>)</small>,
-          <% else i == thread.participants_with_delivery('from').count - 1 %>
-            <%= senders.first_name %><small> (<%= senders.company %>)</small>
-          <% end %>
-        <% end %>
-      <% end %>
-    </p>
   </div>
   <div class="col-md-4"> <!-- Merge last two columns-->
     <div class="col-md-1">
@@ -82,7 +81,7 @@
     </div>
     <div class="col-md-11">
       <% if thread.message_attachments.not_inline.count > 2 %>
-        <button class="btn btn-default btn-xs attachment" style="vertical-align: middle" type="button" data-toggle="collapse" data-target="#collapse-<%= thread.id %>" aria-expanded="false" aria-controls="collapse-<%= thread.id %>">
+        <button class="btn btn-default btn-xs btn-attachment" style="vertical-align: middle" type="button" data-toggle="collapse" data-target="#collapse-<%= thread.id %>" aria-expanded="false" aria-controls="collapse-<%= thread.id %>">
           <span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
           <%= thread.message_attachments.not_inline.count %>
         </button>
