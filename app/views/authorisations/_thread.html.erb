@@ -13,8 +13,8 @@
     </div>
   </div>
 
-  <div class="col-md-2">
-    <div class="col-md-3">
+  <div class="col-md-8">
+    <div class="col-md-1">
       <form action="<%= threads_update_tags_path %>" method="post" data-remote="true" class="form-highlight">
         <input type="hidden" name="thread_id" value="<%= thread.id %>">
         <div class="checkbox hide">
@@ -27,49 +27,50 @@
     </div>
     <div class="col-md-9">
       <p>
+        <% thread.readable_labels.each do |labels| %>
+          <% if labels[:label_type] == 'system' %>
+            <% if labels[:name] == 'IMPORTANT' %>
+              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+              <% elsif labels[:name] == 'STARRED' %>
+              <span class="glyphicon glyphicon-star warning" aria-hidden="true"></span>
+              <% else %>
+              <span class="label label-default"><%= labels[:name] %></span>
+            <% end %>
+          <% elsif (labels[:label_type] == 'user' && labels[:name] != 'Boomerang' && labels[:name] != 'Boomerang-Returned') %>
+            <span class="label label-primary"><%= labels[:name] %></span>
+          <% end %>
+        <% end %>
+        <b><%= thread.subject %></b>
+        <% if thread.email_messages.count > 1 %>
+          <span class="badge"><%= thread.email_messages.count %></span>
+        <% end %>
+        <br>
+        <% if thread.email_messages.count == 1 %>
+          <%= thread.participants_with_delivery('from').first.fullname %>
+          <small> (<%= thread.participants_with_delivery('from').first.company %>)</small>
+        <% else %>
+          <% thread.participants_with_delivery('from').each_with_index do |senders, i| %>
+            <% if i < thread.participants_with_delivery('from').count - 1 %>
+              <%= senders.first_name %><small> (<%= senders.company %>)</small>,
+            <% else i == thread.participants_with_delivery('from').count - 1 %>
+              <%= senders.first_name %><small> (<%= senders.company %>)</small>
+            <% end %>
+          <% end %>
+        <% end %>
+        <br>
+        <small><%= thread.snippet.html_safe %></small>
+      </p>
+    </div>
+    <div class="col-md-2">
+      <p>
         <% if thread.first_email_date.strftime("%d/%m/%y") == thread.last_email_date.strftime("%d/%m/%y") %>
         <%= thread.first_email_date.strftime("%d %b %y") %>
         <% else %>
         <%= thread.last_email_date.strftime("%d %b %y") %>
         <br>
-        <small>(<%= (thread.last_email_date.jd - thread.first_email_date.jd).to_i %> days)</small>
         <% end %>
       </p>
     </div>
-  </div>
-  <div class="col-md-6">
-    <p>
-      <% thread.readable_labels.each do |labels| %>
-        <% if labels[:label_type] == 'system' %>
-          <% if labels[:name] == 'IMPORTANT' %>
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <% elsif labels[:name] == 'STARRED' %>
-            <span class="glyphicon glyphicon-star warning" aria-hidden="true"></span>
-            <% else %>
-            <span class="label label-default"><%= labels[:name] %></span>
-          <% end %>
-        <% elsif (labels[:label_type] == 'user' && labels[:name] != 'Boomerang' && labels[:name] != 'Boomerang-Returned') %>
-          <span class="label label-primary"><%= labels[:name] %></span>
-        <% end %>
-      <% end %>
-      <b><%= thread.subject %></b>
-      <% if thread.email_messages.count > 1 %>
-        <span class="badge"><%= thread.email_messages.count %></span>
-      <% end %>
-      <br>
-      <% if thread.email_messages.count == 1 %>
-        <%= thread.participants_with_delivery('from').first.fullname %>
-        <small> (<%= thread.participants_with_delivery('from').first.company %>)</small>
-      <% else %>
-        <% thread.participants_with_delivery('from').each_with_index do |senders, i| %>
-          <% if i < thread.participants_with_delivery('from').count - 1 %>
-            <%= senders.first_name %><small> (<%= senders.company %>)</small>,
-          <% else i == thread.participants_with_delivery('from').count - 1 %>
-            <%= senders.first_name %><small> (<%= senders.company %>)</small>
-          <% end %>
-        <% end %>
-      <% end %>
-    </p>
   </div>
   <div class="col-md-4"> <!-- Merge last two columns-->
     <div class="col-md-1">
