@@ -8,6 +8,10 @@ class EmailMessage
     end
   end
 
+  def email_thread
+    EmailThread.find_by(thread_id: email_thread_id)
+  end
+
   # Returns time of email
   def email_date
     Time.at((self.internal_date.to_i/1000).to_i).utc.to_datetime
@@ -29,7 +33,7 @@ class EmailMessage
   end
 
   def enhance_html(html)
-    #html = self.replace_inline_attachments(html) # TODO: uncomment once inline attachments handled
+    html = self.replace_inline_attachments(html)
     html = self.clean_html(html)
     html
   end
@@ -96,10 +100,12 @@ class EmailMessage
     sections
   end
 
-  def replace_inline_attachments(html) # TODO: handle inline attachment download + no association with message_attachments
-    self.message_attachments.each do |attachment|
-      if attachment.inline and !attachment.file.url.nil? # If inline and already downloaded
+  def replace_inline_attachments(html)
+    self.email_thread.message_attachments.is_inline.each do |attachment|
+      if !attachment.file.url.nil? # If already downloaded
         html.gsub!('cid:'+attachment.content_id, attachment.file.url)
+      else
+        html.gsub!('src="cid:'+attachment.content_id+'"', 'src="cid:'+attachment.content_id+'" data-target="'+Rails.application.routes.url_helpers.download_inline_attachment_index_url(host: ENV['URL_HOST'], content_id: attachment.content_id, email_thread_id: self.email_thread.id)+'"')
       end
     end
     html

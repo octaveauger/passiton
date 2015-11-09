@@ -20,6 +20,10 @@ class MessageAttachment < ActiveRecord::Base
     extension.upcase
   end
 
+  def self.is_inline
+    self.where(inline: true)
+  end
+
   def self.not_inline
     self.where(inline: false)
   end

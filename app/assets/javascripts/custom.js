@@ -31,7 +31,33 @@ function initialize() {
 	$('.modal-link[data-role="thread-modal-link"]').on('click', function(e) {
 		$('#' + $(this).attr('data-target')).find('.modal-content').load($(this).attr('data-path'), function(){
 			initialize();
+			download_inline_attachments();
 		});
 		$('#' + $(this).attr('data-target')).modal('show');
+	});
+}
+
+// Download and replace inline attachments via Ajax
+function download_inline_attachments() {
+	// Create a non unique list of content ids to download
+	var duplicate_list = [];
+	$('img[src^="cid:"]').each(function(e) {
+		duplicate_list.push($(this).attr('src').replace('cid:', ''));
+	});
+
+	// De-duplicate the list of content ids to download
+	var unique = {}
+	var unique_list = []	
+	duplicate_list.forEach(function(x) {
+		if(!unique[x]) {
+			unique_list.push(x);
+			unique[x] = true;
+		}
+	});
+
+	// Call the inline attachment download
+	unique_list.forEach(function(a) {
+		var download_url = $('img[src^="cid:' + a + '"]').attr('data-target');
+		$.getScript(download_url);
 	});
 }
