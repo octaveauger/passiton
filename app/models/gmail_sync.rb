@@ -2,7 +2,7 @@ class GmailSync
 	# Synchronises everything except the email messages
 	def self.prep_sync(authorisation)
 		client = Gmail.new(authorisation.granter.tokens.last.fresh_token)
-		
+
 		# Sync threads
 		self.sync_threads(authorisation)
 		threads = authorisation.email_threads.all
@@ -15,11 +15,11 @@ class GmailSync
 		# Find the latest labels that the granter has in Gmail
 		Label.sync_gmail(authorisation.granter) # Create or update the list of labels of the granter
 		user_labels = Label.to_array(authorisation.granter)
-		
+
 		# Loop through threads
 		threads.each do |thread|
 			next unless !thread.synced # Only update the unsynced threads
-			
+
 			email_count = thread.email_count.to_i
 			subject = thread.subject.to_s
 			thread_labels = []
@@ -35,7 +35,10 @@ class GmailSync
 					next if message_participants_db.any? { |mp| mp.email_message_id == message['id'] and mp.email_thread_id == thread.id } # Skip if we've already analysed that message
 
 					email_count += 1
-					subject = (message['payload']['headers'].detect { |h| h['name'] == 'Subject' })['value'].to_s if subject.blank?
+					if subject.blank?
+						subject_header = message['payload']['headers'].detect { |h| h['name'] == 'Subject' }
+						subject = subject_header['value'].to_s unless subject_header.nil?
+					end
 
 					# Find the attachments
 					attachments = self.analyse_message_attachments(message)
@@ -56,7 +59,7 @@ class GmailSync
 
 					# Find participants
 					participants_scope += self.analyse_message_participants(message['id'], thread.id, message['payload']['headers'], participants_db, participants_scope)
-					
+
 					# Check if the date of the email is later than the latest date (same for earliest) for the thread
 					email_date = Time.at((message['internalDate'].to_i/1000).to_i).utc.to_datetime
 					earliest_email_date = email_date if earliest_email_date.nil? or email_date < earliest_email_date
@@ -110,10 +113,10 @@ class GmailSync
 	# Retrieves email messages from Gmail for a given thread and returns an array of EmailMessage
 	def self.get_emails(authorisation, thread_id)
 		client = Gmail.new(authorisation.granter.tokens.last.fresh_token)
-		
+
 		messages = client.get_thread(thread_id) # messages are returned in an ascending by internalDate order (i.e latest email is last)
 		results = []
-		
+
 		messages['messages'].each do |message|
 			email_message = self.analyse_message_content(message) # extract all that's needed from the message
 			results.push(EmailMessage.new(email_message)) # add the EmailMessage to the results array
@@ -176,7 +179,7 @@ class GmailSync
 	# Extract the email_message attachments
 	def self.analyse_message_attachments(message)
 		attachments = []
-		
+
 		# Find the body depending on the mimeType and process attachments
 		if !(message['payload']['mimeType'] == 'text/plain' or message['payload']['parts'].nil?)
 			message['payload']['parts'].each do |part|
@@ -184,7 +187,7 @@ class GmailSync
 					part_attachment = self.process_attachment(message, part, message['id'])
 					attachments.push(part_attachment) unless part_attachment.nil?
 				end
-				
+
 				if !part['parts'].nil? # go through parts if any
 					part['parts'].each do |subpart|
 						if !['text/plain', 'text/html'].include? subpart['mimeType']
@@ -250,7 +253,7 @@ class GmailSync
 			mime_type: message['payload']['mimeType'],
 			subject: ''
 		}
-		
+
 		# Find the body depending on the mimeType and process attachments
 		if message['payload']['mimeType'] == 'text/plain' or message['payload']['parts'].nil?
 			email_message[:body_text_raw] = message['payload']['body']['data']
@@ -261,7 +264,7 @@ class GmailSync
 				elsif part['mimeType'] == 'text/html'
 					email_message[:body_html_raw] = part['body']['data']
 				end
-				
+
 				if !part['parts'].nil? # go through parts if any
 					part['parts'].each do |subpart|
 						if subpart['mimeType'] == 'text/plain'

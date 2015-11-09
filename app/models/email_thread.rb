@@ -43,7 +43,7 @@ class EmailThread < ActiveRecord::Base
 		# Clean up scope words (e.g if one is email, get domain instead)
 		scope_words.each do |word, index|
 			if word[/.+@.+\..+/i] # if it has an email format
-				scope_words[index] = parse_email(word)[:domain]
+				scope_words[index.to_i] = parse_email(word)[:domain]
 			end
 		end
 		# Go through participants to see if they match the scope (either all scope words or at least 2)
