@@ -3,7 +3,7 @@
     <div class="panel-heading" data-role="toggle-collapse" data-id="<%= email.message_id %>">
       <div class="col-md-9">
         <p>
-          <strong><%= email.participants_with_delivery('from').first.first_name + " " + email.participants_with_delivery('from').first.last_name %></strong>
+          <strong><%= email.sender.fullname %></strong>
           <br>
           <p class="ellipsis">
             <%= email.snippet.html_safe %>
@@ -22,25 +22,16 @@
                 <li>
                   <strong>
                     <% email.participants_with_delivery('from').each do |sender| %>
-                    <span data-toggle="tooltip" data-placement="bottom" data-html="true" title="<%= sender.first_name + " " + sender.last_name + " (" + sender.company + ") " + sender.email %>">
-                        <%= sender.first_name + " " + sender.last_name %>
+                    <span data-toggle="tooltip" data-placement="bottom" data-html="true" title="<%= sender.fullname + " (" + sender.company + ") " + sender.email %>">
+                        <%= sender.fullname %>
                       </span>
                     <% end %>
                   </strong>
                 </li>
                 <li>
                   <small>
-                  to
-                  <% recipients = email.participants_with_delivery('to') + email.participants_with_delivery('cc') %>
-                  <% recipients.each do |recipient| %>
-                  <span data-toggle="tooltip" data-placement="bottom" data-html="true" title="<%= recipient.first_name + " " + recipient.last_name + " (" + recipient.company + ") " + recipient.email %>">
-                      <% if recipient != recipients.last %>
-                        <%= recipient.first_name %>,
-                      <% else %>
-                        <%= recipient.first_name %>
-                      <% end %>
-                  </span>
-                  <% end %>
+                    to
+                    <%= email.recipients.map { |r| '<span data-toggle="tooltip" data-placement="bottom" data-html="true" title="' + r.fullname + ' (' + r.company + ') ' + r.email + '">' + r.first_name + '</span>' }.join(', ').html_safe %>
                   </small>
                 </li>
               </p>
