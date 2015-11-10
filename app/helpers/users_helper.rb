@@ -14,6 +14,6 @@ module UsersHelper
 	def after_sign_in_path_for(resource)
 		redirect = session[:return_to]
 		session.delete(:return_to)
-		redirect || root_path
+		redirect || authorisations_path
 	end
 end

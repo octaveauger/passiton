@@ -30,7 +30,8 @@ class User < ActiveRecord::Base
         last_name: data['last_name'],
         image: data['image'],
         gender: access_token.extra['raw_info']['gender'],
-        guest: false
+        guest: false,
+        oauth_cancelled: false
       )
       user.first_token(access_token)
     elsif user.guest
@@ -41,9 +42,15 @@ class User < ActiveRecord::Base
         last_name: data['last_name'],
         image: data['image'],
         gender: access_token.extra['raw_info']['gender'],
-        guest: false
+        guest: false,
+        oauth_cancelled: false
       )
       user.first_token(access_token)
+    else
+      if user.tokens.last.access_token != access_token
+        user.update_token(access_token)
+      end
+      user.update(oauth_cancelled: false) if user.oauth_cancelled
     end
     ContinuousGmailSyncJob.new.async.perform(user)
     user
@@ -67,6 +74,22 @@ class User < ActiveRecord::Base
     self.tokens.create(access_token: access_token.credentials.token,
       refresh_token: access_token.credentials.refresh_token,
       expires_at: Time.at(access_token.credentials.expires_at).to_datetime)
+  end
+
+  # If a user cancels the app authorisation, then re-authorise it, update the token
+  def update_token(access_token)
+    self.tokens.last.update(access_token: access_token.credentials.token,
+      refresh_token: access_token.credentials.refresh_token,
+      expires_at: Time.at(access_token.credentials.expires_at).to_datetime)
+  end
+
+  # Update the user if their token is no longer valid, i.e they've cancelled the oAuth with Passiton on their side
+  def register_oauth_cancelled
+    self.update(oauth_cancelled: true)
+  end
+
+  def can_call_api?
+    !self.oauth_cancelled
   end
 
   # Returns the first and last name (if present) and email
