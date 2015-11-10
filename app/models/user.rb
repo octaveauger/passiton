@@ -44,6 +44,8 @@ class User < ActiveRecord::Base
         guest: false
       )
       user.first_token(access_token)
+    else
+      user.update_token(access_token) if user.tokens.last.access_token != access_token
     end
     ContinuousGmailSyncJob.new.async.perform(user)
     user
@@ -65,6 +67,13 @@ class User < ActiveRecord::Base
   # Set up the first access token once a user authorises the app
   def first_token(access_token)
     self.tokens.create(access_token: access_token.credentials.token,
+      refresh_token: access_token.credentials.refresh_token,
+      expires_at: Time.at(access_token.credentials.expires_at).to_datetime)
+  end
+
+  # If a user cancels the app authorisation, then re-authorise it, update the token
+  def update_token(access_token)
+    self.tokens.last.update(access_token: access_token.credentials.token,
       refresh_token: access_token.credentials.refresh_token,
       expires_at: Time.at(access_token.credentials.expires_at).to_datetime)
   end
