@@ -22,6 +22,16 @@ class EmailMessage
     Participant.joins(:message_participants).where('message_participants.email_message_id = ?', self.message_id).where('message_participants.delivery = ?', delivery).uniq
   end
 
+  # Returns the sender
+  def sender
+    self.participants_with_delivery('from').first
+  end
+
+  # Returns the recipients (excluding bcc)
+  def recipients
+    Participant.joins(:message_participants).where('message_participants.email_message_id = ?', self.message_id).where('message_participants.delivery = "to" OR message_participants.delivery = "cc"').uniq
+  end
+
   # Returns a decoded plain text body (use simple_format xxx in the view)
   def body_text
   	Base64.urlsafe_decode64(self.body_text_raw).force_encoding("UTF-8")
