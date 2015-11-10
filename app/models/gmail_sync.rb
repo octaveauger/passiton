@@ -53,8 +53,10 @@ class GmailSync
 					end
 
 					# Add the labels if they're not included yet
-					message['labelIds'].each do |label|
-						thread_labels.push(label) unless thread_labels.include? label or !user_labels.include? label
+					if !message['labelIds'].nil?
+						message['labelIds'].each do |label|
+							thread_labels.push(label) unless thread_labels.include? label or !user_labels.include? label
+						end
 					end
 
 					# Find participants
