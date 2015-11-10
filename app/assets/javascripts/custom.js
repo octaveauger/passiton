@@ -6,6 +6,9 @@ $(function () {
 
 // All JS that should also be available even after we load content via ajax in a modal
 function initialize() {
+	// Activate tooltip
+	$('[data-toggle="tooltip"]').tooltip();
+
 	// Toggle checkboxes when design elements clicked
 	$('[data-action="toggle-checkbox"]').on('click', function(e) {
 		e.preventDefault();
@@ -18,16 +21,25 @@ function initialize() {
 		}
 	});
 
-	// Activate tooltip
-	$('[data-toggle="tooltip"]').tooltip();
+	// Show / hide collapsed element when click on collapse trigger
+	$('[data-role="collapse"]').on('click', function(e) {
+		e.stopPropagation(); // prevents the click from bubbling and being picked up by parent events
+		$($(this).attr('data-target')).toggleClass('hide');
+	});
+
+	// Hide all collapsable elements when trigger has data-expanded set as false
+	$('[data-role="collapse"][data-expanded="false"]').each(function() {
+		$($(this).attr('data-target')).addClass('hide');
+	});
 
 	// Toggle elements on click (hide the one clicked, show all others)
-    $('[data-role="toggle-collapse"]').click(function(e) {
-      $('[data-role="toggle-collapse"][data-id="' + $(this).attr('data-id') + '"]').show(); // show all those who have the same data-id
-      $(this).hide(); // hide the one clicked
-    });
+  $('[data-role="toggle-collapse"]').click(function(e) {
+    e.preventDefault();
+    $('[data-role="toggle-collapse"][data-id="' + $(this).attr('data-id') + '"]').show(); // show all those who have the same data-id
+    $(this).hide(); // hide the one clicked
+  });
 
-    // Calls the email thread modal via ajax
+  // Calls the email thread modal via ajax
 	$('.modal-link[data-role="thread-modal-link"]').on('click', function(e) {
 		$('#' + $(this).attr('data-target')).find('.modal-content').load($(this).attr('data-path'), function(){
 			initialize();
@@ -47,7 +59,7 @@ function download_inline_attachments() {
 
 	// De-duplicate the list of content ids to download
 	var unique = {}
-	var unique_list = []	
+	var unique_list = []
 	duplicate_list.forEach(function(x) {
 		if(!unique[x]) {
 			unique_list.push(x);
