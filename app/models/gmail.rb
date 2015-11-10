@@ -16,13 +16,13 @@ class Gmail
 		headers: { 'Content-Type' => 'application/json' }
 	}
 
-	# Grab all threads page by page
+	# Grab all threads page by page and returns an array with each thread as a hash
 	def list_threads(scope)
 		threads = []
 		next_page_token = nil
 		loop do
 			results = list_threads_page(scope, next_page_token)
-			threads.push(results)
+			threads += results['threads'] if results['threads']
 			next_page_token = results['nextPageToken']
 			break if results['nextPageToken'].nil?
 		end
@@ -44,8 +44,23 @@ class Gmail
 		execute(opts)
 	end
 
-	def list_messages
+	# Grab all messages page by page
+	def list_messages(scope)
+		messages = []
+		next_page_token = nil
+		loop do
+			results = list_messages_page(scope, next_page_token)
+			messages += results['messages']
+			next_page_token = results['nextPageToken']
+			break if results['nextPageToken'].nil?
+		end
+		messages
+	end
+
+	def list_messages_page(scope, page)
 		opts = DEFAULT_OPTIONS.merge(:api_method => @service.users.messages.list)
+		opts[:parameters]['q'] = scope
+		opts[:parameters][:pageToken] = page unless page.nil?
 		execute(opts)
 	end
 

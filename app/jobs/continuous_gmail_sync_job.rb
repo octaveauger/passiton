@@ -5,7 +5,7 @@ class ContinuousGmailSyncJob
   def perform(user)
     ActiveRecord::Base.connection_pool.with_connection do
 	    user.requested_authorisations.where(status: 'granted').each do |authorisation|
-	    	authorisation.sync_gmail
+	    	GmailSync.prep_sync(authorisation)
 	    end
 	end
   end

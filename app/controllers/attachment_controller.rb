@@ -3,7 +3,7 @@ class AttachmentController < ApplicationController
 
   def show
   	@attachment = current_user.message_attachments.find_by(id: params[:id])
-  	if @attachment.nil? or !@attachment.email_message.email_thread.authorisation.enabled
+  	if @attachment.nil? or !@attachment.email_thread.authorisation.enabled
   		flash[:alert] = "This attachment doesn't exist or you don't have access to it"
   		redirect_to authorisations_path and return
   	end
@@ -17,6 +17,16 @@ class AttachmentController < ApplicationController
       redirect_to @attachment.file.url and return
     else
       send_file File.join('public', @attachment.file.url), type: @attachment.mime_type, x_sendfile: true
+    end
+  end
+
+  def download_inline
+    @attachment = current_user.message_attachments.find_by(content_id: params[:content_id], email_thread_id: params[:email_thread_id])
+    if !@attachment.nil? and @attachment.email_thread.authorisation.enabled
+      @attachment.download unless !@attachment.file.url.nil? # Download from Gmail and store
+      respond_to do |format|
+        format.js
+      end
     end
   end
 end

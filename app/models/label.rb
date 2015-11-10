@@ -2,11 +2,12 @@ class Label < ActiveRecord::Base
   belongs_to :user
 
   def self.sync_gmail(user)
+  	useless_labels = ['boomerang', 'boomerang-returned'] # these label names won't be saved
   	client = Gmail.new(user.tokens.last.fresh_token)
 	labels = client.list_labels
 	current_labels = user.labels.all
 	labels['labels'].each do |label|
-		if (label['type'] != 'system' or ['STARRED', 'IMPORTANT'].include? label['id']) and !current_labels.where(label_id: label['id']).any?
+		if (label['type'] != 'system' or ['STARRED', 'IMPORTANT'].include? label['id']) and !current_labels.where(label_id: label['id']).any? and !useless_labels.include? label['name'].downcase
 			user.labels.create(
 				label_id: label['id'],
 				name: label['name'],

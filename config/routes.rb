@@ -6,5 +6,7 @@ Rails.application.routes.draw do
   get 'authorisation/grant', to: 'authorisations#granting'
   resources :threads, only: [:show]
   post 'threads/update_tags'
-  resources :attachment, only: [:show]
+  resources :attachment, only: [:show] do
+  	get :download_inline, on: :collection
+  end
 end

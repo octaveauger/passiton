@@ -1,10 +1,10 @@
 class MessageAttachment < ActiveRecord::Base
-  belongs_to :email_message
+  belongs_to :email_thread
   mount_uploader :file, AttachmentUploader
 
   def download
-  	client = Gmail.new(self.email_message.email_thread.authorisation.granter.tokens.last.fresh_token)
-  	attachment = client.download_attachment(self.email_message.message_id, self.attachment_id)
+  	client = Gmail.new(self.email_thread.authorisation.granter.tokens.last.fresh_token)
+  	attachment = client.download_attachment(self.email_message_id, self.attachment_id)
   	if attachment['data'].nil?
   		false
   	else
@@ -20,7 +20,16 @@ class MessageAttachment < ActiveRecord::Base
     extension.upcase
   end
 
+  def self.is_inline
+    self.where(inline: true)
+  end
+
   def self.not_inline
     self.where(inline: false)
+  end
+
+  # Returns message attachments for a given email message
+  def self.find_for_message(message_id)
+    self.where('email_message_id = ?', message_id)
   end
 end

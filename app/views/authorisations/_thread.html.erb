@@ -41,11 +41,11 @@
           <% end %>
         <% end %>
         <b><%= thread.subject %></b>
-        <% if thread.email_messages.count > 1 %>
-          <span class="badge"><%= thread.email_messages.count %></span>
+        <% if thread.email_count > 1 %>
+          <span class="badge"><%= thread.email_count %></span>
         <% end %>
         <br>
-        <% if thread.email_messages.count == 1 %>
+        <% if thread.email_count == 1 %>
           <%= thread.participants_with_delivery('from').first.fullname %>
           <small> (<%= thread.participants_with_delivery('from').first.company %>)</small>
         <% else %>
@@ -63,11 +63,12 @@
     </div>
     <div class="col-md-2">
       <p>
-        <% if thread.first_email_date.strftime("%d/%m/%y") == thread.last_email_date.strftime("%d/%m/%y") %>
-        <%= thread.first_email_date.strftime("%d %b %y") %>
+        <% if thread.earliest_email_date.strftime("%d/%m/%y") == thread.latest_email_date.strftime("%d/%m/%y") %>
+          <%= thread.earliest_email_date.strftime("%d %b %y") %>
         <% else %>
-        <%= thread.last_email_date.strftime("%d %b %y") %>
-        <br>
+          <%= thread.latest_email_date.strftime("%d %b %y") %>
+          <br>
+          <small>(<%= (thread.latest_email_date.to_date - thread.earliest_email_date.to_date).to_i %> days)</small>
         <% end %>
       </p>
     </div>

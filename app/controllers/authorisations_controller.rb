@@ -19,7 +19,7 @@ class AuthorisationsController < ApplicationController
   	params[:tab_filter] = 'highlight' if params['tab_filter'].nil? # default tab
     @tab_filter = params[:tab_filter]
     params_filters = params.slice(:tab_filter)
-    @threads = @authorisation.email_threads.by_latest_email.joins(:tags).where(synced: true).filter(params_filters).includes(:email_messages, :message_attachments, :message_participants, :participants).distinct.all.paginate(page: params[:page], :per_page => 10)
+    @threads = @authorisation.email_threads.by_latest_email.joins(:tags).where(synced: true).filter(params_filters).includes(:message_attachments, :message_participants, :participants).distinct.all.paginate(page: params[:page], :per_page => 10)
     respond_to do |format|
       format.html
       format.js
@@ -40,7 +40,11 @@ class AuthorisationsController < ApplicationController
     @authorisation.granter_id = User.find_or_create_guest(params['authorisation']['granter_email']).id
     @authorisation.status = 'pending'
     if @authorisation.save
-      AuthorisationMailer.request_authorisation(@authorisation).deliver
+      if !@authorisation.granter.guest
+        @authorisation.sync_job(true, 'requester') # Get started syncing the authorisation
+      else
+        AuthorisationMailer.request_authorisation(@authorisation).deliver # Email the granter since we can't sync with guests
+      end
       flash[:notice] = 'Authorisation requested!'
       redirect_to authorisations_path and return
     else
