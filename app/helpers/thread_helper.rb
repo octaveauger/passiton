@@ -50,18 +50,32 @@ module ThreadHelper
 	end
 
 	# Returns the bootstrap class for the glyphicon if the mimetype is known, or a default file style otherwise
-  def glyphicon(type)
-    if %w(PNG GIF JPG).include? type
-      'glyphicon glyphicon-picture'
-    elsif type == 'ICS'
-      'glyphicon glyphicon-calendar'
-    elsif %w(DOC DOCX PDF XLS).include? type
-      'glyphicon glyphicon-list-alt'
-    elsif type == 'ZIP'
-      'glyphicon glyphicon-folder-close'
-    else
-      'glyphicon glyphicon-file'
-    end
-  end
+	def glyphicon_file(type)
+		if %w(PNG GIF JPG).include? type
+			'glyphicon glyphicon-picture'
+		elsif type == 'ICS'
+			'glyphicon glyphicon-calendar'
+		elsif %w(DOC DOCX PDF XLS).include? type
+			'glyphicon glyphicon-list-alt'
+		elsif type == 'ZIP'
+			'glyphicon glyphicon-folder-close'
+		else
+			'glyphicon glyphicon-file'
+		end
+	end
 
+	# Returns the boostrap class for the glyphicon of the Gmail label
+	def glyphicon_label(label)
+		if label[:label_type] == 'system'
+			if label[:name] == 'IMPORTANT'
+				'<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>'
+			elsif label[:name] == 'STARRED'
+				'<span class="glyphicon glyphicon-star warning" aria-hidden="true"></span>'
+			else
+				'<span class="label label-default">' + label[:name] + '</span>'
+			end
+		else
+			'<span class="label label-primary">' + label[:name] + '</span>'
+		end
+	end
 end
