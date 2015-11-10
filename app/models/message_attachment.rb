@@ -3,8 +3,14 @@ class MessageAttachment < ActiveRecord::Base
   mount_uploader :file, AttachmentUploader
 
   def download
-  	client = Gmail.new(self.email_thread.authorisation.granter.tokens.last.fresh_token)
-  	attachment = client.download_attachment(self.email_message_id, self.attachment_id)
+  	begin
+      client = Gmail.new(self.email_thread.authorisation.granter.tokens.last.fresh_token)
+    rescue => e
+      authorisation.granter.register_oauth_cancelled
+      return false
+    end
+
+    attachment = client.download_attachment(self.email_message_id, self.attachment_id)
   	if attachment['data'].nil?
   		false
   	else

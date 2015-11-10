@@ -1,7 +1,12 @@
 class GmailSync
 	# Synchronises everything except the email messages
 	def self.prep_sync(authorisation)
-		client = Gmail.new(authorisation.granter.tokens.last.fresh_token)
+		begin
+			client = Gmail.new(authorisation.granter.tokens.last.fresh_token)
+		rescue => e
+			authorisation.granter.register_oauth_cancelled
+			return false
+		end
 
 		# Sync threads
 		self.sync_threads(authorisation)
@@ -87,7 +92,12 @@ class GmailSync
 
 	# Ensures the authorisation has an up-to-date list of email_threads in the DB
 	def self.sync_threads(authorisation)
-		client = Gmail.new(authorisation.granter.tokens.last.fresh_token)
+		begin
+			client = Gmail.new(authorisation.granter.tokens.last.fresh_token)
+		rescue => e
+			authorisation.granter.register_oauth_cancelled
+			return false
+		end
 
 		thread_db = authorisation.email_threads.all
 		threads = client.list_threads(authorisation.scope)
@@ -114,8 +124,12 @@ class GmailSync
 
 	# Retrieves email messages from Gmail for a given thread and returns an array of EmailMessage
 	def self.get_emails(authorisation, thread_id)
-		client = Gmail.new(authorisation.granter.tokens.last.fresh_token)
-
+		begin
+			client = Gmail.new(authorisation.granter.tokens.last.fresh_token)
+		rescue => e
+			authorisation.granter.register_oauth_cancelled
+			return false
+		end
 		messages = client.get_thread(thread_id) # messages are returned in an ascending by internalDate order (i.e latest email is last)
 		results = []
 
