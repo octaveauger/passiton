@@ -35,18 +35,7 @@
           <span class="badge"><%= thread.email_count %></span>
         <% end %>
         <br>
-        <% if thread.email_count == 1 %>
-          <%= thread.participants_with_delivery('from').first.fullname %>
-          <small> (<%= thread.participants_with_delivery('from').first.company %>)</small>
-        <% else %>
-          <% thread.participants_with_delivery('from').each_with_index do |senders, i| %>
-            <% if i < thread.participants_with_delivery('from').count - 1 %>
-              <%= senders.first_name %><small> (<%= senders.company %>)</small>,
-            <% else i == thread.participants_with_delivery('from').count - 1 %>
-              <%= senders.first_name %><small> (<%= senders.company %>)</small>
-            <% end %>
-          <% end %>
-        <% end %>
+        <%= thread.unique_senders.map { |p| p.first_name + ' ' + p.last_name + ' <small>(' + p.company + '</small>)'  }.join(', ').html_safe %>
         <br>
         <small><%= thread.snippet.html_safe %></small>
       </p>
