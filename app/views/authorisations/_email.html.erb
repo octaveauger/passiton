@@ -1,6 +1,6 @@
 <div class="panel-group">
   <div class="panel panel-default">
-    <div class="panel-heading" data-role="toggle-collapse" data-id="<%= email.message_id %>">
+    <div class="panel-heading <%= 'collapse' if email_counter == 0 %>" data-role="toggle-collapse" data-id="<%= email.message_id %>">
       <div class="col-md-9">
         <p>
           <strong><%= email.sender.fullname %></strong>
@@ -13,7 +13,7 @@
         <p class="text-right"><%= email.email_date.strftime("%d %b %y, %H:%M") %></p>
       </div>
     </div>
-    <div class="panel-collapse collapse" data-role="toggle-collapse" data-id="<%= email.message_id %>">
+    <div class="panel-collapse <%= 'collapse' unless email_counter == 0 %>" data-role="toggle-collapse" data-id="<%= email.message_id %>">
       <div class="panel-body">
         <div class="modal-body">
           <div class="row">
