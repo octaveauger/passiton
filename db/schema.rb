@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151110200740) do
+ActiveRecord::Schema.define(version: 20151111001510) do
 
   create_table "attachment_headers", force: true do |t|
     t.integer  "message_attachment_id"
@@ -23,6 +23,16 @@ ActiveRecord::Schema.define(version: 20151110200740) do
 
   add_index "attachment_headers", ["message_attachment_id"], name: "index_attachment_headers_on_message_attachment_id"
   add_index "attachment_headers", ["name"], name: "index_attachment_headers_on_name"
+
+  create_table "authorisation_searches", force: true do |t|
+    t.integer  "authorisation_id"
+    t.string   "scope"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "authorisation_searches", ["authorisation_id"], name: "index_authorisation_searches_on_authorisation_id"
+  add_index "authorisation_searches", ["scope"], name: "index_authorisation_searches_on_scope"
 
   create_table "authorisations", force: true do |t|
     t.integer  "requester_id"

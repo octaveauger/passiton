@@ -14,6 +14,7 @@ class Authorisation < ActiveRecord::Base
 	has_many :message_participants, through: :email_threads
 	has_many :participants, through: :message_participants
 	has_many :synchronisation_errors
+	has_many :authorisation_searches
   	scope :authorised,  -> { where(:status => 'granted') }
   	scope :uptodate,  -> { where(:synced => true) } # initial sync has been done
 

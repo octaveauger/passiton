@@ -307,4 +307,17 @@ class GmailSync
 
 		email_message
 	end
+
+	# Returns an array with the threadId of threads matching the search scope
+	def self.search_threads(authorisation, search)
+		begin
+			client = Gmail.new(authorisation.granter.tokens.last.fresh_token)
+		rescue => e
+			authorisation.granter.register_oauth_cancelled
+			return false
+		end
+
+		threads = client.list_threads(authorisation.scope + ' ' + search.scope)
+		return threads.map { |t| t['id'] }
+	end
 end
