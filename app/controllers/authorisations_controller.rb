@@ -19,7 +19,18 @@ class AuthorisationsController < ApplicationController
   	params[:tab_filter] = 'highlight' if params['tab_filter'].nil? # default tab
     @tab_filter = params[:tab_filter]
     params_filters = params.slice(:tab_filter)
-    @threads = @authorisation.email_threads.by_latest_email.joins(:tags).where(synced: true).filter(params_filters).includes(:message_attachments, :message_participants, :participants).distinct.all.paginate(page: params[:page], :per_page => 10)
+
+    # Handling searches
+    if params['search'] and !params['search'].blank?
+      @search = @authorisation.authorisation_searches.find_by(scope: params['search'])
+      @search = @authorisation.authorisation_searches.create(scope: params['search']) if @search.nil?
+      @tab_filter = 'search'
+      found_threads = GmailSync.search_threads(@authorisation, @search)
+      @threads = @authorisation.email_threads.by_latest_email.joins(:tags).where(synced: true).where(thread_id: found_threads).includes(:message_attachments, :message_participants, :participants).distinct.all.paginate(page: params[:page], :per_page => 10)
+    else
+      @threads = @authorisation.email_threads.by_latest_email.joins(:tags).where(synced: true).filter(params_filters).includes(:message_attachments, :message_participants, :participants).distinct.all.paginate(page: params[:page], :per_page => 10)
+    end
+
     respond_to do |format|
       format.html
       format.js
