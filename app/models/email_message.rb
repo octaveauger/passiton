@@ -29,7 +29,7 @@ class EmailMessage
 
   # Returns the recipients (excluding bcc)
   def recipients
-    Participant.joins(:message_participants).where('message_participants.email_message_id = ?', self.message_id).where('message_participants.delivery = "to" OR message_participants.delivery = "cc"').uniq
+    Participant.joins(:message_participants).where('message_participants.email_message_id = ?', self.message_id).where("message_participants.delivery = 'to' OR message_participants.delivery = 'cc'").uniq
   end
 
   # Returns a decoded plain text body (use simple_format xxx in the view)
