@@ -1,4 +1,4 @@
-<div class="row heading">
+<div class="row heading container-no-scroll">
   <div class="col-md-9">
     <dl class="dl-horizontal no-margin">
         <dt><p>You are watching:</p></dt>
@@ -13,7 +13,7 @@
   </div>
 </div>
 
-<div class="row">
+<div class="row container-scroll">
   <div class="col-md-2">
     <form class="form-inline pull-right" method="get" action="<%= authorisation_path(@authorisation) %>">
       <div class="input-group">
@@ -33,15 +33,13 @@
       <% if @search %>
         <li role="presentation" class="active">
           <a href="<%= authorisation_path(@authorisation, search: @search.scope) %>">
-            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
             <%= @search.scope %>
           </a>
         </li>
       <% end %>
     </ul>
-
   </div>
-
   <div id="results" class="col-md-5">
     <% if @threads.any? %>
     	<%= render partial: 'authorisations/thread', collection: @threads %>
