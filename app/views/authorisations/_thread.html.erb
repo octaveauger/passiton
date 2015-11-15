@@ -1,83 +1,58 @@
 <div class="row timeline">
 
-  <!-- Modal launcher -->
-  <a class="modal-link" data-toggle="modal" data-role="thread-modal-link" data-target="thread-<%= thread.id %>" data-path="<%= thread_url(thread) %>">
+  <!-- Thread emails launcher -->
+  <a class="thread-action" data-role="thread-email-link" data-path="<%= thread_url(thread) %>">
     <span></span>
   </a>
 
-  <!-- Modal (loaded by ajax) -->
-  <div class="modal fade" id="thread-<%= thread.id %>" tabindex="-1" role="dialog" aria-labelledby="Thread">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
+  <div class="col-md-1">
+    <form action="<%= threads_update_tags_path %>" method="post" data-remote="true" class="form-highlight">
+      <input type="hidden" name="thread_id" value="<%= thread.id %>">
+      <div class="checkbox hide">
+        <label><input type="checkbox" name="tag_highlight" <%= 'checked="checked"' if thread.is_highlighted? %> class="checkbox-highlight" id="checkbox-higlight-<%= thread.id %>">&nbsp;<%= thread.id %></label>
       </div>
-    </div>
-  </div>
-
-  <div class="col-md-8">
-    <div class="col-md-1">
-      <form action="<%= threads_update_tags_path %>" method="post" data-remote="true" class="form-highlight">
-        <input type="hidden" name="thread_id" value="<%= thread.id %>">
-        <div class="checkbox hide">
-          <label><input type="checkbox" name="tag_highlight" <%= 'checked="checked"' if thread.is_highlighted? %> class="checkbox-highlight" id="checkbox-higlight-<%= thread.id %>">&nbsp;<%= thread.id %></label>
-        </div>
-        <a href="" data-action="toggle-checkbox" data-target="checkbox-higlight-<%= thread.id %>">
-          <span class="glyphicon glyphicon-lg glyphicon-pushpin <%= thread.is_highlighted? ? 'active' : 'inactive' %>" aria-hidden="true" data-role="checkbox-indicator"></span>
-        </a>
-      </form>
-    </div>
-    <div class="col-md-9">
-      <p>
-        <% thread.readable_labels.each do |label| %>
-          <%= glyphicon_label(label).html_safe %>
-        <% end %>
-        <b><%= thread.subject %></b>
-        <% if thread.email_count > 1 %>
-          <span class="badge"><%= thread.email_count %></span>
-        <% end %>
-        <br>
-        <%= thread.unique_senders.map { |p| p.first_name + ' ' + p.last_name + ' <small>(' + p.company + '</small>)'  }.join(', ').html_safe %>
-        <br>
-        <small><%= thread.snippet.html_safe %></small>
-      </p>
-    </div>
-    <div class="col-md-2">
-      <p>
-        <% if thread.earliest_email_date.strftime("%d/%m/%y") == thread.latest_email_date.strftime("%d/%m/%y") %>
-          <%= thread.earliest_email_date.strftime("%d %b %y") %>
-        <% else %>
-          <%= thread.latest_email_date.strftime("%d %b %y") %>
-          <br>
-          <small>(<%= (thread.latest_email_date.to_date - thread.earliest_email_date.to_date).to_i %> days)</small>
-        <% end %>
-      </p>
-    </div>
-  </div>
-  <div class="col-md-4"> <!-- Merge last two columns-->
-    <div class="col-md-1">
-    <% if !thread.message_attachments.empty? %>
+      <a href="" data-action="toggle-checkbox" data-target="checkbox-higlight-<%= thread.id %>">
+        <span class="glyphicon glyphicon-lg glyphicon-pushpin <%= thread.is_highlighted? ? 'active' : 'inactive' %>" aria-hidden="true" data-role="checkbox-indicator"></span>
+      </a>
+    </form>
+    <% if !thread.message_attachments.not_inline.empty? %>
+      <a class="thread-action" data-role="trigger-toggle-display" data-target="#attachments-thread-<%= thread.id %>">
         <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>
+      </a>
     <% end %>
-    </div>
-    <div class="col-md-11">
-      <% if thread.message_attachments.not_inline.count > 2 %>
-        <button class="btn btn-default btn-xs btn-attachment" style="vertical-align: middle" type="button" data-toggle="collapse" data-target="#collapse-<%= thread.id %>" aria-expanded="false" aria-controls="collapse-<%= thread.id %>">
-          <span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
-          <%= thread.message_attachments.not_inline.count %>
-        </button>
-        <!-- Attachment collapse -->
-        <div class="collapse" id="collapse-<%= thread.id %>">
-          <div>
-            <ul class="no-bullet">
-              <%= render partial: 'authorisations/attachment', collection: thread.message_attachments %>
-            </ul>
-          </div>
-        </div>
-      <% elsif thread.message_attachments.not_inline.count > 0 %>
-        <ul class="no-bullet">
-          <%= render partial: 'authorisations/attachment', collection: thread.message_attachments %>
-        </ul>
+  </div>
+  <div class="col-md-9">
+    <p>
+      <% thread.readable_labels.each do |label| %>
+        <%= glyphicon_label(label).html_safe %>
       <% end %>
-    </div>
+      <b><%= thread.subject %></b>
+      <% if thread.email_count > 1 %>
+        <span class="badge"><%= thread.email_count %></span>
+      <% end %>
+      <br>
+      <%= thread.unique_senders.map { |p| p.first_name + ' ' + p.last_name + ' <small>(' + p.company + '</small>)'  }.join(', ').html_safe %>
+      <br>
+      <small><%= thread.snippet.html_safe %></small>
+    </p>
+    <% if !thread.message_attachments.not_inline.empty? %>
+      <div id="attachments-thread-<%= thread.id %>" class="hide">
+        <ul class="no-bullet">
+          <%= render partial: 'authorisations/attachment', collection: thread.message_attachments.not_inline %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-md-2">
+    <p>
+      <% if thread.earliest_email_date.strftime("%d/%m/%y") == thread.latest_email_date.strftime("%d/%m/%y") %>
+        <small><%= thread.earliest_email_date.strftime("%d %b") %></small>
+      <% else %>
+        <small><%= thread.latest_email_date.strftime("%d %b") %></small>
+        <br>
+        <small><%= (thread.latest_email_date.to_date - thread.earliest_email_date.to_date).to_i %> days</small>
+      <% end %>
+    </p>
   </div>
 </div>
 

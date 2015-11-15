@@ -14,8 +14,17 @@
 </div>
 
 <div class="row">
-  <div class="col-sm-6">
-    <ul class="nav nav-tabs">
+  <div class="col-md-2">
+    <form class="form-inline pull-right" method="get" action="<%= authorisation_path(@authorisation) %>">
+      <div class="input-group">
+        <input type="text" name="search" class="form-control" placeholder="Search for..." value="<%= @search.scope if @search %>">
+        <span class="input-group-btn">
+          <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+        </span>
+      </div>
+    </form>
+    <hr/>
+    <ul class="nav nav-pills nav-stacked">
       <% [{target: 'highlight', display: 'Highlight'}, {target: 'internal', display: 'Internal'},{target: 'all', display: 'All'}].each do |tab| %>
         <li role="presentation" <%= 'class=active' if @tab_filter == tab[:target] %>>
           <a href="<%= authorisation_path(@authorisation, tab_filter: tab[:target]) %>"><%= tab[:display] %></a>
@@ -30,23 +39,17 @@
         </li>
       <% end %>
     </ul>
-  </div>
-  <div class="col-sm-6">
-    <form class="form-inline pull-right" method="get" action="<%= authorisation_path(@authorisation) %>">
-      <div class="input-group">
-        <input type="text" name="search" class="form-control" placeholder="Search for..." value="<%= @search.scope if @search %>">
-        <span class="input-group-btn">
-          <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-        </span>
-      </div>
-    </form>
-  </div>
-</div>
 
-<div id="results">
-  <% if @threads.any? %>
-  	<%= render partial: 'authorisations/thread', collection: @threads %>
-  <% end %>
+  </div>
+
+  <div id="results" class="col-md-5">
+    <% if @threads.any? %>
+    	<%= render partial: 'authorisations/thread', collection: @threads %>
+    <% end %>
+  </div>
+
+  <div id="emails" class="col-md-5">
+  </div>
 </div>
 
 <div id="infinite-scrolling">

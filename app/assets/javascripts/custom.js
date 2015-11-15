@@ -33,19 +33,24 @@ function initialize() {
 	});
 
 	// Toggle elements on click (hide the one clicked, show all others)
-  $('[data-role="toggle-collapse"]').click(function(e) {
-    e.preventDefault();
-    $('[data-role="toggle-collapse"][data-id="' + $(this).attr('data-id') + '"]').show(); // show all those who have the same data-id
-    $(this).hide(); // hide the one clicked
-  });
+	$('[data-role="toggle-collapse"]').click(function(e) {
+		e.preventDefault();
+		$('[data-role="toggle-collapse"][data-id="' + $(this).attr('data-id') + '"]').show(); // show all those who have the same data-id
+		$(this).hide(); // hide the one clicked
+	});
 
-  // Calls the email thread modal via ajax
-	$('.modal-link[data-role="thread-modal-link"]').on('click', function(e) {
-		$('#' + $(this).attr('data-target')).find('.modal-content').load($(this).attr('data-path'), function(){
+	// Toggle the display of an element when a trigger is clicked (without hiding the trigger)
+	$('[data-role="trigger-toggle-display"]').on('click', function(e) {
+		e.preventDefault();
+		$($(this).attr('data-target')).toggleClass('hide');
+	});
+
+	// Calls the email thread via ajax
+	$('[data-role="thread-email-link"]').on('click', function(e) {
+		$('#emails').load($(this).attr('data-path'), function(){
 			initialize();
 			download_inline_attachments();
 		});
-		$('#' + $(this).attr('data-target')).modal('show');
 	});
 }
 
