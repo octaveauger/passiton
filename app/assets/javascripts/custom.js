@@ -2,6 +2,18 @@
 
 $(function () {
 	initialize();
+	
+	// Infinite scrolling
+	if($('#infinite-scrolling').size() > 0) {
+		$(window).on('scroll', function(e) {
+			more_url = $('.pagination .next_page a').attr('href');
+			if(more_url && $(window).scrollTop() > $(document).height() - $(window).height() - 180) {
+				$('.pagination').html('<img src="/assets/ajax-loader.gif" alt="Loading..." title="Loading..." />');
+            	$.getScript(more_url);
+			}
+		});
+		$(window).scroll(); // Triggers it at page load in case it's not below the fold
+	}
 });
 
 // All JS that should also be available even after we load content via ajax in a modal
@@ -10,19 +22,23 @@ function initialize() {
 	$('[data-toggle="tooltip"]').tooltip();
 
 	// Toggle checkboxes when design elements clicked
-	$('[data-action="toggle-checkbox"]').on('click', function(e) {
+	$('[data-action="toggle-checkbox"]').off('click').on('click', function(e) {
 		e.preventDefault();
-		$('#' + $(this).attr('data-target')).trigger('click');
-		if($('#' + $(this).attr('data-target')).prop('checked')) {
-			$(this).find('[data-role="checkbox-indicator"]').addClass('active').removeClass('inactive');
-		}
-		else {
+		e.stopPropagation();
+		if($($(this).attr('data-target')).prop('checked')) {
+			$($(this).attr('data-target')).prop('checked', false);
 			$(this).find('[data-role="checkbox-indicator"]').addClass('inactive').removeClass('active');
 		}
+		else {
+			$($(this).attr('data-target')).prop('checked', true);
+			$(this).find('[data-role="checkbox-indicator"]').addClass('active').removeClass('inactive');
+		}
+		$($(this).attr('data-target')).closest('form').submit();
+
 	});
 
 	// Show / hide collapsed element when click on collapse trigger
-	$('[data-role="collapse"]').on('click', function(e) {
+	$('[data-role="collapse"]').off('click').on('click', function(e) {
 		e.stopPropagation(); // prevents the click from bubbling and being picked up by parent events
 		$($(this).attr('data-target')).toggleClass('hide');
 	});
@@ -33,20 +49,21 @@ function initialize() {
 	});
 
 	// Toggle elements on click (hide the one clicked, show all others)
-	$('[data-role="toggle-collapse"]').click(function(e) {
+	$('[data-role="toggle-collapse"]').off('click').on('click', function(e) {
 		e.preventDefault();
 		$('[data-role="toggle-collapse"][data-id="' + $(this).attr('data-id') + '"]').show(); // show all those who have the same data-id
 		$(this).hide(); // hide the one clicked
 	});
 
 	// Toggle the display of an element when a trigger is clicked (without hiding the trigger)
-	$('[data-role="trigger-toggle-display"]').on('click', function(e) {
+	$('[data-role="trigger-toggle-display"]').off('click').on('click', function(e) {
+		console.log('expand');
 		e.preventDefault();
 		$($(this).attr('data-target')).toggleClass('hide');
 	});
 
 	// Calls the email thread via ajax
-	$('[data-role="thread-email-link"]').on('click', function(e) {
+	$('[data-role="thread-email-link"]').off('click').on('click', function(e) {
 		$('#emails').load($(this).attr('data-path'), function(){
 			initialize();
 			download_inline_attachments();

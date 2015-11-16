@@ -9,9 +9,9 @@
     <form action="<%= threads_update_tags_path %>" method="post" data-remote="true" class="form-highlight">
       <input type="hidden" name="thread_id" value="<%= thread.id %>">
       <div class="checkbox hide">
-        <label><input type="checkbox" name="tag_highlight" <%= 'checked="checked"' if thread.is_highlighted? %> class="checkbox-highlight" id="checkbox-higlight-<%= thread.id %>">&nbsp;<%= thread.id %></label>
+        <label><input type="checkbox" name="tag_highlight" <%= 'checked="checked"' if thread.is_highlighted? %> class="checkbox-highlight" id="checkbox-highlight-<%= thread.id %>">&nbsp;<%= thread.id %></label>
       </div>
-      <a href="" data-action="toggle-checkbox" data-target="checkbox-higlight-<%= thread.id %>">
+      <a href="" data-action="toggle-checkbox" data-target="#checkbox-highlight-<%= thread.id %>">
         <span class="glyphicon glyphicon-lg glyphicon-pushpin <%= thread.is_highlighted? ? 'active' : 'inactive' %>" aria-hidden="true" data-role="checkbox-indicator"></span>
       </a>
     </form>
