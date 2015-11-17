@@ -11,7 +11,7 @@ class AuthorisationsController < ApplicationController
   end
 
   def show
-  	@authorisation = current_user.requested_authorisations.find(params[:id])
+  	@authorisation = current_user.requested_authorisations.find_by(id: params[:id])
   	if @authorisation.nil? or !@authorisation.enabled or !@authorisation.synced
   		flash[:alert] = "Either you are not authorised anymore or it hasn't finished syncing"
   		redirect_to authorisations_path and return
@@ -29,13 +29,15 @@ class AuthorisationsController < ApplicationController
       found_threads = GmailSync.search_threads(@authorisation, @search)
       @threads = @authorisation.email_threads.by_latest_email.joins(:tags).where(synced: true).where(thread_id: found_threads).includes(:message_attachments, :message_participants, :participants).distinct.all.paginate(page: params[:page], :per_page => 10)
     else
-      if @authorisation.email_threads.joins(:tags).where(synced: true).filter(params_filters).empty? and !tab_selected
+      if !tab_selected and @authorisation.email_threads.joins(:tags).where(synced: true).filter(params_filters).empty?
         params[:tab_filter] = 'all'
         @tab_filter = 'all'
         params_filters = params.slice(:tab_filter)
       end
       @threads = @authorisation.email_threads.by_latest_email.joins(:tags).where(synced: true).filter(params_filters).includes(:message_attachments, :message_participants, :participants).distinct.all.paginate(page: params[:page], :per_page => 10)
     end
+
+    @searches = @authorisation.authorisation_searches.order('id desc').limit(5).all
 
     @container = false
     respond_to do |format|

@@ -31,11 +31,11 @@
             <a href="<%= authorisation_path(@authorisation, tab_filter: tab[:target]) %>"><%= tab[:display] %></a>
           </li>
         <% end %>
-        <% if @search %>
-          <li role="presentation" class="active">
-            <a href="<%= authorisation_path(@authorisation, search: @search.scope) %>">
+        <% @searches.each do |search| %>
+          <li role="presentation" <%= 'class=active' if @search and @search.scope == search.scope %>>
+            <a href="<%= authorisation_path(@authorisation, search: search.scope) %>">
               <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-              <%= @search.scope %>
+              <%= search.scope %>
             </a>
           </li>
         <% end %>
