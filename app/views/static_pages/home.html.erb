@@ -6,7 +6,11 @@
     <p class="hidden-xs">and get quickly up to speed</p>
     <p class="visible-xs">Pass on your emails to colleagues</p>
     <div class="row">
-      <%= link_to "Connect your inbox", user_omniauth_authorize_path(:google_oauth2), :class => 'btn btn-hollow btn-lg' %>
+      <% if signed_in? %>
+        <%= link_to "See your requests", authorisations_path, :class => 'btn btn-hollow btn-lg' %>
+      <% else %>
+        <%= link_to "Connect your inbox", user_omniauth_authorize_path(:google_oauth2), :class => 'btn btn-hollow btn-lg' %>
+      <% end %>
     </div>
   </div>
 </div>
@@ -72,7 +76,8 @@
     </div>
     <hr>
     <div class="row centered">
-      <p><%= link_to "Request access", user_omniauth_authorize_path(:google_oauth2), :class => 'btn btn-hollow btn-lg' %>
+      <p>
+        <%= link_to "Request access", authorisation_request_path, :class => 'btn btn-hollow btn-lg' %>
       </p>
     </div>
   </div>
