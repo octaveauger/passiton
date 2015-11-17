@@ -64,7 +64,8 @@ function initialize() {
 
 	// Calls the email thread via ajax
 	$('[data-role="thread-email-link"]').off('click').on('click', function(e) {
-		$('#emails').load($(this).attr('data-path'), function(){
+		$('#emails').html('<img src="../assets/ajax-loader-big.gif" class="center-block" />');
+		$('#emails').load($(this).attr('data-path'), function() {
 			initialize();
 			download_inline_attachments();
 		});
