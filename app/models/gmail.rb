@@ -50,7 +50,7 @@ class Gmail
 		next_page_token = nil
 		loop do
 			results = list_messages_page(scope, next_page_token)
-			messages += results['messages']
+			messages += results['messages'] if results['messages']
 			next_page_token = results['nextPageToken']
 			break if results['nextPageToken'].nil?
 		end
