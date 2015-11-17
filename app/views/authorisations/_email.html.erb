@@ -1,7 +1,12 @@
 <div class="panel-group">
   <div class="panel panel-default">
     <div class="panel-heading <%= 'collapse' if email_counter == 0 %>" data-role="toggle-collapse" data-id="<%= email.message_id %>">
-      <div class="col-md-9">
+      <div class="col-md-1">
+        <% if !@message_attachments.find_for_message(email.message_id).empty? %>
+          <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>
+        <% end %>
+      </div>
+      <div class="col-md-8">
         <p>
           <strong><%= email.sender.fullname %></strong>
           <br>
@@ -14,64 +19,62 @@
       </div>
     </div>
     <div class="panel-collapse <%= 'collapse' unless email_counter == 0 %>" data-role="toggle-collapse" data-id="<%= email.message_id %>">
-      <div class="panel-body">
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-md-9">
-              <ul class="list-unstyled">
-                <li>
-                  <strong>
-                    <% email.participants_with_delivery('from').each do |sender| %>
-                    <span data-toggle="tooltip" data-placement="bottom" data-html="true" title="<%= sender.fullname + " (" + sender.company + ") " + sender.email %>">
-                        <%= sender.fullname %>
-                      </span>
-                    <% end %>
-                  </strong>
-                </li>
-                <li>
-                  <small>
-                    to
-                    <%= email.recipients.map { |r| '<span data-toggle="tooltip" data-placement="bottom" data-html="true" title="' + r.fullname + ' (' + r.company + ') ' + r.email + '">' + r.first_name + '</span>' }.join(', ').html_safe %>
-                  </small>
-                </li>
-              </p>
-            </div>
-            <div class="col-md-3">
-              <p class="text-right"><%= email.email_date.strftime("%d %b %y, %H:%M") %></p>
-            </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-9">
+            <ul class="list-unstyled">
+              <li>
+                <strong>
+                  <% email.participants_with_delivery('from').each do |sender| %>
+                  <span data-toggle="tooltip" data-placement="bottom" data-html="true" title="<%= sender.fullname + " (" + sender.company + ") " + sender.email %>">
+                      <%= sender.fullname %>
+                    </span>
+                  <% end %>
+                </strong>
+              </li>
+              <li>
+                <small>
+                  to
+                  <%= email.recipients.map { |r| '<span data-toggle="tooltip" data-placement="bottom" data-html="true" title="' + r.fullname + ' (' + r.company + ') ' + r.email + '">' + r.first_name + '</span>' }.join(', ').html_safe %>
+                </small>
+              </li>
+            </p>
           </div>
-          <div class="row">
-            <div class="col-md-12"
-              <% if email.body_html.empty? %>
-                <%= simple_format email.body_text_sections[:main] %>
-                <% if !email.body_text_sections[:expanded].empty? %>
-                  <div class="expanded-email">
-                     <a class="btn btn-default btn-xs" role="button" data-role="collapse" data-target="#expanded-<%= email.message_id %>" data-expanded="false">...</a>
-                     <div id="expanded-<%= email.message_id %>">
-                      <%= simple_format email.body_text_sections[:expanded] %>
-                     </div>
-                  </div>
-                <% end %>
-              <% else %>
-                <%= email.body_html_sections[:main].html_safe %>
-                <% if !email.body_html_sections[:expanded].empty? %>
-                  <div class="expanded-email">
-                     <a class="btn btn-default btn-xs" role="button" data-role="collapse" data-target="#expanded-<%= email.message_id %>" data-expanded="false">...</a>
-                     <div id="expanded-<%= email.message_id %>">
-                      <%= email.body_html_sections[:expanded].html_safe %>
-                     </div>
-                  </div>
-                <% end %>
+          <div class="col-md-3">
+            <p class="text-right"><%= email.email_date.strftime("%d %b %y, %H:%M") %></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12"
+            <% if email.body_html.empty? %>
+              <%= simple_format email.body_text_sections[:main] %>
+              <% if !email.body_text_sections[:expanded].empty? %>
+                <div class="expanded-email">
+                   <a class="btn btn-default btn-xs" role="button" data-role="collapse" data-target="#expanded-<%= email.message_id %>" data-expanded="false">...</a>
+                   <div id="expanded-<%= email.message_id %>">
+                    <%= simple_format email.body_text_sections[:expanded] %>
+                   </div>
+                </div>
               <% end %>
-            </div>
+            <% else %>
+              <%= email.body_html_sections[:main].html_safe %>
+              <% if !email.body_html_sections[:expanded].empty? %>
+                <div class="expanded-email">
+                   <a class="btn btn-default btn-xs" role="button" data-role="collapse" data-target="#expanded-<%= email.message_id %>" data-expanded="false">...</a>
+                   <div id="expanded-<%= email.message_id %>">
+                    <%= email.body_html_sections[:expanded].html_safe %>
+                   </div>
+                </div>
+              <% end %>
+            <% end %>
           </div>
+        </div>
+        <% if !@message_attachments.find_for_message(email.message_id).empty? %>
           <hr class="hr-dotted">
           <ul class="no-bullet">
-            <%= render partial: 'authorisations/attachment', collection: @message_attachments.find_for_message(email.message_id) %>
+              <%= render partial: 'authorisations/attachment', collection: @message_attachments.find_for_message(email.message_id) %>
           </ul>
-          <% if !Rails.env.production? %>
-            <p><small>(Testing: <%= email.message_id %>)</small></p>
-          <% end %>
+        <% end %>
       </div>
     </div>
   </div>

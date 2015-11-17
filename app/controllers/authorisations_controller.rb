@@ -31,6 +31,7 @@ class AuthorisationsController < ApplicationController
       @threads = @authorisation.email_threads.by_latest_email.joins(:tags).where(synced: true).filter(params_filters).includes(:message_attachments, :message_participants, :participants).distinct.all.paginate(page: params[:page], :per_page => 10)
     end
 
+    @container = false
     respond_to do |format|
       format.html
       format.js

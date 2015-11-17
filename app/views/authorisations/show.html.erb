@@ -1,55 +1,57 @@
-<div class="row heading container-no-scroll">
-  <div class="col-md-9">
-    <dl class="dl-horizontal no-margin">
-        <dt><p>You are watching:</p></dt>
-        <dd><p><%= @authorisation.scope %></p></dd>
-        <dt><p>Granter:</p></dt>
-        <dd><p><%= @authorisation.granter.first_name %> <%= @authorisation.granter.last_name %>
-          (<%= @authorisation.granter.email %>)</p></dd>
-    </dl>
+<div class="container-fluid">
+  <div class="row heading container-no-scroll">
+    <div class="col-md-9">
+      <dl class="dl-horizontal no-margin">
+          <dt><p>You are watching:</p></dt>
+          <dd><p><%= @authorisation.scope %></p></dd>
+          <dt><p>Granter:</p></dt>
+          <dd><p><%= @authorisation.granter.first_name %> <%= @authorisation.granter.last_name %>
+            (<%= @authorisation.granter.email %>)</p></dd>
+      </dl>
+    </div>
+    <div class="col-md-3">
+      <%= link_to 'Ask for new access', authorisation_request_path, class: 'btn btn-white pull-right' %>
+    </div>
   </div>
-  <div class="col-md-3">
-    <%= link_to 'Ask for new access', authorisation_request_path, class: 'btn btn-primary pull-right' %>
-  </div>
-</div>
 
-<div class="row container-scroll">
-  <div class="col-md-2">
-    <form class="form-inline pull-right" method="get" action="<%= authorisation_path(@authorisation) %>">
-      <div class="input-group">
-        <input type="text" name="search" class="form-control" placeholder="Search for..." value="<%= @search.scope if @search %>">
-        <span class="input-group-btn">
-          <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-        </span>
-      </div>
-    </form>
-    <hr/>
-    <ul class="nav nav-pills nav-stacked">
-      <% [{target: 'highlight', display: 'Highlight'}, {target: 'internal', display: 'Internal'},{target: 'all', display: 'All'}].each do |tab| %>
-        <li role="presentation" <%= 'class=active' if @tab_filter == tab[:target] %>>
-          <a href="<%= authorisation_path(@authorisation, tab_filter: tab[:target]) %>"><%= tab[:display] %></a>
-        </li>
+  <div class="row container-scroll">
+    <div class="col-md-2">
+      <form class="form-horizontal pull-right" method="get" action="<%= authorisation_path(@authorisation) %>">
+        <div class="input-group">
+          <input type="text" name="search" class="form-control" placeholder="Search for..." value="<%= @search.scope if @search %>">
+          <span class="input-group-btn">
+            <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+          </span>
+        </div>
+      </form>
+      <hr/>
+      <ul class="nav nav-pills nav-stacked">
+        <% [{target: 'highlight', display: 'Highlight'}, {target: 'internal', display: 'Internal'},{target: 'all', display: 'All'}].each do |tab| %>
+          <li role="presentation" <%= 'class=active' if @tab_filter == tab[:target] %>>
+            <a href="<%= authorisation_path(@authorisation, tab_filter: tab[:target]) %>"><%= tab[:display] %></a>
+          </li>
+        <% end %>
+        <% if @search %>
+          <li role="presentation" class="active">
+            <a href="<%= authorisation_path(@authorisation, search: @search.scope) %>">
+              <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+              <%= @search.scope %>
+            </a>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+    <div id="results" class="col-md-5">
+      <% if @threads.any? %>
+      	<%= render partial: 'authorisations/thread', collection: @threads %>
       <% end %>
-      <% if @search %>
-        <li role="presentation" class="active">
-          <a href="<%= authorisation_path(@authorisation, search: @search.scope) %>">
-            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-            <%= @search.scope %>
-          </a>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-  <div id="results" class="col-md-5">
-    <% if @threads.any? %>
-    	<%= render partial: 'authorisations/thread', collection: @threads %>
-    <% end %>
+    </div>
+
+    <div id="emails" class="col-md-5">
+    </div>
   </div>
 
-  <div id="emails" class="col-md-5">
+  <div id="infinite-scrolling">
+    <%= will_paginate @threads %>
   </div>
-</div>
-
-<div id="infinite-scrolling">
-  <%= will_paginate @threads %>
 </div>
