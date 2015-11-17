@@ -14,6 +14,11 @@ $(function () {
 		});
 		$(window).scroll(); // Triggers it at page load in case it's not below the fold
 	}
+
+	// Opens the first email thread on page load
+	if($('#results').find('[data-role="thread-email-link"]').length > 0) {
+		$('#results').find('[data-role="thread-email-link"]').first().click();
+	}
 });
 
 // All JS that should also be available even after we load content via ajax in a modal
