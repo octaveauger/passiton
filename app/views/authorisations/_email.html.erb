@@ -2,7 +2,7 @@
   <div class="panel panel-default">
     <div class="panel-heading <%= 'collapse' if email_counter == 0 %>" data-role="toggle-collapse" data-id="<%= email.message_id %>">
       <div class="col-md-1">
-        <% if !@message_attachments.find_for_message(email.message_id).empty? %>
+        <% if !@message_attachments.find_for_message(email.message_id).not_inline.empty? %>
           <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>
         <% end %>
       </div>
@@ -69,10 +69,10 @@
             <% end %>
           </div>
         </div>
-        <% if !@message_attachments.find_for_message(email.message_id).empty? %>
+        <% if !@message_attachments.find_for_message(email.message_id).not_inline.empty? %>
           <hr class="hr-dotted">
           <ul class="no-bullet">
-              <%= render partial: 'authorisations/attachment', collection: @message_attachments.find_for_message(email.message_id) %>
+              <%= render partial: 'authorisations/attachment', collection: @message_attachments.find_for_message(email.message_id).not_inline %>
           </ul>
         <% end %>
       </div>
