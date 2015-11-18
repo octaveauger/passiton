@@ -2,7 +2,7 @@
 
 $(function () {
 	initialize();
-	
+
 	// Infinite scrolling
 	if($('#infinite-scrolling').size() > 0) {
 		$(window).on('scroll', function(e) {
@@ -69,7 +69,7 @@ function initialize() {
 
 	// Calls the email thread via ajax
 	$('[data-role="thread-email-link"]').off('click').on('click', function(e) {
-		$('#emails').html('<img src="../assets/ajax-loader-big.gif" class="center-block" />');
+		$('#emails').html('<img src="../assets/ajax-monster.gif" class="center-block" />');
 		$('#emails').load($(this).attr('data-path'), function() {
 			initialize();
 			download_inline_attachments();

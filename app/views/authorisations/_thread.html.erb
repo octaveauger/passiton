@@ -12,12 +12,12 @@
         <label><input type="checkbox" name="tag_highlight" <%= 'checked="checked"' if thread.is_highlighted? %> class="checkbox-highlight" id="checkbox-highlight-<%= thread.id %>">&nbsp;<%= thread.id %></label>
       </div>
       <a href="" data-action="toggle-checkbox" data-target="#checkbox-highlight-<%= thread.id %>">
-        <span class="glyphicon glyphicon-lg glyphicon-pushpin <%= thread.is_highlighted? ? 'active' : 'inactive' %>" aria-hidden="true" data-role="checkbox-indicator"></span>
+        <span class="glyphicon glyphicon-lg glyphicon-pushpin glyphicon-click <%= thread.is_highlighted? ? 'active' : 'inactive' %>" aria-hidden="true" data-role="checkbox-indicator"></span>
       </a>
     </form>
     <% if !thread.message_attachments.not_inline.empty? %>
-      <a class="thread-action" data-role="trigger-toggle-display" data-target="#attachments-thread-<%= thread.id %>">
-        <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>
+      <a data-role="trigger-toggle-display" data-target="#attachments-thread-<%= thread.id %>">
+        <span class="glyphicon glyphicon-paperclip glyphicon-click" aria-hidden="true"></span>
       </a>
     <% end %>
   </div>
