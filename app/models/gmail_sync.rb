@@ -1,10 +1,12 @@
 class GmailSync
 	# Synchronises everything except the email messages
 	def self.prep_sync(authorisation)
+		Rails.logger.info('Gmail sync prep_sync started')
 		begin
 			client = Gmail.new(authorisation.granter.tokens.last.fresh_token)
 		rescue => e
 			authorisation.granter.register_oauth_cancelled
+			Rails.logger.info('Gmail client error - not initialised in prep_sync')
 			return false
 		end
 
@@ -33,6 +35,7 @@ class GmailSync
 
 			# Get messages for the thread
 			messages = client.get_thread(thread.thread_id)
+			Rails.logger.info('Gmail sync - messages listed - count: ' + messages['messages'].count.to_s)
 
 			# Go through each message and prepare what needs to be stored in the DB
 			messages['messages'].each do |message|
@@ -92,10 +95,12 @@ class GmailSync
 
 	# Ensures the authorisation has an up-to-date list of email_threads in the DB
 	def self.sync_threads(authorisation)
+		Rails.logger.info('Gmail sync sync_threads started')
 		begin
 			client = Gmail.new(authorisation.granter.tokens.last.fresh_token)
 		rescue => e
 			authorisation.granter.register_oauth_cancelled
+			Rails.logger.info('Gmail client error - not initialised in sync_threads')
 			return false
 		end
 
@@ -120,6 +125,7 @@ class GmailSync
 				authorisation.synchronisation_errors.create(content: threads.to_json)
 		    end
 		end
+		Rails.logger.info('Gmail sync threads completed for authorisation ' + authorisation.id.to_s + ' - count of found threads via Gmail call: ' + threads.count.to_s)
 	end
 
 	# Retrieves email messages from Gmail for a given thread and returns an array of EmailMessage
@@ -310,10 +316,12 @@ class GmailSync
 
 	# Returns an array with the threadId of threads matching the search scope
 	def self.search_threads(authorisation, search)
+		Rails.logger.info('Gmail sync search_threads started')
 		begin
 			client = Gmail.new(authorisation.granter.tokens.last.fresh_token)
 		rescue => e
 			authorisation.granter.register_oauth_cancelled
+			Rails.logger.info('Gmail client error - not initialised in search_threads')
 			return false
 		end
 

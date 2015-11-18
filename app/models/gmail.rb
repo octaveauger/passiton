@@ -9,6 +9,7 @@ class Gmail
 		@client = Google::APIClient.new
 		@client.authorization.access_token = token
 		@service = @client.discovered_api('gmail')
+		Rails.logger.info('Gmail client initialised')
 	end
 
 	DEFAULT_OPTIONS = {
@@ -18,6 +19,7 @@ class Gmail
 
 	# Grab all threads page by page and returns an array with each thread as a hash
 	def list_threads(scope)
+		Rails.logger.info('Gmail list threads called - scope: ' + scope)
 		threads = []
 		next_page_token = nil
 		loop do
@@ -26,6 +28,7 @@ class Gmail
 			next_page_token = results['nextPageToken']
 			break if results['nextPageToken'].nil?
 		end
+		Rails.logger.info('Gmail list threads complete - results count: ' + threads.count.to_s)
 		threads
 	end
 
@@ -46,6 +49,7 @@ class Gmail
 
 	# Grab all messages page by page
 	def list_messages(scope)
+		Rails.logger.info('Gmail list messages called - scope: ' + scope)
 		messages = []
 		next_page_token = nil
 		loop do
@@ -54,6 +58,7 @@ class Gmail
 			next_page_token = results['nextPageToken']
 			break if results['nextPageToken'].nil?
 		end
+		Rails.logger.info('Gmail list messages complete - results count: ' + messages.count.to_s)
 		messages
 	end
 
