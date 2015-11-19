@@ -13,17 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20151111001510) do
 
-  create_table "attachment_headers", force: true do |t|
-    t.integer  "message_attachment_id"
-    t.string   "name"
-    t.text     "value"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "attachment_headers", ["message_attachment_id"], name: "index_attachment_headers_on_message_attachment_id"
-  add_index "attachment_headers", ["name"], name: "index_attachment_headers_on_name"
-
   create_table "authorisation_searches", force: true do |t|
     t.integer  "authorisation_id"
     t.string   "scope"
@@ -50,34 +39,6 @@ ActiveRecord::Schema.define(version: 20151111001510) do
   add_index "authorisations", ["requester_id"], name: "index_authorisations_on_requester_id"
   add_index "authorisations", ["status"], name: "index_authorisations_on_status"
   add_index "authorisations", ["synced"], name: "index_authorisations_on_synced"
-
-  create_table "email_headers", force: true do |t|
-    t.integer  "email_message_id"
-    t.string   "name"
-    t.text     "value"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "email_headers", ["email_message_id"], name: "index_email_headers_on_email_message_id"
-  add_index "email_headers", ["name"], name: "index_email_headers_on_name"
-
-  create_table "email_messages", force: true do |t|
-    t.integer  "email_thread_id"
-    t.string   "message_id"
-    t.text     "snippet"
-    t.string   "history_id"
-    t.string   "internal_date"
-    t.text     "body_text"
-    t.text     "body_html"
-    t.string   "size_estimate"
-    t.string   "mime_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "subject"
-  end
-
-  add_index "email_messages", ["email_thread_id"], name: "index_email_messages_on_email_thread_id"
 
   create_table "email_threads", force: true do |t|
     t.integer  "authorisation_id"

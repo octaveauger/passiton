@@ -128,36 +128,8 @@ dl.no-margin {
 
 /*  Page specific */
 
-.timeline-header, .timeline {
-  padding-bottom: 0.3em;
-  padding-top: 0.3em;
-  border-top: 1px solid $gray-light;
-  position:relative;
-  p {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-bottom: 0;
-  }
-}
-
 .table-header {
   font-weight: bold;
-}
-
-.email-border {
-  border-color: $gray;
-  border-style: solid none;
-  border-width: 5px 0;
-}
-
-.heading {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding-top: 10px;
-  border: 1px solid #DDD;
-  border-radius: 4px;
-  background: #fff;
 }
 
 .panel-heading{
@@ -170,7 +142,37 @@ dl.no-margin {
 
 /* Timeline page */
 
-.timeline .modal-link span{
+/* Timeline: solution of http://benfrain.com/independent-scrolling-panels-body-scroll-using-just-css/ */
+.container-no-scroll{
+  display: flex;
+  overflow: hidden;
+  height:auto;
+  position: relative;
+}
+
+.container-scroll{
+  display: flex;
+  overflow: hidden;
+  height: 80vh; /* limits the view to be a full-height with the other elements */
+  position: relative;
+  backface-visibility: hidden;
+  will-change: overflow;
+}
+
+#results, #emails{
+  overflow-y: scroll; /* scroll along y-axis */
+  height: auto;
+}
+
+.heading {
+  padding-top: 10px;
+  border: 1px solid #DDD;
+  border-radius: 4px;
+  background: #fff;
+  margin-bottom: 10px;
+}
+
+.thread-action span { /* make the div clickable */
   position:absolute;
   width:100%;
   height:100%;
@@ -179,6 +181,19 @@ dl.no-margin {
   text-decoration:none;
   z-index:1;
   background-image: url('empty.gif')
+}
+
+.timeline-header, .timeline {
+  padding-bottom: 0.3em;
+  padding-top: 0.3em;
+  border-top: 1px solid $gray-light;
+  position:relative;
+  p { /* make the text ellipsed */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0;
+  }
 }
 
 .attachment{
@@ -195,13 +210,23 @@ dl.no-margin {
   }
 }
 
-.glyphicon-pushpin{
+.email-border {
+  border-color: $gray;
+  border-style: solid none;
+  border-width: 5px 0;
+}
+
+.glyphicon-click{
   z-index: 3;
 }
 
 .timeline:hover{
 background-color: $gray-lighter;
 cursor: pointer;
+}
+
+.list-group-item{
+  margin: 5px;
 }
 
 /* Size */
@@ -238,25 +263,6 @@ cursor: pointer;
     width: 88.88888%;
 }
 
-
-/* Modal */
-
-.modal {
-  padding-top:62px ;
-}
-
-.modal-header {
-  border-bottom: 1px solid $gray-light;
-  padding-top: 3px;
-  padding-bottom:3px;
-  p {
-    margin-bottom: 0;
-  }
-}
-
-.modal-body {
-  border-bottom: 2px solid $gray-light;
-}
 
 /* Header nav */
 
@@ -401,6 +407,12 @@ a, a:visited {
   background: $brand-color;
   border: 1px solid #fff;
   color: #fff !important;
+}
+
+.btn-white {
+  background: #fff;
+  border: 1px solid $brand-color;
+  color: $brand-color !important;
 }
 
 button .badge.state-on {
