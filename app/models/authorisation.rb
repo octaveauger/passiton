@@ -49,6 +49,7 @@ class Authorisation < ActiveRecord::Base
 		case self.status
 		when 'granted'
 			if !self.synced
+        		Rails.logger.info('Authorisation update_status granted - gmail sync launched from granter')
 				self.sync_job(true, 'granter')
 			else
 				AuthorisationMailer.authorisation_granted(self).deliver

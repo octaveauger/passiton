@@ -25,7 +25,7 @@ class AuthorisationsController < ApplicationController
       @search = @authorisation.authorisation_searches.find_by(scope: params['search'])
       @search = @authorisation.authorisation_searches.create(scope: params['search']) if @search.nil?
       @tab_filter = 'search'
-      Rails.logger.info('Auth search started for scope: ' + @authorisation.scope + params['search'] + ' and id: ' + @authorisation.id.to_s)
+      Rails.logger.info('Auth search started for scope: ' + @authorisation.scope + ' ' + params['search'] + ' and id: ' + @authorisation.id.to_s)
       found_threads = GmailSync.search_threads(@authorisation, @search)
       Rails.logger.info('Auth search completed for scope: ' + @authorisation.scope + params['search'] + ' and id: ' + @authorisation.id.to_s + ' with found thread count: ' + found_threads.count.to_s)
       @threads = @authorisation.email_threads.by_latest_email.joins(:tags).where(synced: true).where(thread_id: found_threads).includes(:message_attachments, :message_participants, :participants).distinct.all.paginate(page: params[:page], :per_page => 10)
@@ -54,7 +54,7 @@ class AuthorisationsController < ApplicationController
     @authorisation.status = 'pending'
     if @authorisation.save
       if !@authorisation.granter.guest
-        Rails.logger.info('Auth controller create - gmail sync launched')
+        Rails.logger.info('Auth controller create - gmail sync launched from requester')
         @authorisation.sync_job(true, 'requester') # Get started syncing the authorisation
       else
         AuthorisationMailer.request_authorisation(@authorisation).deliver # Email the granter since we can't sync with guests
