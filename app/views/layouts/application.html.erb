@@ -19,5 +19,14 @@
   <%= debug(params) if Rails.env.development? %>
 </div>
 
+<script type="text/javascript">
+    window.doorbellOptions = {
+        appKey: 'E8ZVd5Ht0dB3SS9E667oDJKiaqRjRf0hZqy2ggi3hxsH7xKIvDDmkvU8c2IlwnLZ'
+    };
+    (function(d, t) {
+        var g = d.createElement(t);g.id = 'doorbellScript';g.type = 'text/javascript';g.async = true;g.src = 'https://embed.doorbell.io/button/2643?t='+(new Date().getTime());(d.getElementsByTagName('head')[0]||d.getElementsByTagName('body')[0]).appendChild(g);
+    }(document, 'script'));
+</script>
+
 </body>
 </html>
