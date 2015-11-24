@@ -55,8 +55,10 @@ class Authorisation < ActiveRecord::Base
 				AuthorisationMailer.authorisation_granted(self).deliver
 			end
 		when 'denied'
+			AuthorisationRevokerJob.new.async.perform(self)
 			AuthorisationMailer.authorisation_denied(self).deliver
 		when 'revoked'
+			AuthorisationRevokerJob.new.async.perform(self)
 			AuthorisationMailer.authorisation_revoked(self).deliver
 		end
 	end
