@@ -4,10 +4,10 @@ class EmailThread < ActiveRecord::Base
 	include Filterable
 
 	belongs_to :authorisation
-	has_many :message_attachments
-	has_many :message_participants
+	has_many :message_attachments, dependent: :destroy
+	has_many :message_participants, dependent: :destroy
 	has_many :participants, through: :message_participants
-	has_many :tags
+	has_many :tags, dependent: :destroy
   	scope :by_latest_email,  -> { order('latest_email_date desc') }
 
 	# Returns an array of label names, types etc. for the thread
