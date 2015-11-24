@@ -38,6 +38,7 @@ gem 'roadie-rails', '~> 1.0.6'
 gem 'nokogiri', '~> 1.6.6.2'
 gem 'boxview.rb'
 gem 'exception_notification'
+gem 'cabin', '~> 0.7.1'
 
 group :doc do
   gem 'sdoc', '0.3.20', require: false

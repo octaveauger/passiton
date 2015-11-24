@@ -39,7 +39,7 @@ class EmailThread < ActiveRecord::Base
 
 	# Checks if one of the participants belongs to the scope of the authorisation (e.g octave@gocardless.com belongs to 'GoCardless')
 	def has_participant_from_scope?
-		scope_words = self.authorisation.scope.downcase.split(' ')
+		scope_words = self.authorisation.scope.downcase.gsub(/([_@#!%()\-=;><,{}\~\[\]\.\/\?\"\*\^\$\+\-]+)/, ' ').split(' ')
 		# Clean up scope words (e.g if one is email, get domain instead)
 		scope_words.each do |word, index|
 			if word[/.+@.+\..+/i] # if it has an email format
