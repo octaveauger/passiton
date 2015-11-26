@@ -1,7 +1,7 @@
 <tr>
 	<td class="vertical-centered"><%= requested_authorisation.created_at.strftime("%d/%m/%y") %></td>
 	<td class="vertical-centered"><%= requested_authorisation.requester.full_identity %></td>
-	<td class="vertical-centered"><%= requested_authorisation.scope %></td>
+	<td class="vertical-centered"><%= requested_authorisation.scope %><br/><%= link_to 'View', authorisation_path(requested_authorisation) %></td>
 	<td class="vertical-centered"><%= requested_authorisation.status.capitalize %></td>
 	<td class="vertical-centered">
 		<% requested_authorisation.possible_statuses.each do |possible_status| %>

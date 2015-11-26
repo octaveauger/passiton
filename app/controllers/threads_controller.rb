@@ -2,8 +2,9 @@ class ThreadsController < ApplicationController
   before_action :logged_in_user
 
   def show
-  	@thread = current_user.email_threads.where(synced: true).find_by(id: params['id'])
-  	if !@thread.nil?
+  	thread_db = EmailThread.where(synced: true).find_by(id: params['id'])
+    if !thread_db.nil? and thread_db.authorisation.enabled and current_user == (thread_db.authorisation.granter or thread_db.authorisation.requester)
+      @thread = thread_db
 	  	@emails = GmailSync.get_emails(@thread.authorisation, @thread.thread_id).sort_by { |e| e.internal_date }.reverse
       @message_attachments = @thread.message_attachments
 	 end
