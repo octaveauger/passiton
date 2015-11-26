@@ -2,3 +2,4 @@
 	<h2><%= @thread.subject %></h2>
 	<%= render partial: 'authorisations/email', collection: @emails %>
 <% end %>
+<%= @debug.to_json %>
