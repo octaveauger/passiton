@@ -1,17 +1,28 @@
 <div class="row">
-  <h1 class="text-center">Access requests from others</h1>
-
+  <div class="col-md-12">
+    <h1>Requests</h1>
+    <p class="lead">
+      Here are all requests you have received from others.
+    </p>
+  </div>
+</div>
+<hr>
+<div class="row center-block hidden-xs">
   <% if @authorisations.any? %>
-  	<table class="table table-hover table-responsive">
-    <tr>
-      <th>Date</th>
-      <th>Requester</th>
-      <th>About</th>
-      <th>Status</th>
-      <th class="centered">Action</th>
-    <tr>
-  		<%= render partial: 'authorisations/requested_authorisation', collection: @authorisations %>
-  	</table>
+    <div class="col-md-1">
+      <h3>Date</h3>
+    </div>
+    <div class="col-md-2">
+      <h3>Requester</h3>
+    </div>
+    <div class="col-md-offset-1 col-md-3">
+      <h3>About</h3>
+    </div>
+    <div class="col-md-1">
+      <h3>Status</h3>
+    </div>
+  </div>
+	<%= render partial: 'authorisations/requested_authorisation', collection: @authorisations %>
   <% else %>
   	<p>No one has requested access to your emails yet.</p>
   <% end %>
