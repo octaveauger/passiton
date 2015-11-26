@@ -1,58 +1,73 @@
-<div class="row timeline">
+<% if !(@viewer_type == 'requester' and thread.is_hidden?) %>
+  <div class="row timeline">
 
-  <!-- Thread emails launcher -->
-  <a class="thread-action" data-role="thread-email-link" data-path="<%= thread_url(thread) %>">
-    <span></span>
-  </a>
+    <!-- Thread emails launcher -->
+    <a class="thread-action" data-role="thread-email-link" data-path="<%= thread_url(thread) %>">
+      <span></span>
+    </a>
 
-  <div class="col-md-1">
-    <form action="<%= threads_update_tags_path %>" method="post" data-remote="true" class="form-highlight">
-      <input type="hidden" name="thread_id" value="<%= thread.id %>">
-      <div class="checkbox hide">
-        <label><input type="checkbox" name="tag_highlight" <%= 'checked="checked"' if thread.is_highlighted? %> class="checkbox-highlight" id="checkbox-highlight-<%= thread.id %>">&nbsp;<%= thread.id %></label>
-      </div>
-      <a href="" data-action="toggle-checkbox" data-target="#checkbox-highlight-<%= thread.id %>">
-        <span class="glyphicon glyphicon-lg glyphicon-pushpin glyphicon-click <%= thread.is_highlighted? ? 'active' : 'inactive' %>" aria-hidden="true" data-role="checkbox-indicator"></span>
-      </a>
-    </form>
-    <% if !thread.message_attachments.not_inline.empty? %>
-      <a data-role="trigger-toggle-display" data-target="#attachments-thread-<%= thread.id %>">
-        <span class="glyphicon glyphicon-paperclip glyphicon-click" aria-hidden="true"></span>
-      </a>
-    <% end %>
-  </div>
-  <div class="col-md-9">
-    <p>
-      <% thread.readable_labels.each do |label| %>
-        <%= glyphicon_label(label).html_safe %>
+    <div class="col-md-1">
+      <% if @viewer_type == 'requester' %>
+        <form action="<%= threads_update_tags_path %>" method="post" data-remote="true" class="form-highlight">
+          <input type="hidden" name="thread_id" value="<%= thread.id %>">
+          <input type="hidden" name="tag_type" value="highlight">
+          <div class="checkbox hide">
+            <label><input type="checkbox" name="tag_highlight" <%= 'checked="checked"' if thread.is_highlighted? %> class="checkbox-highlight" id="checkbox-highlight-<%= thread.id %>">&nbsp;<%= thread.id %></label>
+          </div>
+          <a href="" data-action="toggle-checkbox" data-target="#checkbox-highlight-<%= thread.id %>">
+            <span class="glyphicon glyphicon-lg glyphicon-pushpin glyphicon-click <%= thread.is_highlighted? ? 'active' : 'inactive' %>" aria-hidden="true" data-role="checkbox-indicator"></span>
+          </a>
+        </form>
+      <% elsif @viewer_type == 'granter' %>
+        <form action="<%= threads_update_tags_path %>" method="post" data-remote="true" class="form-highlight">
+          <input type="hidden" name="thread_id" value="<%= thread.id %>">
+          <input type="hidden" name="tag_type" value="hide">
+          <div class="checkbox hide">
+            <label><input type="checkbox" name="tag_hide" <%= 'checked="checked"' if thread.is_hidden? %> class="checkbox-hide" id="checkbox-hide-<%= thread.id %>">&nbsp;<%= thread.id %></label>
+          </div>
+          <a href="" data-action="toggle-checkbox" data-target="#checkbox-hide-<%= thread.id %>">
+            <span class="glyphicon glyphicon-lg glyphicon-remove glyphicon-click <%= thread.is_hidden? ? 'active' : 'inactive' %>" aria-hidden="true" data-role="checkbox-indicator"></span>
+          </a>
+        </form>
       <% end %>
-      <b><%= thread.subject %></b>
-      <% if thread.email_count > 1 %>
-        <span class="badge"><%= thread.email_count %></span>
+      <% if !thread.message_attachments.not_inline.empty? %>
+        <a data-role="trigger-toggle-display" data-target="#attachments-thread-<%= thread.id %>">
+          <span class="glyphicon glyphicon-paperclip glyphicon-click" aria-hidden="true"></span>
+        </a>
       <% end %>
-      <br>
-      <%= thread.unique_senders.map { |p| p.first_name + ' ' + p.last_name + ' <small>(' + p.company + '</small>)'  }.join(', ').html_safe %>
-      <br>
-      <small><%= thread.snippet.html_safe %></small>
-    </p>
-    <% if !thread.message_attachments.not_inline.empty? %>
-      <div id="attachments-thread-<%= thread.id %>" class="hide">
-        <ul class="no-bullet">
-          <%= render partial: 'authorisations/attachment', collection: thread.message_attachments.not_inline %>
-        </ul>
-      </div>
-    <% end %>
-  </div>
-  <div class="col-md-2">
-    <p>
-      <% if thread.earliest_email_date.strftime("%d/%m/%y") == thread.latest_email_date.strftime("%d/%m/%y") %>
-        <small><%= thread.earliest_email_date.strftime("%d %b") %></small>
-      <% else %>
-        <small><%= thread.latest_email_date.strftime("%d %b") %></small>
+    </div>
+    <div class="col-md-9">
+      <p>
+        <% thread.readable_labels.each do |label| %>
+          <%= glyphicon_label(label).html_safe %>
+        <% end %>
+        <b><%= thread.subject %></b>
+        <% if thread.email_count > 1 %>
+          <span class="badge"><%= thread.email_count %></span>
+        <% end %>
         <br>
-        <small><%= (thread.latest_email_date.to_date - thread.earliest_email_date.to_date).to_i %> days</small>
+        <%= thread.unique_senders.map { |p| p.first_name + ' ' + p.last_name + ' <small>(' + p.company + '</small>)'  }.join(', ').html_safe %>
+        <br>
+        <small><%= thread.snippet.html_safe %></small>
+      </p>
+      <% if !thread.message_attachments.not_inline.empty? %>
+        <div id="attachments-thread-<%= thread.id %>" class="hide">
+          <ul class="no-bullet">
+            <%= render partial: 'authorisations/attachment', collection: thread.message_attachments.not_inline %>
+          </ul>
+        </div>
       <% end %>
-    </p>
+    </div>
+    <div class="col-md-2">
+      <p>
+        <% if thread.earliest_email_date.strftime("%d/%m/%y") == thread.latest_email_date.strftime("%d/%m/%y") %>
+          <small><%= thread.earliest_email_date.strftime("%d %b") %></small>
+        <% else %>
+          <small><%= thread.latest_email_date.strftime("%d %b") %></small>
+          <br>
+          <small><%= (thread.latest_email_date.to_date - thread.earliest_email_date.to_date).to_i %> days</small>
+        <% end %>
+      </p>
+    </div>
   </div>
-</div>
-
+<% end %>

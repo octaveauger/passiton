@@ -3,7 +3,7 @@ class ThreadsController < ApplicationController
 
   def show
   	thread_db = EmailThread.where(synced: true).find_by(id: params['id'])
-    if !thread_db.nil? and thread_db.authorisation.enabled and current_user == (thread_db.authorisation.granter or thread_db.authorisation.requester)
+    if !thread_db.nil? and thread_db.authorisation.enabled and current_user == (thread_db.authorisation.granter or thread_db.authorisation.requester) and !(current_user == thread_db.authorisation.requester and thread_db.is_hidden?)
       @thread = thread_db
 	  	@emails = GmailSync.get_emails(@thread.authorisation, @thread.thread_id).sort_by { |e| e.internal_date }.reverse
       @message_attachments = @thread.message_attachments
@@ -12,13 +12,21 @@ class ThreadsController < ApplicationController
   end
 
   def update_tags
-  	thread = current_user.email_threads.find_by(id: params['thread_id'])
-  	if !thread.nil?
-  		if params[:tag_highlight] # Thread to be highlighted
-  			thread.set_highlight(true)
-  		else
-  			thread.set_highlight(false)
-  		end
+  	thread = EmailThread.where(synced: true).find_by(id: params['thread_id'])
+    if !thread.nil? and thread.authorisation.enabled and current_user == (thread.authorisation.granter or thread.authorisation.requester)
+  		if params[:tag_type] == 'highlight'
+        if params[:tag_highlight] # Thread to be highlighted
+    			thread.set_highlight(true)
+    		else
+    			thread.set_highlight(false)
+    		end
+      elsif params[:tag_type] == 'hide'
+        if params[:tag_hide] # Thread to be hidden
+          thread.set_hidden(true)
+        else
+          thread.set_hidden(false)
+        end
+      end
   	end
   	respond_to do |format|
       format.js

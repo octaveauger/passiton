@@ -107,6 +107,11 @@ class EmailThread < ActiveRecord::Base
 		self.tags.where(name: ['highlight', 'user_highlight']).where.not(name: 'user_not_highlight').count > 0
 	end
 
+	# Check if the thread is hidden to the requester
+	def is_hidden?
+		self.tags.where(name: 'user_hidden').count > 0
+	end
+
 	# Change whether a user highlighted a thread or not
 	def set_highlight(action = true)
 		if action
@@ -115,6 +120,15 @@ class EmailThread < ActiveRecord::Base
 		else
 			self.add_tag('user_not_highlight')
 			self.remove_tag('user_highlight')
+		end
+	end
+
+	# Change whether a user hid a thread or not
+	def set_hidden(action = true)
+		if action
+			self.add_tag('user_hidden')
+		else
+			self.remove_tag('user_hidden')
 		end
 	end
 
