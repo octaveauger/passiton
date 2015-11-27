@@ -16,7 +16,22 @@
       </dl>
     </div>
     <div class="col-md-3">
-      <%= link_to 'Ask for new access', authorisation_request_path, class: 'btn btn-white pull-right' %>
+      <% if @viewer_type == 'requester' %>
+        <%= link_to 'Ask for new access', authorisation_request_path, class: 'btn btn-white pull-right' %>
+      <% else %>
+        <% @authorisation.possible_statuses.each do |possible_status| %>
+          <%= simple_form_for @authorisation, :url => authorisation_path(@authorisation)  do |f| %>
+            <%= f.input :status, as: :hidden, :input_html => { value: possible_status } %>
+            <% if possible_status == 'granted' %>
+              <%= f.button :submit, "Grant", :class => 'btn btn-primary btn-granting pull-right' %>
+            <% elsif possible_status == 'revoked' %>
+              <%= f.button :submit, "Revoke", :class => 'btn btn-warning btn-granting pull-right' %>
+            <% elsif possible_status == 'denied' %>
+              <%= f.button :submit, "Deny", :class => 'btn btn-danger btn-granting pull-right' %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
     </div>
   </div>
 

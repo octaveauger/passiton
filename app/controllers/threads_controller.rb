@@ -8,16 +8,6 @@ class ThreadsController < ApplicationController
 	  	@emails = GmailSync.get_emails(@thread.authorisation, @thread.thread_id).sort_by { |e| e.internal_date }.reverse
       @message_attachments = @thread.message_attachments
     end
-    @debug = []
-    if thread_db.nil?
-      @debug.push('nil')
-    elsif !thread_db.authorisation.enabled
-      @debug.push('enabled')
-    elsif current_user != (thread_db.authorisation.granter or thread_db.authorisation.requester)
-      @debug.push('current')
-    elsif current_user == thread_db.authorisation.requester and thread_db.is_hidden?
-      @debug.push('hidden')
-    end
    render layout: !request.xhr?
   end
 

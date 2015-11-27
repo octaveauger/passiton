@@ -25,16 +25,25 @@
   </div>
   <div class="col-md-4 col-xs-12">
 		<% requested_authorisation.possible_statuses.each do |possible_status| %>
-				<%= simple_form_for requested_authorisation, :url => authorisation_path(requested_authorisation)  do |f| %>
-					<%= f.input :status, as: :hidden, :input_html => { value: possible_status } %>
-					<% if possible_status == 'granted' %>
-						<%= f.button :submit, "Grant", :class => 'btn btn-primary btn-granting pull-right' %>
-					<% elsif possible_status == 'revoked' %>
-						<%= f.button :submit, "Revoke", :class => 'btn btn-warning btn-granting pull-right' %>
-					<% elsif possible_status == 'denied' %>
-						<%= f.button :submit, "Deny", :class => 'btn btn-danger btn-granting pull-right' %>
-					<% end %>
+			<%= simple_form_for requested_authorisation, :url => authorisation_path(requested_authorisation)  do |f| %>
+				<%= f.input :status, as: :hidden, :input_html => { value: possible_status } %>
+				<% if possible_status == 'granted' %>
+					<%= f.button :submit, "Grant", :class => 'btn btn-primary btn-granting pull-right' %>
+				<% elsif possible_status == 'revoked' %>
+					<%= f.button :submit, "Revoke", :class => 'btn btn-warning btn-granting pull-right' %>
+				<% elsif possible_status == 'denied' %>
+					<%= f.button :submit, "Deny", :class => 'btn btn-danger btn-granting pull-right' %>
 				<% end %>
+			<% end %>
 		<% end %>
+		
+		<% if requested_authorisation.status != 'revoked' %>
+			<a href="<%= authorisation_path(requested_authorisation) %>" class="btn btn-default btn-granting pull-right hidden-xs" <%= 'disabled=disabled' if !requested_authorisation.synced %>>
+				<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Preview
+				<% if !requested_authorisation.synced %>
+					<%= image_tag 'ajax-loader.gif', alt: 'Loading...', title: 'Loading...' %>
+				<% end %>
+			</a>
+		<% end %>		
   </div>
 </div>
