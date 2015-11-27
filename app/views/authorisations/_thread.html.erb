@@ -15,7 +15,7 @@
             <label><input type="checkbox" name="tag_highlight" <%= 'checked="checked"' if thread.is_highlighted? %> class="checkbox-highlight" id="checkbox-highlight-<%= thread.id %>">&nbsp;<%= thread.id %></label>
           </div>
           <a href="" data-action="toggle-checkbox" data-target="#checkbox-highlight-<%= thread.id %>">
-            <span class="glyphicon glyphicon-lg glyphicon-pushpin glyphicon-click <%= thread.is_highlighted? ? 'active' : 'inactive' %>" aria-hidden="true" data-role="checkbox-indicator"></span>
+            <span class="glyphicon glyphicon-lg glyphicon-pushpin glyphicon-click <%= thread.is_highlighted? ? 'active' : 'inactive' %>" aria-hidden="true" data-role="checkbox-indicator" data-toggle="tooltip" data-placement="right" title="Tag a thread as highlight to easily find it again"></span>
           </a>
         </form>
       <% elsif @viewer_type == 'granter' %>
@@ -26,7 +26,7 @@
             <label><input type="checkbox" name="tag_hide" <%= 'checked="checked"' if thread.is_hidden? %> class="checkbox-hide" id="checkbox-hide-<%= thread.id %>">&nbsp;<%= thread.id %></label>
           </div>
           <a href="" data-action="toggle-checkbox" data-target="#checkbox-hide-<%= thread.id %>">
-            <span class="glyphicon glyphicon-lg glyphicon-remove glyphicon-click <%= thread.is_hidden? ? 'active' : 'inactive' %>" aria-hidden="true" data-role="checkbox-indicator"></span>
+            <span class="glyphicon glyphicon-lg glyphicon-remove glyphicon-click <%= thread.is_hidden? ? 'active' : 'inactive' %>" aria-hidden="true" data-role="checkbox-indicator" data-toggle="tooltip" data-placement="right" title="Hide from requester"></span>
           </a>
         </form>
       <% end %>
