@@ -7,6 +7,9 @@ class ContinuousGmailSyncJob
 	    user.requested_authorisations.where(status: 'granted').each do |authorisation|
 	    	GmailSync.prep_sync(authorisation)
 	    end
+	    user.granted_authorisations.where(status: 'pending').each do |authorisation|
+	    	GmailSync.prep_sync(authorisation)
+	    end
 	end
   end
 end
