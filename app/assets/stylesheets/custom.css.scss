@@ -64,6 +64,11 @@ dl.no-margin {
     -moz-binding: url('assets/xml/ellipsis.xml#ellipsis');
 }
 
+.tooltip-inner {
+    max-width: 200px;
+    width: 200px; 
+}
+
 /* Home page */
 @media (min-width: 992px) {
   .jumbotron.jumbotron-home{
@@ -510,7 +515,7 @@ table {
 }
 
 .glyphicon.inactive {
-  color: $gray-lighter;
+  color: $gray-light;
 }
 
 .glyphicon.glyphicon-xl {

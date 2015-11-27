@@ -11,11 +11,28 @@ class AuthorisationsController < ApplicationController
   end
 
   def show
-  	@authorisation = current_user.requested_authorisations.find_by(id: params[:id])
-  	if @authorisation.nil? or !@authorisation.enabled or !@authorisation.synced
-  		flash[:alert] = "Either you are not authorised anymore or it hasn't finished syncing"
+  	@authorisation = current_user.granted_authorisations.find_by(id: params[:id])
+    if @authorisation.nil?
+      @authorisation = current_user.requested_authorisations.find_by(id: params[:id])
+      @viewer_type = 'requester' # if user is both granter and requester, they'll be seen as requester in the view
+    else
+      @viewer_type = 'granter'
+    end
+
+    # Handling the case of someone requesting from themselves
+    if !@authorisation.nil? and @authorisation.requester_id == @authorisation.granter_id
+      if @authorisation.enabled
+        @viewer_type = 'requester'
+      else
+        @viewer_type = 'granter'
+      end
+    end
+
+  	if @authorisation.nil? or (!@authorisation.enabled and @viewer_type == 'requester') or !@authorisation.synced
+  		flash[:alert] = "Either you are not authorised anymore or it hasn't finished syncing" + @viewer_type
   		redirect_to authorisations_path and return
   	end
+
   	tab_selected = !params['tab_filter'].nil?
     params[:tab_filter] = 'highlight' if params['tab_filter'].nil? # default tab
     @tab_filter = params[:tab_filter]
@@ -54,6 +71,10 @@ class AuthorisationsController < ApplicationController
 
   def granting
     @authorisations = current_user.granted_authorisations.all.order('created_at desc')
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def create
