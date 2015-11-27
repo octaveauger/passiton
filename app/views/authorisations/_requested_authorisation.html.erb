@@ -1,29 +1,29 @@
 <div class="row well well-granting center-block">
-  <div class="col-md-1">
+  <div class="col-sm-1">
   	<p>
 			<strong class="visible-xs-inline">Date:</strong>
   		<%= requested_authorisation.created_at.strftime("%d/%m/%y") %>
   	</p>
   </div>
-  <div class="col-md-2">
+  <div class="col-sm-2">
   	<p>
 			<strong class="visible-xs-inline">Requested by:</strong>
   		<%= requested_authorisation.requester.full_identity %>
   	</p>
 	</div>
-  <div class="col-md-offset-1 col-md-3">
+  <div class="col-sm-offset-1 col-sm-3">
 	<p>
 		<strong class="visible-xs-inline">About:</strong>
   		<%= requested_authorisation.scope %>
   	</p>
   </div>
-  <div class="col-md-1">
+  <div class="col-sm-1">
   	<p>
 		<strong class="visible-xs-inline">Status:</strong>
   		<%= requested_authorisation.status.capitalize %>
   	</p>
   </div>
-  <div class="col-md-4 col-xs-12">
+  <div class="col-sm-4 col-xs-12">
 		<% requested_authorisation.possible_statuses.each do |possible_status| %>
 			<%= simple_form_for requested_authorisation, :url => authorisation_path(requested_authorisation)  do |f| %>
 				<%= f.input :status, as: :hidden, :input_html => { value: possible_status } %>
@@ -38,7 +38,7 @@
 		<% end %>
 		
 		<% if !['denied', 'revoked'].include? requested_authorisation.status %>
-			<a href="<%= authorisation_path(requested_authorisation) %>" class="btn btn-default btn-granting pull-right hidden-xs" <%= 'disabled=disabled' if !requested_authorisation.synced %>>
+			<a href="<%= authorisation_path(requested_authorisation) %>" class="btn btn-default btn-granting pull-right hidden-xs <%= 'refresh-authorisation-status' if !requested_authorisation.synced %>" <%= 'disabled=disabled' if !requested_authorisation.synced %>>
 				<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Preview
 				<% if !requested_authorisation.synced %>
 					<%= image_tag 'ajax-loader.gif', alt: 'Loading...', title: 'Loading...' %>

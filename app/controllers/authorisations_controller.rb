@@ -71,6 +71,10 @@ class AuthorisationsController < ApplicationController
 
   def granting
     @authorisations = current_user.granted_authorisations.all.order('created_at desc')
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def create
