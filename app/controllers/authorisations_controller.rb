@@ -77,6 +77,7 @@ class AuthorisationsController < ApplicationController
     end
   end
 
+  # create authorisation from requester
   def create
     @authorisation = Authorisation.new(authorisation_params)
     @authorisation.requester_id = current_user.id
@@ -105,6 +106,27 @@ class AuthorisationsController < ApplicationController
     else
       @authorisation.update_status(params['authorisation']['status'])
       redirect_to authorisation_grant_path and return
+    end
+  end
+
+  def giving
+    @authorisation = Authorisation.new
+  end
+
+  # create authorisation from granter
+  def give
+    @authorisation = Authorisation.new(authorisation_params)
+    @authorisation.granter_id = current_user.id
+    @authorisation.requester_id = User.find_or_create_guest(params['authorisation']['requester_email']).id
+    @authorisation.status = 'granted'
+    if @authorisation.save
+      Rails.logger.info('Auth controller give - gmail sync launched from granter')
+      @authorisation.sync_job(true, 'granter') # Get started syncing the authorisation
+      flash[:notice] = 'Context given!'
+      redirect_to authorisation_grant_path and return
+    else
+      flash[:alert] = 'Something went wrong, try again'
+      render 'giving'
     end
   end
 

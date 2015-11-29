@@ -8,7 +8,7 @@ class Authorisation < ActiveRecord::Base
 	validates :granter_id, presence: true
 	validates :scope, presence: true
 	validates :status, presence: true, inclusion: { in: ['pending', 'granted', 'denied', 'revoked'] }
-	attr_accessor :granter_email
+	attr_accessor :granter_email, :requester_email
 	has_many :email_threads
 	has_many :message_attachments, through: :email_threads
 	has_many :message_participants, through: :email_threads
