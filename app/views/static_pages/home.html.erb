@@ -1,7 +1,7 @@
 <% provide(:title, 'Home') %>
 <div class="jumbotron jumbotron-home">
    <div class="container">
-    <h1 class="text-uppercase">A new way to get context</h1>
+    <h1 class="text-uppercase">Share context</h1>
     <p class="hidden-xs">Share emails with your team</p>
     <p class="hidden-xs">and help them get up to speed in no time</p>
     <div class="row">
@@ -16,8 +16,8 @@
 <div class="cover">
   <div class="container">
     <div class="row centered">
-      <h1 class="centered">Getting context has never been easier</h1>
-      <p class="centered lead">Ask teammates to share specific bits of their email inbox.
+      <h1 class="centered">Sharing context has never been easier</h1>
+      <p class="centered lead">Select a teammate, pick the context, et voilà.
         <br>No more chasing or manual handovers.</p>
     </div>
     <div class="row">
@@ -59,23 +59,24 @@
       <h1>How it works</h1>
       <div class="col-md-4">
         <h2 class="">Step 1</h2>
-        <span class="glyphicon glyphicon-eye-open glyphicon-xl" aria-hidden="true"></span>
-        <p>Ask to see emails on a certain <br>topic or client</p>
+        <span class="glyphicon glyphicon-question-sign glyphicon-xl" aria-hidden="true"></span>
+        <p>Decide if you want to<br>give or get context</p>
       </div>
       <div class="col-md-4">
         <h2>Step 2</h2>
-        <span class="glyphicon glyphicon-question-sign glyphicon-xl" aria-hidden="true"></span>
-        <p>Your teammate will get an email to <br>approve your request</p>
+        <span class="glyphicon glyphicon-eye-open glyphicon-xl" aria-hidden="true"></span>
+        <p>Pick a teammate and<br>the context</p>
       </div>
       <div class="col-md-4">
         <h2>Step 3</h2>
         <span class="glyphicon glyphicon-ok-circle glyphicon-xl" aria-hidden="true"></span>
-        <p>Once approved, you can see the<br> emails until access is revoked</p>
+        <p>Approve, deny or<br>revoke requests</p>
       </div>
     </div>
     <hr>
     <div class="row centered">
       <p>
+        <%= link_to "Give context", giving_authorisations_path, :class => 'btn btn-hollow btn-lg' %>
         <%= link_to "Get context", authorisation_request_path, :class => 'btn btn-hollow btn-lg' %>
       </p>
     </div>

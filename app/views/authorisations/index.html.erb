@@ -32,31 +32,22 @@
   <div class="col-sm-12">
     <h1>Hi <%= current_user.first_name %>, welcome to Passiton</h1>
   <p class="lead">
-    Let's get you started with your first request.
+    Passiton lets you share context with teammates. Let's get you started.
   </p>
   </div>
 </div>
 <hr>
-  <div class="row centered">
-    <div class="col-md-4">
-      <h2 class="">Step 1</h2>
-      <span class="glyphicon glyphicon-eye-open glyphicon-xl active" aria-hidden="true"></span>
-      <p>Ask to see emails on a certain <br>topic or relationship</p>
-    </div>
-    <div class="col-md-4">
-      <h2>Step 2</h2>
-      <span class="glyphicon glyphicon-question-sign glyphicon-xl glyphicon-warning" aria-hidden="true"></span>
-      <p>Your teammate will get an email to <br>approve your request</p>
-    </div>
-    <div class="col-md-4">
-      <h2>Step 3</h2>
-      <span class="glyphicon glyphicon-ok-circle glyphicon-xl glyphicon-success" aria-hidden="true"></span>
-      <p>Once approved, you can see the<br> emails until access is revoked</p>
-    </div>
+<div class="row">
+  <div class="col-sm-3 col-sm-offset-2 well">
+    <p class="centered lead">It's me time</p>
+    <p class="centered">Ask a teammate to see<br> specific emails</p>
+    <%= link_to 'Get context', authorisation_request_path, class: 'btn btn-primary center-block' %>
   </div>
-  <div class="row">
-    <div class="col-md-4 col-md-offset-4">
-      <%= link_to 'Ask for context', authorisation_request_path, class: 'btn btn-primary btn-block' %>
-    </div>
+  <div class="col-sm-3 col-sm-offset-2 well">
+    <p class="lead centered">I'm feeling generous</p>
+    <p class="centered">Let your teammate see<br> specific emails</p>
+    <%= link_to 'Give context', giving_authorisations_path, class: 'btn btn-primary center-block' %>
   </div>
+</div>
+
 <% end %>
