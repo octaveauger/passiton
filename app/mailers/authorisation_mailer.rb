@@ -1,12 +1,12 @@
 class AuthorisationMailer < ActionMailer::Base
   include Roadie::Rails::Automatic
-  default from: "octave@gocardless.com"
+  #default from: "octave.auger@gmail.com"
 
   # Send a request for access to the granter
   def request_authorisation(authorisation)
     @authorisation = authorisation
 
-    mail(to: @authorisation.granter.email, subject: 'Passiton - Request for access') do |format|
+    mail(from: @authorisation.requester.email, to: @authorisation.granter.email, subject: 'Passiton - Context request') do |format|
       format.html { render layout: 'email_simple.html.erb' }
       format.text
     end
@@ -16,7 +16,7 @@ class AuthorisationMailer < ActionMailer::Base
   def authorisation_granted(authorisation)
     @authorisation = authorisation
 
-    mail(to: @authorisation.requester.email, subject: 'Passiton - Access granted') do |format|
+    mail(from: @authorisation.granter.email, to: @authorisation.requester.email, subject: 'Passiton - Context given') do |format|
       format.html { render layout: 'email_simple.html.erb' }
       format.text
     end
@@ -26,7 +26,7 @@ class AuthorisationMailer < ActionMailer::Base
   def authorisation_denied(authorisation)
     @authorisation = authorisation
 
-    mail(to: @authorisation.requester.email, subject: 'Passiton - Access denied') do |format|
+    mail(from: @authorisation.granter.email, to: @authorisation.requester.email, subject: 'Passiton - Context denied') do |format|
       format.html { render layout: 'email_simple.html.erb' }
       format.text
     end
@@ -36,7 +36,7 @@ class AuthorisationMailer < ActionMailer::Base
   def authorisation_revoked(authorisation)
     @authorisation = authorisation
 
-    mail(to: @authorisation.requester.email, subject: 'Passiton - Access revoked') do |format|
+    mail(from: @authorisation.granter.email, to: @authorisation.requester.email, subject: 'Passiton - Context revoked') do |format|
       format.html { render layout: 'email_simple.html.erb' }
       format.text
     end
