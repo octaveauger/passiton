@@ -11,8 +11,8 @@
 <div class="row">
   <div class="col-xs-offset-2 col-xs-8" >
     <%= simple_form_for @authorisation, :url => authorisations_path  do |f| %>
-    	<%= f.input :granter_email, label: 'Teammate', placeholder: 'Enter the email of your teammate', required: true, autofocus: true %>
-    	<%= f.input :scope, label:'Context', placeholder: 'Same as a Gmail or Google search (Apple, steve@apple.com...)' %>
+    	<%= f.input :scope, label:'Context', placeholder: 'Same as a Gmail or Google search (Apple, steve@apple.com...)', autofocus: true %>
+      <%= f.input :granter_email, label: 'Teammate', placeholder: 'Enter the email of your teammate', required: true %>
     	<%= f.input :description, label: 'Personal message', placeholder: 'Hey John, I\'d like to get up to speed on our client' %>
       <div class="row">
         <div class="col-xs-9">

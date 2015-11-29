@@ -1,12 +1,9 @@
-<h1>Access request granted</h1>
+<h1>Context given</h1>
 <p>
-	<%= @authorisation.granter.full_identity %> has granted access to see a part of their Gmail inbox: "<%= @authorisation.scope %>".
+	<%= @authorisation.granter.full_identity %> has given you context on "<%= @authorisation.scope %>".
 </p>
 <p>
-	To see their emails, please follow this link:
-	<div class="btn btn-primary centered"><%= link_to 'See emails', authorisation_url(@authorisation) %></div>
+	To see the emails shared with you, please follow this link:
+	<div class="btn btn-primary centered"><%= link_to 'See context', authorisation_url(@authorisation) %></div>
 </p>
-<p>
-	Thanks,<br/>
-	Your Passiton team
-</p>
+<%= render partial: 'authorisation_mailer/email_footer' %>

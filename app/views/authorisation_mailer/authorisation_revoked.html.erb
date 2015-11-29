@@ -1,11 +1,10 @@
-<h1>Access request revoked</h1>
+<h1>Context revoked</h1>
 <p>
-	<%= @authorisation.granter.full_identity %> has revoked access to see a part of their Gmail inbox: "<%= @authorisation.scope %>".
+	<%= @authorisation.granter.full_identity %> has decided to stop sharing their
+  emails on "<%= @authorisation.scope %>".
 </p>
 <p>
-	This means that you can no longer see their emails relating to that scope.
+	This means that you can no longer see their emails. If you have any questions,
+  please contact <%= @authorisation.granter.first_name %>.
 </p>
-<p>
-	Thanks,<br/>
-	Your Passiton team
-</p>
+<%= render partial: 'authorisation_mailer/email_footer' %>

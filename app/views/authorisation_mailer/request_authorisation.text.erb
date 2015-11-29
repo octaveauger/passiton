@@ -1,15 +1,16 @@
-Access request
+Context request
 ======================================
 
-<%= @authorisation.requester.full_identity %> has requested access for a part of your Gmail inbox, to see everything that has to do with "<%= @authorisation.scope %>".
+<%= @authorisation.requester.full_identity %> would like to get context on "<%= @authorisation.scope %>".
 
 <% if !@authorisation.description.empty? %>
-	Here's why they request access:
+	Here's a note from <%= @authorisation.requester.first_name %>:
 	<%= @authorisation.description %>
 <% end %>
 
-To grant or deny that request, please follow this link (you'll be asked to login with Gmail if you're not already using Passiton):
+You can decide if you want to share emails related to <%= @authorisation.scope %> by following this link:
 <%= authorisation_grant_url %>
 
-Thanks,
-Your Passiton team
+If you have any questions about this request, please contact <%= @authorisation.requester.first_name %>.
+
+<%= render partial: 'authorisation_mailer/email_footer' %>
