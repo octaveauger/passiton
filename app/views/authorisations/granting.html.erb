@@ -8,8 +8,8 @@
   </div>
 </div>
 <hr>
+<% if @authorisations.any? %>
 <div class="row center-block hidden-xs">
-  <% if @authorisations.any? %>
     <div class="col-sm-1">
       <h3>Date</h3>
     </div>
@@ -26,7 +26,20 @@
 	<div id="results" data-target="<%= authorisation_grant_path %>">
     <%= render partial: 'authorisations/requested_authorisation', collection: @authorisations %>
   </div>
-  <% else %>
-  	<p>No one has requested access to your emails yet.</p>
-  <% end %>
 </div>
+<% else %>
+<h2 class="centered">You haven't given context to anyone yet</h2>
+<div class="row">
+  <div class="col-sm-3 col-sm-offset-2 well">
+    <p class="centered lead">Keep asking</p>
+    <p class="centered">Ask a teammate to see<br> specific emails</p>
+    <%= link_to 'Get context', authorisation_request_path, class: 'btn btn-primary center-block' %>
+  </div>
+  <div class="col-sm-3 col-sm-offset-2 well">
+    <p class="centered lead">Start sharing</p>
+    <p class="centered">Let your teammate see<br> specific emails</p>
+    <%= link_to 'Give context', giving_authorisations_path, class: 'btn btn-primary center-block' %>
+  </div>
+</div>
+
+<% end %>
