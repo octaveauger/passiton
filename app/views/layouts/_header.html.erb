@@ -13,8 +13,8 @@
       <ul class="nav navbar-nav">
         <li class="brand-name"><%= link_to 'Passiton', root_path %></li>
         <% if signed_in? %>
-          <li><%= link_to "Request access", authorisations_path %></li>
-          <li><%= link_to "Grant access", authorisation_grant_path %></li>
+          <li><%= link_to "Get context", authorisations_path %></li>
+          <li><%= link_to "Give context", authorisation_grant_path %></li>
         <% end %>
       </ul>
       <ul class="nav navbar-nav pull-right">

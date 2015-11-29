@@ -66,7 +66,7 @@ dl.no-margin {
 
 .tooltip-inner {
     max-width: 200px;
-    width: 200px; 
+    width: 200px;
 }
 
 /* Home page */
@@ -79,7 +79,7 @@ dl.no-margin {
     background-size: cover;
     overflow: hidden;
     color: $gray-lighter;
-    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6); /** to have the white readable **/
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8); /** to have the white readable **/
     text-align: center;
     min-height: 400px;
   }
