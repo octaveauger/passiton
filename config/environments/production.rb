@@ -84,18 +84,19 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: ENV['URL_HOST'] }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address:                 'smtp.gmail.com',
+    address:                 'smtp.mandrillapp.com',
     port:                     587,
-    user_name:                ENV['GMAIL_USERNAME'],
-    password:                 ENV['GMAIL_PASSWORD'],
-    authentication:          'plain',
-    enable_starttls_auto:    true
+    user_name:                ENV['MANDRILL_USER_NAME'],
+    password:                 ENV['MANDRILL_API_KEY'],
+    authentication:          'login',
+    enable_starttls_auto:    true,
+    domain:                  ENV['MANDRILL_DOMAIN']
   }
 
   config.middleware.use ExceptionNotification::Rack,
      :email => {
       :email_prefix => "[Passiton] ",
-      :sender_address => %{"notifier" <octave@gocardless.com>},
+      :sender_address => %{"notifier" <octave.auger@gmail.com>},
       :exception_recipients => %w{octave.auger@gmail.com}
     }
 end
