@@ -6,7 +6,7 @@
     <p class="hidden-xs">and help them get up to speed in no time</p>
     <div class="row">
       <% if signed_in? %>
-        <%= link_to "Log in", authorisations_path, :class => 'btn btn-hollow btn-lg' %>
+        <%= link_to "See context", authorisations_path, :class => 'btn btn-hollow btn-lg' %>
       <% else %>
         <%= link_to "Connect your inbox", user_omniauth_authorize_path(:google_oauth2), :class => 'btn btn-hollow btn-lg' %>
       <% end %>
