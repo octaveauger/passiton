@@ -1,11 +1,15 @@
 <% if @authorisations.any? %>
 <div class="row">
   <div class="col-sm-12">
-    <h1>Get context</h1>
+    <h1>Get context
+      <%= link_to 'Get context', authorisation_request_path, class: 'btn btn-primary pull-right hidden-xs' %>
+    </h1>
   <p class="lead">
     Context you've requested from your teammates. All in one place.
-    <%= link_to 'Get more context', authorisation_request_path, class: 'btn btn-primary pull-right' %>
-  </p>
+    </p>
+    <p>
+      <%= link_to 'Get context', authorisation_request_path, class: 'btn btn-primary pull-left visible-xs-block' %>
+    </p>
   </div>
 </div>
 <hr>

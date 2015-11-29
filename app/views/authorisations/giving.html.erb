@@ -9,7 +9,7 @@
 <hr>
 
 <div class="row">
-  <div class="col-xs-offset-2 col-xs-8" >
+  <div class="col-sm-offset-2 col-xs-12 col-sm-8" >
     <%= simple_form_for @authorisation, :url => give_authorisations_path  do |f| %>
       <%= f.input :scope, label:'Context', autofocus: true, placeholder: 'Same as a Gmail or Google search (Apple, steve@apple.com...)' %>
     	<%= f.input :requester_email, label: 'Teammate', placeholder: 'Enter the email of your teammate', required: true %>

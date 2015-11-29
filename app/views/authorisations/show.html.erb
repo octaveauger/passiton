@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row heading container-no-scroll">
-    <div class="col-md-9">
+    <div class="col-sm-9 col-xs-9">
       <dl class="dl-horizontal no-margin">
           <dt><p>Context:</p></dt>
           <dd><p><%= @authorisation.scope %></p></dd>
@@ -15,7 +15,7 @@
           <% end %>
       </dl>
     </div>
-    <div class="col-md-3">
+    <div class="col-sm-3 col-xs-3">
       <% if @viewer_type == 'requester' %>
         <%= link_to 'Ask for new access', authorisation_request_path, class: 'btn btn-white pull-right' %>
       <% else %>
@@ -35,8 +35,21 @@
     </div>
   </div>
 
+  <!-- To help see tabs on mobile -->
+  <div class="row visible-xs-block">
+    <div class="col-xs-12">
+      <ul class="nav nav-pills nav-pills">
+        <% [{target: 'highlight', display: 'Highlight'}, {target: 'internal', display: 'Internal'},{target: 'all', display: 'All'}].each do |tab| %>
+          <li role="presentation" <%= 'class=active' if @tab_filter == tab[:target] %>>
+            <a href="<%= authorisation_path(@authorisation, tab_filter: tab[:target]) %>"><%= tab[:display] %></a>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+
   <div class="row container-scroll">
-    <div class="col-md-2">
+    <div class="col-sm-2 hidden-xs">
       <% if @viewer_type == 'requester' %>
         <form class="form-horizontal pull-right" method="get" action="<%= authorisation_path(@authorisation) %>">
           <div class="input-group">
@@ -64,13 +77,13 @@
         <% end %>
       </ul>
     </div>
-    <div id="results" class="col-md-5">
+    <div id="results" class="col-sm-5">
       <% if @threads.any? %>
       	<%= render partial: 'authorisations/thread', collection: @threads %>
       <% end %>
     </div>
 
-    <div id="emails" class="col-md-5">
+    <div id="emails" class="col-md-5 hidden-xs">
     </div>
   </div>
 
