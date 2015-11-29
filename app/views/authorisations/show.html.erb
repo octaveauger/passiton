@@ -2,14 +2,14 @@
   <div class="row heading container-no-scroll">
     <div class="col-md-9">
       <dl class="dl-horizontal no-margin">
-          <dt><p>You are watching:</p></dt>
+          <dt><p>Context:</p></dt>
           <dd><p><%= @authorisation.scope %></p></dd>
           <% if @viewer_type == 'requester' %>
-            <dt><p>Granter:</p></dt>
+            <dt><p>Teammate:</p></dt>
             <dd><p><%= @authorisation.granter.first_name %> <%= @authorisation.granter.last_name %>
               (<%= @authorisation.granter.email %>)</p></dd>
           <% else %>
-            <dt><p>Requester:</p></dt>
+            <dt><p>Teammate:</p></dt>
             <dd><p><%= @authorisation.requester.first_name %> <%= @authorisation.requester.last_name %>
               (<%= @authorisation.requester.email %>)</p></dd>
           <% end %>

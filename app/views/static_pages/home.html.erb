@@ -1,13 +1,12 @@
 <% provide(:title, 'Home') %>
 <div class="jumbotron jumbotron-home">
    <div class="container">
-    <h1 class="text-uppercase">Handoffs made easy</h1>
-    <p class="hidden-xs">See emails exchanged with others</p>
-    <p class="hidden-xs">and get quickly up to speed</p>
-    <p class="visible-xs">Pass on your emails to colleagues</p>
+    <h1 class="text-uppercase">A new way to get context</h1>
+    <p class="hidden-xs">Share emails with your team</p>
+    <p class="hidden-xs">and help them get up to speed in no time</p>
     <div class="row">
       <% if signed_in? %>
-        <%= link_to "See your requests", authorisations_path, :class => 'btn btn-hollow btn-lg' %>
+        <%= link_to "See context", authorisations_path, :class => 'btn btn-hollow btn-lg' %>
       <% else %>
         <%= link_to "Connect your inbox", user_omniauth_authorize_path(:google_oauth2), :class => 'btn btn-hollow btn-lg' %>
       <% end %>
@@ -17,18 +16,18 @@
 <div class="cover">
   <div class="container">
     <div class="row centered">
-      <h1 class="centered">We bet you hate handoffs</h1>
-      <p class="centered lead">People get on holidays. They get off projects. They closed the deal. And you have to pick up where they left...</br>
-      Stop relying on others to give you context & get access to the history</p>
+      <h1 class="centered">Getting context has never been easier</h1>
+      <p class="centered lead">Ask teammates to share specific bits of their email inbox.
+        <br>No more chasing or manual handovers.</p>
     </div>
     <div class="row">
       <div class="col-md-4">
         <div class="thumbnail thumbnail-home thumbnail-red">
           <span class="glyphicon glyphicon-heart glyphicon-xl" aria-hidden="true"></span>
           <div class="caption caption-home">
-            <h3>Get context</h3>
-            <p>Find out which commitments were made by others to help you ramp
-              up on the work</p>
+            <h3>Get the highlights</h3>
+            <p>Spot important threads, stakeholders and documents in<br>
+              our Highlights tab</p>
           </div>
         </div>
       </div>
@@ -37,8 +36,8 @@
           <span class="glyphicon glyphicon-search glyphicon-xl" aria-hidden="true"></span>
           <div class="caption caption-home">
             <h3>Never lose anything</h3>
-            <p>Get every mails and attachments exchanged on a topic or a relationship,
-              synced-up in real-time</p>
+            <p>One place to keep all emails and documents,
+              synced-up<br> and searchable</p>
           </div>
         </div>
       </div>
@@ -46,8 +45,8 @@
         <div class="thumbnail thumbnail-home thumbnail-dark-blue">
           <span class="glyphicon glyphicon-signal glyphicon-xl" aria-hidden="true"></span>
           <div class="caption caption-home">
-            <h3>Grow your network</h3>
-            <p>Spot new relationships and opportunities for new collaboration, sales or cross/up-sells</p>
+            <h3>Don't miss a beat</h3>
+            <p>Get context in a few clicks even when your teammate<br> is on holiday</p>
           </div>
         </div>
       </div>
@@ -60,24 +59,24 @@
       <h1>How it works</h1>
       <div class="col-md-4">
         <h2 class="">Step 1</h2>
-        <span class="glyphicon glyphicon-eye-open glyphicon-xl active" aria-hidden="true"></span>
-        <p>Request to see emails on a specific <br>topic or relationship</p>
+        <span class="glyphicon glyphicon-eye-open glyphicon-xl" aria-hidden="true"></span>
+        <p>Ask to see emails on a certain <br>topic or client</p>
       </div>
       <div class="col-md-4">
         <h2>Step 2</h2>
-        <span class="glyphicon glyphicon-question-sign glyphicon-xl glyphicon-warning" aria-hidden="true"></span>
-        <p>Your colleagues will get an email to <br>approve your request</p>
+        <span class="glyphicon glyphicon-question-sign glyphicon-xl" aria-hidden="true"></span>
+        <p>Your teammate will get an email to <br>approve your request</p>
       </div>
       <div class="col-md-4">
         <h2>Step 3</h2>
-        <span class="glyphicon glyphicon-ok-circle glyphicon-xl glyphicon-success" aria-hidden="true"></span>
-        <p>Once approved, you can see requested<br> emails until access is revoked</p>
+        <span class="glyphicon glyphicon-ok-circle glyphicon-xl" aria-hidden="true"></span>
+        <p>Once approved, you can see the<br> emails until access is revoked</p>
       </div>
     </div>
     <hr>
     <div class="row centered">
       <p>
-        <%= link_to "Request access", authorisation_request_path, :class => 'btn btn-hollow btn-lg' %>
+        <%= link_to "Get context", authorisation_request_path, :class => 'btn btn-hollow btn-lg' %>
       </p>
     </div>
   </div>

@@ -1,13 +1,28 @@
 <div class="row">
-  <h1 class="text-center">Request access to specific emails</h1>
+  <div class="col-sm-12">
+    <h1>Ask for context</h1>
+    <p class="lead">
+      Fill in what context you want from whom, and we'll take care of the rest.
+    </p>
+  </div>
 </div>
+<hr>
+
 <div class="row">
-  <div class="col-xs-offset-3 col-xs-6" >
+  <div class="col-xs-offset-2 col-xs-8" >
     <%= simple_form_for @authorisation, :url => authorisations_path  do |f| %>
-    	<%= f.input :granter_email, label: 'Granter', hint: 'Whose emails you would like to see', placeholder: 'email@example.com', required: true, autofocus: true %>
-    	<%= f.input :scope, hint: 'Which emails you would like to see', placeholder: 'apple, apple.com, steve@apple.com' %>
-    	<%= f.input :description, hint: 'Why you are requesting', placeholder: 'get up to speed on our client' %>
-    	<%= f.button :submit, "Request access", :class => 'btn btn-primary btn-block' %>
+    	<%= f.input :granter_email, label: 'Teammate', placeholder: 'Enter the email of your teammate', required: true, autofocus: true %>
+    	<%= f.input :scope, label:'Context', placeholder: 'Same as a Gmail or Google search (Apple, steve@apple.com...)' %>
+    	<%= f.input :description, label: 'Personal message', placeholder: 'Hey John, I\'d like to get up to speed on our client' %>
+      <div class="row">
+        <div class="col-xs-9">
+        <p>Passiton will send an email to your teammate to request context.
+          <br>You will receive an email when your teammate has approved or denied your request.</p>
+        </div>
+        <div class="col-xs-3">
+      	 <%= f.button :submit, "Send it", :class => 'btn btn-primary pull-right' %>
+        </div>
+      </div>
     <% end %>
   </div>
 </div>
