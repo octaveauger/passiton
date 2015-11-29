@@ -89,7 +89,7 @@ class AuthorisationsController < ApplicationController
       else
         AuthorisationMailer.request_authorisation(@authorisation).deliver # Email the granter since we can't sync with guests
       end
-      flash[:notice] = 'Authorisation requested!'
+      flash[:notice] = 'Context requested!'
       redirect_to authorisations_path and return
     else
       flash[:alert] = 'Something went wrong, try again'
