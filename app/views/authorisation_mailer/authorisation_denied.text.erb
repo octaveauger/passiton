@@ -1,7 +1,7 @@
-Access request denied
+Context denied
 ======================================
 
-<%= @authorisation.granter.full_identity %> has denied access to see a part of their Gmail inbox: "<%= @authorisation.scope %>".
+<%= @authorisation.granter.full_identity %> has decided not to share their emails
+on "<%= @authorisation.scope %>".
 
-Thanks,
-Your Passiton team
+<%= render partial: 'authorisation_mailer/email_footer' %>
