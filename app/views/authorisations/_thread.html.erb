@@ -6,7 +6,7 @@
       <span></span>
     </a>
 
-    <div class="col-md-1">
+    <div class="col-sm-1 col-xs-1">
       <% if @viewer_type == 'requester' %>
         <form action="<%= threads_update_tags_path %>" method="post" data-remote="true" class="form-highlight">
           <input type="hidden" name="thread_id" value="<%= thread.id %>">
@@ -36,7 +36,7 @@
         </a>
       <% end %>
     </div>
-    <div class="col-md-9">
+    <div class="col-sm-9 col-xs-9">
       <p>
         <% thread.readable_labels.each do |label| %>
           <%= glyphicon_label(label).html_safe %>
@@ -58,7 +58,7 @@
         </div>
       <% end %>
     </div>
-    <div class="col-md-2">
+    <div class="col-sm-2 col-xs-2">
       <p>
         <% if thread.earliest_email_date.strftime("%d/%m/%y") == thread.latest_email_date.strftime("%d/%m/%y") %>
           <small><%= thread.earliest_email_date.strftime("%d %b") %></small>
