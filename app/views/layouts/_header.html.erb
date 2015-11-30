@@ -11,7 +11,9 @@
 
     <div class="collapse navbar-collapse" id="top-navbar">
       <ul class="nav navbar-nav">
-        <li class="brand-name"><%= link_to 'Passiton', root_path %></li>
+        <li class="brand-name"><%= link_to 'Passiton', root_path %>
+        <span class="label label-info" id="label-beta">BETA</span>
+        </li>
         <% if signed_in? %>
           <li><%= link_to "Get context", authorisations_path %></li>
           <li><%= link_to "Give context", authorisation_grant_path %></li>
