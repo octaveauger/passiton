@@ -2,8 +2,8 @@
 <div class="jumbotron jumbotron-home">
    <div class="container">
     <h1 class="text-uppercase">Share context</h1>
-    <p class="hidden-xs">Share emails with your team</p>
-    <p class="hidden-xs">and help them get up to speed in no time</p>
+    <p>Share emails between teams</p>
+    <p>and get up to speed in no time</p>
     <div class="row">
       <% if signed_in? %>
         <%= link_to "See context", authorisations_path, :class => 'btn btn-hollow btn-lg' %>
@@ -18,7 +18,7 @@
     <div class="row centered">
       <h1 class="centered">Sharing context has never been easier</h1>
       <p class="centered lead">Select a teammate, pick the context, et voilà.
-        <br>No more chasing or manual handovers.</p>
+        <br>No more chasing or lengthy handoffs.</p>
     </div>
     <div class="row">
       <div class="col-md-4">
@@ -58,7 +58,7 @@
     <div class="row centered">
       <h1>How it works</h1>
       <p class="centered lead">Passiton connects to your Gmail inbox to share<br>
-        specifics emails with people you trust</p>
+        specific emails with people you trust</p>
       <div class="col-md-4">
         <h2 class="">Step 1</h2>
         <span class="glyphicon glyphicon-question-sign glyphicon-xl" aria-hidden="true"></span>
@@ -84,3 +84,4 @@
     </div>
   </div>
 </div>
+<%= render 'layouts/footer' %>

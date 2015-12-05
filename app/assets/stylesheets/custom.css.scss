@@ -352,6 +352,13 @@ cursor: pointer;
   margin-left: -15px;
 }
 
+#site-footer {
+  background-color: $gray;
+  p.navbar-text {
+    color: #fff;
+  }
+}
+
 /* Text */
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
