@@ -1,21 +1,39 @@
-<tr class="<%= (!authorisation.synced or !authorisation.enabled) ? 'refresh-authorisation-status' : '' %>">
-	<td class="vertical-centered"><%= authorisation.created_at.strftime("%d/%m/%y") %></td>
-	<td class="vertical-centered"><%= authorisation.granter.email %></td>
-	<td class="vertical-centered">
-		<% if authorisation.synced %>
-			<%= authorisation.scope %>
-		<% elsif !authorisation.enabled %>
-			<%= authorisation.scope %>
-		<% else %>
-			<%= authorisation.scope + ' (still syncing)' %>
-		<% end %>
-	</td>
-	<td class="vertical-centered"><%= authorisation.status.capitalize %></td>
-	<td class="vertical-centered">
+<div class="row well well-granting center-block <%= (!authorisation.synced or !authorisation.enabled) ? 'refresh-authorisation-status' : '' %>">
+  <div class="col-sm-1">
+  	<p>
+			<strong class="visible-xs-inline">Date:</strong>
+			<%= authorisation.created_at.strftime("%d/%m/%y") %>
+		</p>
+	</div>
+	<div class="col-sm-3">
+		<p>
+			<strong class="visible-xs-inline">From:</strong>
+			<%= authorisation.granter.email %>
+		</p>
+	</div>
+	<div class="col-sm-3">
+		<p>
+		<strong class="visible-xs-inline">About:</strong>
+			<% if authorisation.synced %>
+				<%= authorisation.scope %>
+			<% elsif !authorisation.enabled %>
+				<%= authorisation.scope %>
+			<% else %>
+				<%= authorisation.scope + ' (still syncing)' %>
+			<% end %>
+		</p>
+	</div>
+	<div class="col-sm-2">
+		<p>
+			<strong class="visible-xs-inline">State:</strong>
+			<%= authorisation.status.capitalize %>
+		</p>
+	</div>
+	<div class="col-sm-3 col-xs-12">
 		<% if authorisation.synced & authorisation.enabled %>
-			<%= link_to 'View', authorisation_path(authorisation), class: 'btn btn-block btn-default' %>
+			<%= link_to 'View', authorisation_path(authorisation), class: 'btn btn-default btn-granting pull-right' %>
 		<% elsif authorisation.enabled %>
-			<%= image_tag 'ajax-loader.gif', alt: 'Loading...', title: 'Loading...' %>
+			<%= image_tag 'ajax-loader.gif', alt: 'Loading...', title: 'Loading...', class: 'center-block' %>
 		<% end %>
-	</td>
-</tr>
+	</div>
+</div>
