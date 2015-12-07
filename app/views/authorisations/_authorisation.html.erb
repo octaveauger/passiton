@@ -31,7 +31,7 @@
 	</div>
 	<div class="col-sm-3 col-xs-12">
 		<% if authorisation.synced & authorisation.enabled %>
-			<%= link_to 'View', authorisation_path(authorisation), class: 'btn btn-default btn-granting pull-right' %>
+			<%= link_to 'View', authorisation_path(authorisation.token), class: 'btn btn-default btn-granting pull-right' %>
 		<% elsif authorisation.enabled %>
 			<%= image_tag 'ajax-loader.gif', alt: 'Loading...', title: 'Loading...', class: 'center-block' %>
 		<% end %>

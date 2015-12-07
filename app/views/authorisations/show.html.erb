@@ -20,7 +20,7 @@
         <%= link_to 'Ask for new access', authorisation_request_path, class: 'btn btn-white pull-right' %>
       <% else %>
         <% @authorisation.possible_statuses.each do |possible_status| %>
-          <%= simple_form_for @authorisation, :url => authorisation_path(@authorisation)  do |f| %>
+          <%= simple_form_for @authorisation, :url => authorisation_path(@authorisation.token)  do |f| %>
             <%= f.input :status, as: :hidden, :input_html => { value: possible_status } %>
             <% if possible_status == 'granted' %>
               <%= f.button :submit, "Grant", :class => 'btn btn-primary btn-granting pull-right' %>
@@ -41,7 +41,7 @@
       <ul class="nav nav-pills nav-pills">
         <% [{target: 'highlight', display: 'Highlight'}, {target: 'internal', display: 'Internal'},{target: 'all', display: 'All'}].each do |tab| %>
           <li role="presentation" <%= 'class=active' if @tab_filter == tab[:target] %>>
-            <a href="<%= authorisation_path(@authorisation, tab_filter: tab[:target]) %>"><%= tab[:display] %></a>
+            <a href="<%= authorisation_path(@authorisation.token, tab_filter: tab[:target]) %>"><%= tab[:display] %></a>
           </li>
         <% end %>
       </ul>
@@ -51,7 +51,7 @@
   <div class="row container-scroll">
     <div class="col-sm-2 hidden-xs">
       <% if @viewer_type == 'requester' %>
-        <form class="form-horizontal pull-right" method="get" action="<%= authorisation_path(@authorisation) %>">
+        <form class="form-horizontal pull-right" method="get" action="<%= authorisation_path(@authorisation.token) %>">
           <div class="input-group">
             <input type="text" name="search" class="form-control" placeholder="Search for..." value="<%= @search.scope if @search %>">
             <span class="input-group-btn">
@@ -64,12 +64,12 @@
       <ul class="nav nav-pills nav-stacked">
         <% [{target: 'highlight', display: 'Highlight'}, {target: 'internal', display: 'Internal'},{target: 'all', display: 'All'}].each do |tab| %>
           <li role="presentation" <%= 'class=active' if @tab_filter == tab[:target] %>>
-            <a href="<%= authorisation_path(@authorisation, tab_filter: tab[:target]) %>"><%= tab[:display] %></a>
+            <a href="<%= authorisation_path(@authorisation.token, tab_filter: tab[:target]) %>"><%= tab[:display] %></a>
           </li>
         <% end %>
         <% @searches.each do |search| %>
           <li role="presentation" <%= 'class=active' if @search and @search.scope == search.scope %>>
-            <a href="<%= authorisation_path(@authorisation, search: search.scope) %>">
+            <a href="<%= authorisation_path(@authorisation.token, search: search.scope) %>">
               <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
               <%= search.scope %>
             </a>

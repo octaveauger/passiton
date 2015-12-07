@@ -2,13 +2,13 @@ namespace :testing do
 
   desc "Empty the whole database apart from Users"
   task empty_db: :environment do
-  	Authorisation.destroy_all
-  	EmailThread.destroy_all
-  	MessageAttachment.destroy_all
-  	MessageParticipant.destroy_all
-  	Participant.destroy_all
-    Tag.destroy_all
-    Label.destroy_all
+  	Authorisation.delete_all
+  	EmailThread.delete_all
+  	MessageAttachment.delete_all
+  	MessageParticipant.delete_all
+  	Participant.delete_all
+    Tag.delete_all
+    Label.delete_all
   end
 
   desc "Update tags for all threads"
@@ -30,4 +30,16 @@ namespace :testing do
       auth.sync_gmail
     end
   end
+
+  desc "Fill token for all existing authorisations following their tokenisation DB migration"
+  task tokenise_authorisations: :environment do
+    Authorisation.where(token: nil).all.each do |auth|
+      token = loop do
+        random_token = SecureRandom.urlsafe_base64(nil, false)
+        break random_token unless Authorisation.exists?(token: random_token)
+      end
+      auth.update!(token: token)
+    end
+  end
+
 end
