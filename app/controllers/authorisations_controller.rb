@@ -11,9 +11,9 @@ class AuthorisationsController < ApplicationController
   end
 
   def show
-  	@authorisation = current_user.granted_authorisations.find_by(id: params[:id])
+  	@authorisation = current_user.granted_authorisations.find_by(token: params[:id])
     if @authorisation.nil?
-      @authorisation = current_user.requested_authorisations.find_by(id: params[:id])
+      @authorisation = current_user.requested_authorisations.find_by(token: params[:id])
       @viewer_type = 'requester' # if user is both granter and requester, they'll be seen as requester in the view
     else
       @viewer_type = 'granter'
@@ -99,7 +99,7 @@ class AuthorisationsController < ApplicationController
   end
 
   def update
-    @authorisation = current_user.granted_authorisations.find(params[:id])
+    @authorisation = current_user.granted_authorisations.find_by(token: params[:id])
     if @authorisation.nil?
       flash[:alert] = 'Something went wrong, try again'
       render 'granting'

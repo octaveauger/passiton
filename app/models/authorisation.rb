@@ -2,6 +2,8 @@ include ApplicationHelper
 include ThreadHelper
 
 class Authorisation < ActiveRecord::Base
+	include Tokenable
+	
 	belongs_to :requester, class_name: 'User'
 	belongs_to :granter, class_name: 'User'
 	validates :requester_id, presence: true

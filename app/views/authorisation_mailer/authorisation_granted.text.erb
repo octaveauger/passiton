@@ -4,6 +4,6 @@ Context given
 <%= @authorisation.granter.full_identity %> has given you context on "<%= @authorisation.scope %>".
 
 To see the emails shared with you, please follow this link:
-<%= authorisation_url(@authorisation) %>
+<%= authorisation_url(@authorisation.token) %>
 
 <%= render partial: 'authorisation_mailer/email_footer' %>

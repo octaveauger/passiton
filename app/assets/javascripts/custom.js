@@ -69,7 +69,6 @@ function initialize() {
 
 	// Toggle the display of an element when a trigger is clicked (without hiding the trigger)
 	$('[data-role="trigger-toggle-display"]').off('click').on('click', function(e) {
-		console.log('expand');
 		e.preventDefault();
 		$($(this).attr('data-target')).toggleClass('hide');
 	});
