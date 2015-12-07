@@ -60,6 +60,13 @@ function initialize() {
 		$(this).hide(); // hide the one clicked
 	});
 
+	// Hide the element clicked if it's a toggle trigger and show the recipients
+	$('[data-role="trigger-collapse"]').off('click').on('click', function(e) {
+		e.preventDefault();
+		$('[data-role="receive-collapse"][data-id="' + $(this).attr('data-id') + '"]').show(); // show all those who have the same data-id
+		$(this).hide(); // hide the one clicked
+	});
+
 	// Toggle the display of an element when a trigger is clicked (without hiding the trigger)
 	$('[data-role="trigger-toggle-display"]').off('click').on('click', function(e) {
 		console.log('expand');
