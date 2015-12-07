@@ -18,7 +18,7 @@
         <p class="text-right"><%= email.email_date.strftime("%d %b %y, %H:%M") %></p>
       </div>
     </div>
-    <div class="panel-collapse <%= 'collapse' unless email_counter == 0 %>" data-role="toggle-collapse" data-id="<%= email.message_id %>">
+    <div class="panel-collapse <%= 'collapse' unless email_counter == 0 %>">
       <div class="modal-body">
         <div class="row">
           <div class="col-md-9">
