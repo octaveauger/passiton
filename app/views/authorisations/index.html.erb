@@ -28,7 +28,9 @@
   </div>
   <div class"col-sm-3"></div>
 </div>
-<%= render partial: 'authorisations/authorisation', collection: @authorisations %>
+<div id="results" data-target="<%= authorisations_path %>">
+  <%= render partial: 'authorisations/authorisation', collection: @authorisations %>
+</div>
 <% else %>
 <div class="row">
   <div class="col-sm-12">

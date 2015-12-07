@@ -6,7 +6,7 @@ $(function () {
 function autorefresh_authorisations_index() {
 	if($('.refresh-authorisation-status').size() > 0) {
 		setTimeout(function() {
-			$.getScript($('#result').attr('data-target'));
+			$.getScript($('#results').attr('data-target'));
 			autorefresh_authorisations_index(); // create loop
 		}, 10000); // every 10s
 
