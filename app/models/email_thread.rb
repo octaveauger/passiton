@@ -39,22 +39,7 @@ class EmailThread < ActiveRecord::Base
 
 	# Checks if one of the participants belongs to the scope of the authorisation (e.g octave@gocardless.com belongs to 'GoCardless')
 	def has_participant_from_scope?
-		scope_words = self.authorisation.scope.downcase.gsub(/([_@#!%()\-=;><,{}\~\[\]\.\/\?\"\*\^\$\+\-]+)/, ' ').split(' ')
-		# Clean up scope words (e.g if one is email, get domain instead)
-		scope_words.each do |word, index|
-			if word[/.+@.+\..+/i] # if it has an email format
-				scope_words[index.to_i] = parse_email(word)[:company].downcase
-			end
-		end
-		# Go through participants to see if they match the scope (either all scope words or at least 2)
-		self.unique_participants.each do |participant|
-			check = 0
-			scope_words.each do |keyword|
-				check += 1 if participant.company.include? keyword.downcase
-			end
-			return true if check >= 2 or check == scope_words.count
-		end
-		false
+		!Participant.from_scope(self.authorisation.scope, self).empty?		
 	end
 
 	# How many attachments in the thread

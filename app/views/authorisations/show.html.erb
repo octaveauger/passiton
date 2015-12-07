@@ -62,6 +62,11 @@
         <hr/>
       <% end %>
       <ul class="nav nav-pills nav-stacked">
+        <li role="presentation" <%= 'class=active' if @tab_filter == 'authorisation_participants' %>>
+          <a href="<%= authorisation_path(@authorisation.token, tab_filter: 'authorisation_participants') %>">
+            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Contacts
+          </a>
+        </li>
         <% [{target: 'highlight', display: 'Highlight'}, {target: 'internal', display: 'Internal'},{target: 'all', display: 'All'}].each do |tab| %>
           <li role="presentation" <%= 'class=active' if @tab_filter == tab[:target] %>>
             <a href="<%= authorisation_path(@authorisation.token, tab_filter: tab[:target]) %>"><%= tab[:display] %></a>
@@ -77,17 +82,35 @@
         <% end %>
       </ul>
     </div>
-    <div id="results" class="col-sm-5">
-      <% if @threads.any? %>
-      	<%= render partial: 'authorisations/thread', collection: @threads %>
-      <% end %>
-    </div>
+    
+    <% if @tab_filter == 'authorisation_participants' %>
+      <div id="results" class="col-sm-10">
+        <% if !@participants_from_scope.empty? %>
+          <h2>Participants from the company</h2>
+          <table class="table">
+            <%= render partial: 'authorisations/participant', collection: @participants_from_scope %>
+          </table>
+        <% end %>
+        <h2>All participants to these discussions</h2>
+        <table class="table">
+          <%= render partial: 'authorisations/participant', collection: @authorisation.participants.uniq %>
+        </table>
+      </div>
+    <% else %>
+      <div id="results" class="col-sm-5">
+        <% if @threads.any? %>
+        	<%= render partial: 'authorisations/thread', collection: @threads %>
+        <% end %>
+      </div>
 
-    <div id="emails" class="col-md-5 hidden-xs">
-    </div>
+      <div id="emails" class="col-md-5 hidden-xs">
+      </div>
+    <% end %>
   </div>
 
-  <div id="infinite-scrolling">
-    <%= will_paginate @threads %>
-  </div>
+  <% if @threads %>
+    <div id="infinite-scrolling">
+      <%= will_paginate @threads %>
+    </div>
+  <% end %>
 </div>
