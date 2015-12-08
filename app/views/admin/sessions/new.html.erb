@@ -1,0 +1,11 @@
+<% provide(:title, "Log in") %>
+
+<div class="col-md-8 col-md-offset-2">
+	<h1 class="col-xs-offset-3">Log in</h1>
+
+	<%= simple_form_for :session, :url => admin_sessions_path  do |f| %>
+		<%= f.input :email, label: 'Email', autofocus: true %>
+		<%= f.input :password, label: 'Password' %>
+		<div class="col-xs-offset-3"><%= f.button :submit, 'Login', :class => 'btn btn-primary btn-block' %></div>
+	<% end %>
+</div>
