@@ -1,0 +1,19 @@
+<% provide(:title, 'Authorisations') %>
+
+<h1><%= @authorisations.count %> Authorisations</h1>
+
+<table class="table" id="results">
+	<th>Creation date</th>
+	<th>Scope</th>
+	<th>Requester</th>
+	<th>Granter</th>
+	<th>Status</th>
+	<th>Synced?</th>
+	<%= render partial: 'admin/authorisations/authorisation', collection: @authorisations %>
+</table>
+
+<% if !@authorisations.nil? and @authorisations.any? %>
+	<div id="infinite-scrolling">
+		<%= will_paginate @authorisations %>
+	</div>
+<% end %>
