@@ -1,0 +1,9 @@
+<tr>
+	<td><%= user.created_at.strftime('%d/%m/%Y %k:%M') %></td>
+	<td><%= 'Yes' if user.guest %></td>
+	<td><%= user.full_identity %></td>
+	<td><%= user.email %></td>
+	<td><%= user.requested_authorisations.count %></td>
+	<td><%= user.granted_authorisations.count %></td>
+	<td><%= link_to 'View', admin_user_path(user), class: 'btn btn-xs' %></td>
+</tr>
