@@ -11,5 +11,9 @@ class Admin::UsersController < ApplicationController
   end
 
   def show
+  	@user = User.find_by(id: params['id'])
+    redirect_to admin_users_path, alert: 'This user does not exist' and return if @user.nil?
+    @requested_authorisations = @user.requested_authorisations.order('id desc').all
+    @granted_authorisations = @user.granted_authorisations.order('id desc').all
   end
 end

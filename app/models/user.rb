@@ -92,6 +92,11 @@ class User < ActiveRecord::Base
     !self.oauth_cancelled
   end
 
+  # Returns the first and last name (if present)
+  def full_name
+    self.first_name.to_s + ' ' + self.last_name.to_s
+  end
+
   # Returns the first and last name (if present) and email
   def full_identity
     if self.first_name.nil? or self.last_name.nil?
