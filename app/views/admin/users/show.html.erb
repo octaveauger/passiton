@@ -1,0 +1,37 @@
+<% provide(:title, @user.email) %>
+
+<h1>
+	<% if @user.guest %>
+		<%= @user.email %> (guest)
+	<% else %>
+		<%= @user.full_identity %>
+	<% end %>
+</h1>
+
+<h2>Context requested</h2>
+<% if @requested_authorisations.empty? %>
+	<p>No context requested yet</p>
+<% else %>
+	<table class="table" id="results">
+		<th>Creation date</th>
+		<th>Scope</th>
+		<th>Granter</th>
+		<th>Status</th>
+		<th>Synced?</th>
+		<%= render partial: 'admin/users/authorisation', collection: @requested_authorisations, locals: { role: 'requester' } %>
+	</table>
+<% end %>
+
+<h2>Context given</h2>
+<% if @granted_authorisations.empty? %>
+	<p>No context given yet</p>
+<% else %>
+	<table class="table" id="results">
+		<th>Creation date</th>
+		<th>Scope</th>
+		<th>Requester</th>
+		<th>Status</th>
+		<th>Synced?</th>
+		<%= render partial: 'admin/users/authorisation', collection: @granted_authorisations, locals: { role: 'granter' } %>
+	</table>
+<% end %>

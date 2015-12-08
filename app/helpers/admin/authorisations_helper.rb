@@ -1,0 +1,2 @@
+module Admin::AuthorisationsHelper
+end

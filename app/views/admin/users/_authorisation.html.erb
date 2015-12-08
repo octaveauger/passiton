@@ -1,0 +1,13 @@
+<tr>
+	<td><%= authorisation.created_at.strftime('%d/%m/%Y %k:%M') %></td>
+	<td><%= authorisation.scope %></td>
+	<td>
+		<% if role == 'requester' %>
+			<%= link_to authorisation.granter.email + (authorisation.granter.guest ? ' (guest)' : ''), admin_user_path(authorisation.granter) %>
+		<% elsif role == 'granter' %>
+		<%= link_to authorisation.requester.email + (authorisation.requester.guest ? ' (guest)' : ''), admin_user_path(authorisation.requester) %>
+		<% end %>
+	</td>
+	<td><%= authorisation.status %></td>
+	<td><%= authorisation.synced ? 'Yes' : 'No' %></td>
+</tr>

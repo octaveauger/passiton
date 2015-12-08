@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151207221131) do
+ActiveRecord::Schema.define(version: 20151207235315) do
+
+  create_table "admins", force: true do |t|
+    t.string   "email"
+    t.string   "password_digest"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "admins", ["email"], name: "index_admins_on_email"
 
   create_table "authorisation_searches", force: true do |t|
     t.integer  "authorisation_id"

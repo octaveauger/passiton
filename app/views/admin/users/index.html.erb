@@ -1,0 +1,22 @@
+<% provide(:title, 'Users') %>
+
+<h1><%= @users.count %> Users</h1>
+
+<table class="table" id="results">
+	<th>Signup date</th>
+	<th>Guest?</th>
+	<th>Name</th>
+	<th>Email</th>
+	<th>Requested Authorisations</th>
+	<th>Granted Authorisations</th>
+	<th>Actions</th>
+	<% if !@users.nil? and @users.any? %>
+		<%= render partial: 'admin/users/user', collection: @users %>
+	<% end %>
+</table>
+
+<% if !@users.nil? and @users.any? %>
+	<div id="infinite-scrolling">
+		<%= will_paginate @users %>
+	</div>
+<% end %>
