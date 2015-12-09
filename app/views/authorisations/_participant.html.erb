@@ -1,6 +1,14 @@
-<tr>
-	<td><%= participant.first_name %></td>
-	<td><%= participant.last_name %></td>
-	<td><%= participant.email %></td>
-	<td><%= participant.company.titleize %></td>
-</tr>
+<div class="row well well-sm well-thin">
+  <div class="col-sm-4">
+      <strong class="visible-xs-inline">Name:</strong>
+      <%= participant.first_name %> <%= participant.last_name %>
+  </div>
+  <div class="col-sm-5">
+      <strong class="visible-xs-inline">Email:</strong>
+      <%= participant.email %>
+  </div>
+  <div class="col-sm-3">
+      <strong class="visible-xs-inline">Company:</strong>
+      <%= participant.company.titleize %>
+  </div>
+</div>
