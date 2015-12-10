@@ -6,6 +6,7 @@ class Gmail
 	##############################################
 
 	def initialize(token)
+		Google::APIClient.logger.level = Logger::DEBUG
 		@client = Google::APIClient.new
 		@client.authorization.access_token = token
 		@service = @client.discovered_api('gmail')
