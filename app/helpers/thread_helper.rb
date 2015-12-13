@@ -55,8 +55,10 @@ module ThreadHelper
 			'glyphicon glyphicon-picture'
 		elsif type == 'ICS'
 			'glyphicon glyphicon-calendar'
-		elsif %w(DOC DOCX PDF XLS).include? type
+		elsif %w(DOC DOCX PDF).include? type
 			'glyphicon glyphicon-list-alt'
+		elsif %w(CSV XLS XLSX).include? type
+			'glyphicon glyphicon-th'
 		elsif type == 'ZIP'
 			'glyphicon glyphicon-folder-close'
 		else

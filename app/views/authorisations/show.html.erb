@@ -69,12 +69,14 @@
         </li>
         <li role="presentation" <%= 'class=active' if @tab_filter == 'authorisation_attachments' %>>
           <a href="<%= authorisation_path(@authorisation.token, tab_filter: 'authorisation_attachments') %>">
-            <span class="glyphicon glyphicon-file" aria-hidden="true"></span> Attachments
+            <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Attachments
           </a>
         </li>
         <% [{target: 'highlight', display: 'Highlight'}, {target: 'internal', display: 'Internal'},{target: 'all', display: 'All'}].each do |tab| %>
           <li role="presentation" <%= 'class=active' if @tab_filter == tab[:target] %>>
-            <a href="<%= authorisation_path(@authorisation.token, tab_filter: tab[:target]) %>"><%= tab[:display] %></a>
+            <a href="<%= authorisation_path(@authorisation.token, tab_filter: tab[:target]) %>">
+              <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> <%= tab[:display] %>
+            </a>
           </li>
         <% end %>
         <% @searches.each do |search| %>
@@ -87,7 +89,7 @@
         <% end %>
       </ul>
     </div>
-    
+
     <% if @tab_filter == 'authorisation_participants' %>
       <div id="results" class="col-sm-10">
         <% if !@participants_from_scope.empty? %>
@@ -103,7 +105,11 @@
       </div>
     <% elsif @tab_filter == 'authorisation_attachments' %>
       <div id="results" class="col-sm-10">
-        AMAURY: <%= @attachments.count %>
+        <% @attachments_grouped.each do |index, group| %>
+          <%= render partial: 'authorisations/tab/attachment_tab', locals: { file_type: index, attachments: group } %>
+        <% end %>
+
+
       </div>
     <% else %>
       <div id="results" class="col-sm-5">

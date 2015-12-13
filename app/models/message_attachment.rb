@@ -26,6 +26,18 @@ class MessageAttachment < ActiveRecord::Base
     extension.upcase
   end
 
+  def type_group
+    if %w(DOC DOCX PDF XLS CSV XLSX ZIP PPT PPTX KEY).include? type
+      'Documents'
+    elsif %w(PNG GIF JPG JPEG).include? type
+      'Images'
+    elsif type == 'ICS'
+      'Invites'
+    else
+      'Others'
+    end
+  end
+
   def self.is_inline
     self.where(inline: true)
   end
