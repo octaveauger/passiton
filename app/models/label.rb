@@ -4,7 +4,7 @@ class Label < ActiveRecord::Base
   def self.sync_gmail(user)
   	useless_labels = ['boomerang', 'boomerang-returned'] # these label names won't be saved
     begin
-      client = Gmail.new(user.tokens.last.fresh_token)
+      client = Gmail.new(user.tokens.last.fresh_token, user.email)
     rescue => e
       authorisation.granter.register_oauth_cancelled
       return false

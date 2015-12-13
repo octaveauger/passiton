@@ -1,4 +1,8 @@
 <% if !@thread.nil? %>
 	<h2><%= @thread.subject %></h2>
-	<%= render partial: 'authorisations/email', collection: @emails %>
+	<% if @emails.nil? or @emails.empty? %>
+		<p>Unfortunately we couldn't find emails for this thread. We have been alerted and will fix this issue shortly.</p>
+	<% else %>
+		<%= render partial: 'authorisations/email', collection: @emails %>
+	<% end %>
 <% end %>

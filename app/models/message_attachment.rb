@@ -4,7 +4,7 @@ class MessageAttachment < ActiveRecord::Base
 
   def download
   	begin
-      client = Gmail.new(self.email_thread.authorisation.granter.tokens.last.fresh_token)
+      client = Gmail.new(self.email_thread.authorisation.granter.tokens.last.fresh_token, self.email_thread.authorisation.granter.email)
     rescue => e
       authorisation.granter.register_oauth_cancelled
       return false

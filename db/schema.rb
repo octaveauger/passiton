@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151207235315) do
+ActiveRecord::Schema.define(version: 20151213194207) do
 
   create_table "admins", force: true do |t|
     t.string   "email"
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 20151207235315) do
     t.datetime "latest_email_date"
     t.integer  "email_count"
     t.datetime "earliest_email_date"
-    t.string   "subject"
+    t.text     "subject",             limit: 255
   end
 
   add_index "email_threads", ["synced"], name: "index_email_threads_on_synced"
