@@ -48,6 +48,8 @@ class AuthorisationsController < ApplicationController
       @threads = @authorisation.email_threads.by_latest_email.joins(:tags).where(synced: true).where(thread_id: found_threads).includes(:message_attachments, :message_participants, :participants).distinct.all.paginate(page: params[:page], :per_page => 10)
     elsif @tab_filter == 'authorisation_participants'
       @participants_from_scope = Participant.from_scope(@authorisation.scope, @authorisation)
+    elsif @tab_filter == 'authorisation_attachments'
+      @attachments = @authorisation.message_attachments.all
     else
       if !tab_selected and @authorisation.email_threads.joins(:tags).where(synced: true).filter(params_filters).empty?
         params[:tab_filter] = 'all'
