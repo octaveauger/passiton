@@ -2,13 +2,13 @@ class GmailSync
 	# Synchronises everything except the email messages
 	def self.prep_sync(authorisation)
 		Rails.logger.info('Gmail sync prep_sync started')
-		begin
-			client = Gmail.new(authorisation.granter.tokens.last.fresh_token)
-		rescue => e
-			authorisation.granter.register_oauth_cancelled
-			Rails.logger.info('Gmail client error - not initialised in prep_sync')
-			return false
-		end
+		#begin
+			client = Gmail.new(authorisation.granter.tokens.last.fresh_token, authorisation.granter.email)
+		#rescue => e
+		#	authorisation.granter.register_oauth_cancelled
+		#	Rails.logger.info('Gmail client error - not initialised in prep_sync')
+		#	return false
+		#end
 
 		# Sync threads
 		self.sync_threads(authorisation)
@@ -97,7 +97,7 @@ class GmailSync
 	def self.sync_threads(authorisation)
 		Rails.logger.info('Gmail sync sync_threads started')
 		begin
-			client = Gmail.new(authorisation.granter.tokens.last.fresh_token)
+			client = Gmail.new(authorisation.granter.tokens.last.fresh_token, authorisation.granter.email)
 		rescue => e
 			authorisation.granter.register_oauth_cancelled
 			Rails.logger.info('Gmail client error - not initialised in sync_threads')
@@ -131,7 +131,7 @@ class GmailSync
 	# Retrieves email messages from Gmail for a given thread and returns an array of EmailMessage
 	def self.get_emails(authorisation, thread_id)
 		begin
-			client = Gmail.new(authorisation.granter.tokens.last.fresh_token)
+			client = Gmail.new(authorisation.granter.tokens.last.fresh_token, authorisation.granter.email)
 		rescue => e
 			authorisation.granter.register_oauth_cancelled
 			return false
@@ -318,7 +318,7 @@ class GmailSync
 	def self.search_threads(authorisation, search)
 		Rails.logger.info('Gmail sync search_threads started')
 		begin
-			client = Gmail.new(authorisation.granter.tokens.last.fresh_token)
+			client = Gmail.new(authorisation.granter.tokens.last.fresh_token, authorisation.granter.email)
 		rescue => e
 			authorisation.granter.register_oauth_cancelled
 			Rails.logger.info('Gmail client error - not initialised in search_threads')
