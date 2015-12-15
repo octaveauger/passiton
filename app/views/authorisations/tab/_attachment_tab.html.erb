@@ -1,0 +1,30 @@
+<div class="row">
+  <h2><%= file_type %></h2>
+  <% attachments.each do |attachment| %>
+    <% if !attachment.inline %>
+      <% if !attachment.filename.empty?  %>
+        <div class="row well well-sm well-thin">
+          <div class="col-sm-1">
+            <span class="<%= glyphicon_file(attachment.type) %>" aria-hidden="true"></span>
+          </div>
+          <div class="col-sm-1">
+              <strong class="visible-xs-inline">Date:</strong>
+              <%= attachment.email_date.strftime("%d %b") %>
+          </div>
+          <div class="col-sm-5">
+              <strong class="visible-xs-inline">Sender:</strong>
+              <% unless attachment.participant_sender.nil? %>
+                <%= attachment.participant_sender.first_name %>
+                <%= attachment.participant_sender.last_name %>
+                (<%= attachment.participant_sender.email %>)
+              <% end %>
+          </div>
+          <div class="col-sm-5">
+              <strong class="visible-xs-inline">Name:</strong>
+              <a href="<%= attachment_path(attachment) %>"><%= attachment.filename %></a>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
