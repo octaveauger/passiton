@@ -211,6 +211,12 @@ dl.no-margin {
     text-overflow: ellipsis;
     margin-bottom: 0;
   }
+  @media (max-width: 768px) {
+    .no-ellipsis-mobile{
+      white-space: normal;
+      text-overflow: clip;
+    }
+  }
 }
 
 .attachment{
