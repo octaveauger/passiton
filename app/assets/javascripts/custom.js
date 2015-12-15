@@ -105,6 +105,7 @@ function download_inline_attachments() {
 	// Call the inline attachment download
 	unique_list.forEach(function(a) {
 		var download_url = $('img[src^="cid:' + a + '"]').attr('data-target');
+		console.log(download_url);
 		if(download_url != '') {
 			$.getScript(download_url);
 		}
