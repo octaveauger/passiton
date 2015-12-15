@@ -94,9 +94,7 @@
       <div id="results" class="col-sm-10">
         <% if !@participants_from_scope.empty? %>
           <h2>Participants from the company</h2>
-          <table class="table">
             <%= render partial: 'authorisations/participant', collection: @participants_from_scope %>
-          </table>
         <% end %>
         <h2>All participants to these discussions</h2>
         <table class="table">
@@ -108,8 +106,6 @@
         <% @attachments_grouped.each do |index, group| %>
           <%= render partial: 'authorisations/tab/attachment_tab', locals: { file_type: index, attachments: group } %>
         <% end %>
-
-
       </div>
     <% else %>
       <div id="results" class="col-sm-5">
