@@ -9,7 +9,6 @@ $(function () {
 			more_url = $('.pagination .next_page a').attr('href');
 			if(more_url && $(window).scrollTop() > $(document).height() - $(window).height() - 180) {
 				$('.pagination').html('<img src="/assets/ajax-loader.gif" alt="Loading..." title="Loading..." />');
-            	console.log('infinite scrolling started - ' + more_url);
             	$.getScript(more_url);
 			}
 		});
@@ -105,8 +104,7 @@ function download_inline_attachments() {
 	// Call the inline attachment download
 	unique_list.forEach(function(a) {
 		var download_url = $('img[src^="cid:' + a + '"]').attr('data-target');
-		console.log(download_url);
-		if(download_url != '') {
+		if(download_url) {
 			$.getScript(download_url);
 		}
 	});

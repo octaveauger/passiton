@@ -1,4 +1,3 @@
-console.log('<%= @threads.to_json %>');
 $('#results').append("<%= j render partial: 'authorisations/thread', collection: @threads %>");
 <% if @threads.next_page %>
   $('.pagination').replaceWith('<%= j will_paginate @threads %>');
