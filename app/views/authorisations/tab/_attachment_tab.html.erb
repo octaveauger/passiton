@@ -12,7 +12,7 @@
         </div>
         <div class="col-sm-3">
             <strong class="visible-xs-inline">Sender:</strong>
-            SENDER
+            <%= attachment.participant_sender.email unless attachment.participant_sender.nil? %>
         </div>
         <div class="col-sm-5">
             <strong class="visible-xs-inline">Name:</strong>

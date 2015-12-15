@@ -50,4 +50,10 @@ class MessageAttachment < ActiveRecord::Base
   def self.find_for_message(message_id)
     self.where('email_message_id = ?', message_id)
   end
+
+  # Returns the participant who sent that attachment
+  def participant_sender
+    message_participant = MessageParticipant.where(delivery: 'from').where(email_message_id: self.email_message_id).first
+    message_participant.nil? ? nil : message_participant.participant
+  end
 end
