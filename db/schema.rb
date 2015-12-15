@@ -51,22 +51,6 @@ ActiveRecord::Schema.define(version: 20151213194207) do
   add_index "authorisations", ["synced"], name: "index_authorisations_on_synced"
   add_index "authorisations", ["token"], name: "index_authorisations_on_token"
 
-  create_table "email_messages", force: true do |t|
-    t.integer  "email_thread_id"
-    t.string   "messageId"
-    t.text     "snippet"
-    t.integer  "historyId"
-    t.integer  "internalDate"
-    t.text     "body_text"
-    t.text     "body_html"
-    t.integer  "sizeEstimate"
-    t.string   "mimeType"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "email_messages", ["email_thread_id"], name: "index_email_messages_on_email_thread_id"
-
   create_table "email_threads", force: true do |t|
     t.integer  "authorisation_id"
     t.string   "thread_id"
