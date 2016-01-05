@@ -8,7 +8,7 @@
       </div>
       <div class="col-md-8">
         <p>
-          <strong><%= email.sender.fullname %></strong>
+          <strong><%= email.sender.fullname unless email.sender.nil? %></strong>
           <br>
           <p class="ellipsis">
             <%= email.snippet.html_safe %>
