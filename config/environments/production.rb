@@ -84,13 +84,13 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: ENV['URL_HOST'] }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address:                 'smtp.mandrillapp.com',
+    address:                 'smtp.sendgrid.net',
     port:                     587,
-    user_name:                ENV['MANDRILL_USER_NAME'],
-    password:                 ENV['MANDRILL_API_KEY'],
-    authentication:          'login',
+    user_name:                ENV['EMAIL_USER_NAME'],
+    password:                 ENV['EMAIL_API_KEY'],
+    authentication:          :plain,
     enable_starttls_auto:    true,
-    domain:                  ENV['MANDRILL_DOMAIN']
+    domain:                  ENV['EMAIL_DOMAIN']
   }
 
   config.middleware.use ExceptionNotification::Rack,
