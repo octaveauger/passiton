@@ -40,6 +40,8 @@ gem 'boxview.rb'
 gem 'exception_notification'
 gem 'cabin', 					'~> 0.7.1'
 gem 'slack-notifier', 			'~> 1.4'
+gem 'rollbar'
+gem 'oj', 						'~> 2.12.14'
 
 group :doc do
   gem 'sdoc', '0.3.20', require: false
