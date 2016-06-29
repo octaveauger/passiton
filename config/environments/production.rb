@@ -94,11 +94,6 @@ Rails.application.configure do
   }
 
   config.middleware.use ExceptionNotification::Rack,
-     :email => {
-      :email_prefix => "[Passiton] ",
-      :sender_address => %{"notifier" <octave.auger@gmail.com>},
-      :exception_recipients => %w{octave.auger@gmail.com}
-    },
     :slack => {
       :webhook_url => ENV['SLACK_WEBHOOK_EXCEPTION'],
       :additional_parameters => {
