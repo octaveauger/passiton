@@ -1,5 +1,5 @@
 class StaticPagesController < ApplicationController
 	def home
-    @container = false
+    	@container = false
 	end
 end
