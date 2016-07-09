@@ -15,6 +15,10 @@ class User < ActiveRecord::Base
   has_many :email_threads, through: :requested_authorisations
   has_many :message_attachments, through: :email_threads
   has_many :labels
+  has_many :managed_delegations, class_name: 'Delegation', foreign_key: 'manager_id', dependent: :destroy
+  has_one :employee_delegation, class_name: 'Delegation', foreign_key: 'employee_id', dependent: :destroy
+  has_one :manager, through: :employee_delegation
+  has_many :employees, through: :managed_delegations
 
   # Manages the connection to Gmail and the User population
   def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
