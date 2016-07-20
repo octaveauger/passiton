@@ -1,0 +1,9 @@
+<h1>Delegation revoked</h1>
+<p>
+	<%= @delegation.employee.full_identity %> has revoked the control you had of their Passiton account. You will no longer receive nor review any request to access some of their emails and share context.
+</p>
+<p>
+	You can request the authorisation again any time you wish. It will need to be approved by <%= @delegation.employee.full_identity %> again.
+</p>
+<%= render partial: 'boilerplate/email_footer' %>
+

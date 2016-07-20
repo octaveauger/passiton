@@ -1,0 +1,8 @@
+Delegation confirmed
+======================================
+
+<%= @delegation.employee.full_identity %> has confirmed that you can control their Passiton account. You will now receive and review any request to access some of their emails and share context.
+
+You can cancel this control at any time. <%= @delegation.manager.first_name %> can also revoke this permission at any time (you will be notified).
+
+<%= render partial: 'boilerplate/email_footer' %>

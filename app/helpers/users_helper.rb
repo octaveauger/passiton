@@ -17,6 +17,14 @@ module UsersHelper
 		redirect || authorisations_path
 	end
 
+	# Manager section
+
+	def is_manager
+		unless current_user.is_manager
+			redirect_to root_path
+		end
+	end
+
 	# Admin section
 
 	def admin_log_in(admin)

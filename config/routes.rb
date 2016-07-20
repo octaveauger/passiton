@@ -22,4 +22,10 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :show]
     resources :authorisations, only: [:index]
   end
+
+  resources :delegations, only: [:index, :new, :create] do
+    get :confirm
+    get :revoke
+    get :cancel
+  end
 end

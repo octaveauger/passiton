@@ -16,8 +16,8 @@ class User < ActiveRecord::Base
   has_many :message_attachments, through: :email_threads
   has_many :labels
   has_many :managed_delegations, class_name: 'Delegation', foreign_key: 'manager_id', dependent: :destroy
-  has_one :employee_delegation, class_name: 'Delegation', foreign_key: 'employee_id', dependent: :destroy
-  has_one :manager, through: :employee_delegation
+  has_many :employee_delegations, class_name: 'Delegation', foreign_key: 'employee_id', dependent: :destroy
+  has_many :managers, through: :employee_delegations
   has_many :employees, through: :managed_delegations
 
   # Manages the connection to Gmail and the User population
@@ -114,4 +114,16 @@ class User < ActiveRecord::Base
   def parse_email
     parse_email(self.email)
   end
+
+  # Returns whether the user has an active delegation with someone managing their account
+  def is_managed?
+    !self.employee_delegations.active.empty?
+  end
+
+  
+  # Returns the delagation that is managing the user
+  def manager_delegation
+    self.employee_delegations.active.first if self.is_managed?
+  end
+
 end

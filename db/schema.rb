@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160709191529) do
+ActiveRecord::Schema.define(version: 20160712214718) do
 
   create_table "admins", force: true do |t|
     t.string   "email"
@@ -57,11 +57,13 @@ ActiveRecord::Schema.define(version: 20160709191529) do
     t.boolean  "is_active"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "token"
   end
 
   add_index "delegations", ["employee_id"], name: "index_delegations_on_employee_id"
   add_index "delegations", ["is_active"], name: "index_delegations_on_is_active"
   add_index "delegations", ["manager_id"], name: "index_delegations_on_manager_id"
+  add_index "delegations", ["token"], name: "index_delegations_on_token"
 
   create_table "email_messages", force: true do |t|
     t.integer  "email_thread_id"

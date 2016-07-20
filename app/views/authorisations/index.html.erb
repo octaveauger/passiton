@@ -1,58 +1,57 @@
 <% provide(:title, 'Get context') %>
 <% if @authorisations.any? %>
-<div class="row">
-  <div class="col-sm-12">
-    <h1>Get context
-      <%= link_to 'Get context', authorisation_request_path, class: 'btn btn-primary pull-right hidden-xs' %>
-    </h1>
-  <p class="lead">
-    Context you've requested from your teammates. All in one place.
-    </p>
-    <p>
-      <%= link_to 'Get context', authorisation_request_path, class: 'btn btn-primary pull-left visible-xs-block' %>
-    </p>
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>Get context
+        <%= link_to 'Get context', authorisation_request_path, class: 'btn btn-primary pull-right hidden-xs' %>
+      </h1>
+    <p class="lead">
+      Context you've requested from your teammates. All in one place.
+      </p>
+      <p>
+        <%= link_to 'Get context', authorisation_request_path, class: 'btn btn-primary pull-left visible-xs-block' %>
+      </p>
+    </div>
   </div>
-</div>
-<hr>
-<div class="row center-block hidden-xs">
-  <div class="col-sm-1">
-    <h3>Date</h3>
+  <hr>
+  <div class="row center-block hidden-xs">
+    <div class="col-sm-1">
+      <h3>Date</h3>
+    </div>
+    <div class="col-sm-3">
+      <h3>From</h3>
+    </div>
+    <div class="col-sm-3">
+      <h3>About</h3>
+    </div>
+    <div class="col-sm-2">
+      <h3>State</h3>
+    </div>
+    <div class"col-sm-3"></div>
   </div>
-  <div class="col-sm-3">
-    <h3>From</h3>
+  <div id="results" data-target="<%= authorisations_path %>">
+    <%= render partial: 'authorisations/authorisation', collection: @authorisations %>
   </div>
-  <div class="col-sm-3">
-    <h3>About</h3>
-  </div>
-  <div class="col-sm-2">
-    <h3>State</h3>
-  </div>
-  <div class"col-sm-3"></div>
-</div>
-<div id="results" data-target="<%= authorisations_path %>">
-  <%= render partial: 'authorisations/authorisation', collection: @authorisations %>
-</div>
 <% else %>
-<div class="row">
-  <div class="col-sm-12">
-    <h1>Hi <%= current_user.first_name %>, welcome to Passiton</h1>
-  <p class="lead">
-    Passiton lets you share context with teammates. Let's get you started.
-  </p>
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>Hi <%= current_user.first_name %>, welcome to Passiton</h1>
+    <p class="lead">
+      Passiton lets you share context with teammates. Let's get you started.
+    </p>
+    </div>
   </div>
-</div>
-<hr>
-<div class="row">
-  <div class="col-sm-3 col-sm-offset-2 well">
-    <p class="centered lead">It's me time</p>
-    <p class="centered">Ask a teammate to see<br> specific emails</p>
-    <%= link_to 'Get context', authorisation_request_path, class: 'btn btn-primary center-block' %>
+  <hr>
+  <div class="row">
+    <div class="col-sm-3 col-sm-offset-2 well">
+      <p class="centered lead">It's me time</p>
+      <p class="centered">Ask a teammate to see<br> specific emails</p>
+      <%= link_to 'Get context', authorisation_request_path, class: 'btn btn-primary center-block' %>
+    </div>
+    <div class="col-sm-3 col-sm-offset-2 well">
+      <p class="lead centered">I'm feeling generous</p>
+      <p class="centered">Let your teammate see<br> specific emails</p>
+      <%= link_to 'Give context', giving_authorisations_path, class: 'btn btn-primary center-block' %>
+    </div>
   </div>
-  <div class="col-sm-3 col-sm-offset-2 well">
-    <p class="lead centered">I'm feeling generous</p>
-    <p class="centered">Let your teammate see<br> specific emails</p>
-    <%= link_to 'Give context', giving_authorisations_path, class: 'btn btn-primary center-block' %>
-  </div>
-</div>
-
 <% end %>
