@@ -12,14 +12,18 @@ class DelegationsController < ApplicationController
 
   def create
   	@delegation = current_user.managed_delegations.new(delegation_params)
-    @delegation.employee_id = User.find_or_create_guest(params['delegation']['employee_email']).id
-    delegation_db = Delegation.find_by(manager_id: current_user.id, employee_id: @delegation.employee_id)
-    @delegation = delegation_db if delegation_db #select existing delegation if it already exists for this manager + employee
+    employee = User.find_or_create_guest(params['delegation']['employee_email'])
+    unless employee.nil?
+      @delegation.employee_id = employee.id
+      delegation_db = Delegation.find_by(manager_id: current_user.id, employee_id: @delegation.employee_id)
+      @delegation = delegation_db if delegation_db #select existing delegation if it already exists for this manager + employee
+    end
     if @delegation.save
       DelegationMailer.request_delegation(@delegation).deliver
       flash[:notice] = 'Request sent!'
       redirect_to delegations_path and return
     else
+      @delegation.errors.add(:employee_email, :blank) if employee.nil?
       flash[:alert] = 'Something went wrong, try again'
       render 'new'
     end
