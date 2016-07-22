@@ -1,49 +1,33 @@
 <% provide(:title, 'Give context') %>
 <div class="row">
-  <div class="col-sm-12">
-    <h1>Give context
-    <%= link_to 'Give context', giving_authorisations_path, class: 'btn btn-primary pull-right hidden-xs' %></h1>
-    <p class="lead">
-      Approve, deny or revoke requests for context from your teammates.
-    </p>
-    <p>
-      <%= link_to 'Give context', giving_authorisations_path, class: 'btn btn-primary pull-left visible-xs-block' %>
-    </p>
+  <div class="col-sm-8"><h1>Give context</h1></div>
+  <div class="col-sm-4">
+    <div class="pull-right">
+      <%= link_to 'Give context', giving_authorisations_path, class: 'btn btn-primary h1-btn' %>
+    </div>
   </div>
 </div>
-<hr>
+<p class="lead">
+  Approve, deny or revoke requests for context from your teammates.
+</p>
+
 <% if @authorisations.any? %>
-<div class="row center-block hidden-xs">
-    <div class="col-sm-1">
-      <h3>Date</h3>
-    </div>
-    <div class="col-sm-2">
-      <h3>Requester</h3>
-    </div>
-    <div class="col-sm-offset-1 col-sm-3">
-      <h3>About</h3>
-    </div>
-    <div class="col-sm-1">
-      <h3>Status</h3>
-    </div>
-  </div>
 	<div id="results" data-target="<%= authorisation_grant_path %>">
     <%= render partial: 'authorisations/requested_authorisation', collection: @authorisations %>
   </div>
-</div>
+
 <% else %>
-<h2 class="centered">You haven't given context to anyone yet</h2>
-<div class="row">
-  <div class="col-sm-3 col-sm-offset-2 well">
-    <p class="centered lead">Keep asking</p>
-    <p class="centered">Ask a teammate to see<br> specific emails</p>
-    <%= link_to 'Get context', authorisation_request_path, class: 'btn btn-primary center-block' %>
+  <div class="row">
+    <div class="panel panel-white text-center col-sm-4 col-sm-offset-1">
+      <p class="lead">Keep asking</p>
+      <p>Ask a teammate to see<br> specific emails</p>
+      <%= link_to 'Get context', authorisation_request_path, class: 'btn btn-primary center-block' %>
+    </div>
+    <div class="panel panel-white text-center col-sm-4 col-sm-offset-1">
+      <p class="lead">Start sharing</p>
+      <p>Let a teammate see<br> specific emails</p>
+      <%= link_to 'Give context', giving_authorisations_path, class: 'btn btn-primary center-block' %>
+    </div>
   </div>
-  <div class="col-sm-3 col-sm-offset-2 well">
-    <p class="centered lead">Start sharing</p>
-    <p class="centered">Let your teammate see<br> specific emails</p>
-    <%= link_to 'Give context', giving_authorisations_path, class: 'btn btn-primary center-block' %>
-  </div>
-</div>
 
 <% end %>
