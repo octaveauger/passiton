@@ -89,7 +89,10 @@ class AuthorisationsController < ApplicationController
   def create
     @authorisation = Authorisation.new(authorisation_params)
     @authorisation.requester_id = current_user.id
-    @authorisation.granter_id = User.find_or_create_guest(params['authorisation']['granter_email']).id
+    granter = User.find_or_create_guest(params['authorisation']['granter_email'])
+    unless granter.nil?
+      @authorisation.granter_id = granter.id
+    end
     @authorisation.status = 'pending'
     if @authorisation.save
       if !@authorisation.granter.guest
@@ -101,6 +104,7 @@ class AuthorisationsController < ApplicationController
       flash[:notice] = 'Context requested!'
       redirect_to authorisations_path and return
     else
+      @authorisation.errors.add(:granter_email, :blank) if granter.nil?
       flash[:alert] = 'Something went wrong, try again'
       render 'requesting'
     end
@@ -125,7 +129,10 @@ class AuthorisationsController < ApplicationController
   def give
     @authorisation = Authorisation.new(authorisation_params)
     @authorisation.granter_id = current_user.id
-    @authorisation.requester_id = User.find_or_create_guest(params['authorisation']['requester_email']).id
+    requester = User.find_or_create_guest(params['authorisation']['requester_email'])
+    unless requester.nil?
+      @authorisation.requester_id = requester.id
+    end
     @authorisation.status = 'granted'
     if @authorisation.save
       Rails.logger.info('Auth controller give - gmail sync launched from granter')
@@ -133,6 +140,7 @@ class AuthorisationsController < ApplicationController
       flash[:notice] = 'Context given!'
       redirect_to authorisation_grant_path and return
     else
+      @authorisation.errors.add(:requester_email, :blank) if requester.nil?
       flash[:alert] = 'Something went wrong, try again'
       render 'giving'
     end

@@ -61,14 +61,16 @@ class User < ActiveRecord::Base
   end
 
   # Tries to find a User, or create a guest account for invites into the app
+  # returns nil if it can't create a user
   def self.find_or_create_guest(email)
     user = User.where(email: email).first
     unless user
-      user = User.create!(
+      user = User.new(
           email: email,
           password: Devise.friendly_token[0,20],
           guest: true
           )
+      user = nil unless user.save
     end
     user
   end
