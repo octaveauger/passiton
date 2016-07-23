@@ -122,7 +122,7 @@ class User < ActiveRecord::Base
     !self.employee_delegations.active.empty?
   end
   
-  # Returns the delagation that is managing the user
+  # Returns the delegation that is managing the user
   def manager_delegation
     self.employee_delegations.active.first if self.is_managed?
   end
@@ -137,4 +137,33 @@ class User < ActiveRecord::Base
     end
   end
 
+  # returns true if the current user can access the content for any of the allowed users (i.e they are that user or their active manager)
+  def self.can_access(allowed_user_ids = [], current_user_id)
+    allowed_user_ids.each do |allowed_user_id|
+      allowed_user = User.find(allowed_user_id)
+      return true if (allowed_user and (allowed_user_id == current_user_id or (allowed_user.manager_delegation and allowed_user.manager_delegation.manager.id == current_user_id)))
+    end
+    false
+  end
+
+  # Shortcut that includes both requester and granter of an authorisation
+  def self.can_access_authorisation(authorisation_id, current_user_id)
+    authorisation = Authorisation.find_by(id: authorisation_id)
+    if authorisation.nil?
+      false
+    else
+      if authorisation.enabled
+        allowed = [authorisation.requester.id, authorisation.granter.id]
+      else
+        allowed = [authorisation.granter.id]
+      end
+      User.can_access(allowed, current_user_id)
+    end
+  end
+
+  # Shortcut that checks if someone can see a specific thread
+  def self.can_access_thread(thread_id, current_user_id)
+    thread = EmailThread.find_by(id: thread_id)
+    !(thread.nil? or !User.can_access_authorisation(thread.authorisation.id, current_user_id) or (!User.can_access([thread.authorisation.granter.id], current_user_id) and thread.is_hidden?))
+  end
 end

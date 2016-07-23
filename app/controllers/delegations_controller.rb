@@ -3,7 +3,7 @@ class DelegationsController < ApplicationController
   before_action :is_manager, only: [:index, :new, :create, :cancel]
 
   def index
-  	@delegations = current_user.managed_delegations.order('created_at desc').all.paginate(page: params[:page], per_page: 5)
+  	@delegations = current_user.managed_delegations.order('created_at desc').all.paginate(page: params[:page], per_page: 10)
     respond_to do |format|
       format.html
       format.js
