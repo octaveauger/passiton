@@ -1,6 +1,6 @@
 <h1>Context request</h1>
 <p>
-	<%= @authorisation.requester.full_identity %> would like to get context on "<%= @authorisation.scope %>".
+	<%= @authorisation.requester.full_identity %> would like <%= @authorisation.granter.is_managed? ? @authorisation.granter.full_identity : 'you' %> to share context on "<%= @authorisation.scope %>".
 </p>
 <% if !@authorisation.description.empty? %>
 	<p>
