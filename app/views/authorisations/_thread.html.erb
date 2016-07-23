@@ -61,7 +61,7 @@
         </p>
         <% if !thread.message_attachments.not_inline.empty? %>
           <div id="attachments-thread-<%= thread.id %>" class="hide attachment">
-            <ul class="no-bullet">
+            <ul class="list-unstyled">
               <%= render partial: 'authorisations/attachment', collection: thread.message_attachments.not_inline %>
             </ul>
           </div>

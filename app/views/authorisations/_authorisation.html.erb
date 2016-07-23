@@ -21,7 +21,7 @@
 			<span>
 			<span class="user-actions pull-right">
 				<% if authorisation.synced & authorisation.enabled %>
-					<%= link_to 'view', authorisation_path(authorisation.token), class: 'btn btn-xs btn-default' %>
+					<%= link_to 'View', authorisation_path(authorisation.token), class: 'btn btn-default' %>
 				<% elsif authorisation.enabled %>
 					<%= image_tag 'ajax-loader.gif', alt: 'Loading...', title: 'Loading...' %>
 				<% end %>

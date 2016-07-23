@@ -7,12 +7,21 @@ $grayMediumLight: #eaeaea;
 
 $brand-color: rgba(80, 146, 218, 1);
 
+$red-primary: #e74c3c;
+$red-primary-shadow: #db4334;
+
+$green-success: #27ae60;
+$green-success-shadow: #219d55;
+
+$orange-warning: #f1c40f;
+$orange-warning-shadow: #f1c40f;
+
+$blue-default: #3498db;
+$blue-default-shadow: #2a8bcc;
+
 $gray-lighter: #e6e6e6;
 $gray-light: #d3d3d3;
 $gray: #b8b8b8;
-
-$warning-color: #f0ad4e;
-$success-color: #5CB858;
 
 @mixin box_sizing {
   -moz-box-sizing: border-box;
@@ -241,22 +250,58 @@ h1 .controls {
 
 /* Buttons */
 
+.btn{
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  border: 0;
+  border-radius: 0;
+}
+
+.btn-margin{
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
 a, a:visited {
   color: #2c9ab7;
   text-decoration: none;
 }
 
-.btn-primary, .btn-primary:hover, #site-navbar a.btn-primary.btn:hover {
-  background: #e85c41;
-  border-color: #e85c41;
+.btn-primary, .btn-primary:hover, .btn-primary:active, #site-navbar a.btn-primary.btn:hover {
+  background: $red-primary;
   color: #fff !important;
+  border-bottom: 1px solid $red-primary-shadow;
+  cursor: pointer;
+  -webkit-box-shadow: inset 0 -1px $red-primary-shadow;
+  box-shadow: inset 0 -1px $red-primary-shadow;
 }
 
-.btn-default, .btn-default:hover {
-  background: #337ab7;
-  border-color: #337ab7;
+.btn-default, .btn-default:hover, .btn-default:active {
+  background: $blue-default;
   color: #fff !important;
+  border-bottom: 1px solid $blue-default-shadow;
+  cursor: pointer;
+  -webkit-box-shadow: inset 0 -1px $blue-default-shadow;
+  box-shadow: inset 0 -1px $blue-default-shadow;
 }
+
+.btn-success, .btn-success:hover, .btn-success:active {
+  background: $green-success;
+  color: #fff !important;
+  border-bottom: 1px solid $green-success-shadow;
+  cursor: pointer;
+  -webkit-box-shadow: inset 0 -1px $green-success-shadow;
+  box-shadow: inset 0 -1px $green-success-shadow;
+}
+
+.btn-warning, .btn-warning:hover, .btn-warning:active {
+  background: $orange-warning;
+  color: #fff !important;
+  border-bottom: 1px solid $orange-warning-shadow;
+  cursor: pointer;
+  -webkit-box-shadow: inset 0 -1px $orange-warning-shadow;
+  box-shadow: inset 0 -1px $orange-warning-shadow;
+}
+
 
 button .badge.state-on {
   background-color: #e85c41;
@@ -560,6 +605,9 @@ dl {
     position:relative;
     z-index:2;
   }
+  li{
+    font-size: 85%;
+  }
 }
 
 .email-border {
@@ -570,10 +618,6 @@ dl {
 
 .glyphicon-click{
   z-index: 3;
-}
-
-.list-group-item{
-  margin: 5px;
 }
 
 .ellipsis {

@@ -1,9 +1,9 @@
 <% if !attachment.inline %>
-  <li class="list-group-item">
+  <li>
     <% if !attachment.filename.empty?  %>
       <span class="<%= glyphicon_file(attachment.type) %>" aria-hidden="true"></span>
+      <a href="<%= attachment_path(attachment) %>"><%= attachment.filename %></a>
       <%= attachment.email_date.strftime("%d %b") %>
-      - <a href="<%= attachment_path(attachment) %>"><%= attachment.filename %></a>
     <% end %>
   </li>
 <% end %>
