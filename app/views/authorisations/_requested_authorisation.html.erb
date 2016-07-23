@@ -11,37 +11,36 @@
 					<%= requested_authorisation.email_threads.count %>
 					<span class="glyphicon glyphicon-list"></span>
 				<span>
-			</div>
-			<div class="col-sm-3 col-xs-12">
-				<span class="clearfix">
-					<% requested_authorisation.possible_statuses.each do |possible_status| %>
-						<div class="pull-right">
-							<%= simple_form_for requested_authorisation, :url => authorisation_path(requested_authorisation.token) do |f| %>
-							<%= f.input :status, as: :hidden, :input_html => { value: possible_status } %>
-							<% if possible_status == 'granted' %>
-								<%= f.button :submit, "Grant", :class => 'btn-success btn-margin' %>
-							<% elsif possible_status == 'revoked' %>
-								<%= f.button :submit, "Revoke", :class => 'btn-warning btn-margin' %>
-							<% elsif possible_status == 'denied' %>
-								<%= f.button :submit, "Deny", :class => 'btn-primary btn-margin' %>
-							<% end %>
+		</div>
+		<div class="col-sm-3 col-xs-12">
+			<span class="clearfix">
+				<% requested_authorisation.possible_statuses.each do |possible_status| %>
+					<div class="pull-right">
+						<%= simple_form_for requested_authorisation, :url => authorisation_path(requested_authorisation.token) do |f| %>
+						<%= f.input :status, as: :hidden, :input_html => { value: possible_status } %>
+						<% if possible_status == 'granted' %>
+							<%= f.button :submit, "Grant", :class => 'btn-success btn-margin' %>
+						<% elsif possible_status == 'revoked' %>
+							<%= f.button :submit, "Revoke", :class => 'btn-warning btn-margin' %>
+						<% elsif possible_status == 'denied' %>
+							<%= f.button :submit, "Deny", :class => 'btn-primary btn-margin' %>
 						<% end %>
-						</div>
 					<% end %>
-					<% if !['denied', 'revoked'].include? requested_authorisation.status %>
-						<% if !requested_authorisation.synced %>
-							<button type="button" disabled="disabled" class="btn-link pull-right btn-margin">
-								<%= image_tag 'ajax-loader.gif', alt: 'Loading...', title: 'Loading...' %>
-							Preview
-							</button>
-						<% else %>
-							<a href="<%= authorisation_path(requested_authorisation.token) %>" class="btn btn-default btn-margin pull-right <%= 'refresh-authorisation-status' %>"> 
-							<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Preview
-							</a>		
-						<% end %>	
-					<% end %>
-				</span>
-			</div>
+					</div>
+				<% end %>
+				<% if !['denied', 'revoked'].include? requested_authorisation.status %>
+					<% if !requested_authorisation.synced %>
+						<button type="button" disabled="disabled" class="btn-link pull-right btn-margin">
+							<%= image_tag 'ajax-loader.gif', alt: 'Loading...', title: 'Loading...' %>
+						Preview
+						</button>
+					<% else %>
+						<a href="<%= authorisation_path(requested_authorisation.token) %>" class="btn btn-default btn-margin pull-right <%= 'refresh-authorisation-status' %>"> 
+						<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Preview
+						</a>		
+					<% end %>	
+				<% end %>
+			</span>
 		</div>
 	</div>
 </div>
