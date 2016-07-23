@@ -11,7 +11,7 @@
 <p>
 	You can decide if you want to share emails related to <%= @authorisation.scope %> by following this link:
 </p>
-<div class="btn btn-primary"><%= link_to 'Review context request', authorisation_grant_url %></div>
+<div class="btn btn-primary"><%= link_to 'Review context request', authorisation_url(@authorisation.token) %></div>
 <p>
   If you have any questions about this request, please contact <%= @authorisation.requester.first_name %>.
 </p>
