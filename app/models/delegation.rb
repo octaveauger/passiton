@@ -30,6 +30,6 @@ class Delegation < ActiveRecord::Base
 	end
 
 	def status
-		self.is_active ? 'Active' : 'Not active'
+		self.is_active ? 'active' : 'not active'
 	end
 end

@@ -1,25 +1,21 @@
-<div class="row well well-granting center-block">
-	<div class="col-sm-3">
-		<p>
-			<strong class="visible-xs-inline">Date:</strong>
-			<%= delegation.created_at.strftime("%d/%m/%y") %>
-		</p>
-	</div>
-	<div class="col-sm-3">
-		<p>
-			<strong class="visible-xs-inline">From:</strong>
-			<%= delegation.employee.full_identity %>
-		</p>
-	</div>
-	<div class="col-sm-3">
-		<p>
-			<strong class="visible-xs-inline">State:</strong>
-			<%= delegation.status %>
-		</p>
-	</div>
-	<div class="col-sm-3">
-		<% if delegation.is_active %>
-			<%= link_to 'Cancel', delegation_cancel_path(delegation.token), class: 'btn btn-default btn-granting pull-right' %>
-		<% end %>
+<div class="panel panel-white">
+	<div class="row authorisation-block">
+		<div class="col-sm-6">
+			<div class="status-disc status-disc-<%= status_meaning(delegation.status) %>" data-toggle="tooltip" data-placement="bottom" title="<%= delegation.status.capitalize %>"></div>
+			<span class="person">With <span class="name"><%= delegation.employee.full_identity %></span></span>
+
+		</div>
+		<div class="col-sm-3">
+			<span class="date">
+				<strong class="visible-xs-inline">Date:</strong>
+				<%= delegation.created_at.strftime("%d/%m/%y") + ' (' + distance_of_time_in_words(delegation.created_at, Time.now) + ' ago)' %></span>
+		</div>
+		<div class="col-sm-3">
+			<span class="user-actions pull-right">
+				<% if delegation.is_active %>
+					<%= link_to 'Cancel', delegation_cancel_path(delegation.token), class: 'btn btn-warning' %>
+				<% end %>
+			</span>
+		</div>
 	</div>
 </div>
