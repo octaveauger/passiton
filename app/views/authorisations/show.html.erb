@@ -21,16 +21,18 @@
           <%= link_to 'Ask for new access', authorisation_request_path, class: 'btn btn-primary pull-right' %>
         <% else %>
           <% @authorisation.possible_statuses.each do |possible_status| %>
-            <%= simple_form_for @authorisation, :url => authorisation_path(@authorisation.token)  do |f| %>
-              <%= f.input :status, as: :hidden, :input_html => { value: possible_status } %>
-              <% if possible_status == 'granted' %>
-                <%= f.button :submit, "Grant", :class => 'btn btn-primary pull-right' %>
-              <% elsif possible_status == 'revoked' %>
-                <%= f.button :submit, "Revoke", :class => 'btn btn-warning pull-right' %>
-              <% elsif possible_status == 'denied' %>
-                <%= f.button :submit, "Deny", :class => 'btn btn-danger pull-right' %>
+            <div class="pull-right">
+              <%= simple_form_for @authorisation, :url => authorisation_path(@authorisation.token)  do |f| %>
+                <%= f.input :status, as: :hidden, :input_html => { value: possible_status } %>
+                <% if possible_status == 'granted' %>
+                  <%= f.button :submit, "Grant", :class => 'btn-success btn-margin' %>
+                <% elsif possible_status == 'revoked' %>
+                  <%= f.button :submit, "Revoke", :class => 'btn-warning btn-margin' %>
+                <% elsif possible_status == 'denied' %>
+                  <%= f.button :submit, "Deny", :class => 'btn-primary btn-margin' %>
+                <% end %>
               <% end %>
-            <% end %>
+            </div>
           <% end %>
         <% end %>
       </div>
