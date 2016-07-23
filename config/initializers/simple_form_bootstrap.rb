@@ -14,6 +14,7 @@ SimpleForm.setup do |config|
   config.form_class = 'form-horizontal'
   config.label_class = 'control-label col-xs-3'
   config.button_class = 'btn'
+  config.input_class = 'form-control'
   config.error_notification_tag = :div
   config.error_notification_class = 'alert alert-danger'
   config.wrapper_mappings = { :boolean => :checkbox} #, :select => :dropdown }

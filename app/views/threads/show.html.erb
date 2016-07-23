@@ -1,8 +1,13 @@
 <% if !@thread.nil? %>
-	<h2><%= @thread.subject %></h2>
-	<% if @emails.nil? or @emails.empty? %>
-		<p>Unfortunately we couldn't find emails for this thread. We have been alerted and will fix this issue shortly.</p>
-	<% else %>
-		<%= render partial: 'authorisations/email', collection: @emails %>
-	<% end %>
+	<div class="panel panel-white panel-tight">
+		<h2><%= @thread.subject %></h2>
+	</div>
+		<% if @emails.nil? or @emails.empty? %>
+			<div class="panel panel-white panel-tight">
+				<p>Unfortunately we couldn't find emails for this thread. We have been alerted and will fix this issue shortly.</p>
+			</div>
+		<% else %>
+			<%= render partial: 'authorisations/email', collection: @emails %>
+		<% end %>
+	</div>
 <% end %>

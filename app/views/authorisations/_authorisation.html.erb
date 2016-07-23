@@ -1,39 +1,31 @@
-<div class="row well well-granting center-block <%= (!authorisation.synced or !authorisation.enabled) ? 'refresh-authorisation-status' : '' %>">
-  <div class="col-sm-1">
-  	<p>
-			<strong class="visible-xs-inline">Date:</strong>
-			<%= authorisation.created_at.strftime("%d/%m/%y") %>
-		</p>
-	</div>
-	<div class="col-sm-3">
-		<p>
-			<strong class="visible-xs-inline">From:</strong>
-			<%= authorisation.granter.email %>
-		</p>
-	</div>
-	<div class="col-sm-3">
-		<p>
-		<strong class="visible-xs-inline">About:</strong>
-			<% if authorisation.synced %>
-				<%= authorisation.scope %>
-			<% elsif !authorisation.enabled %>
-				<%= authorisation.scope %>
-			<% else %>
-				<%= authorisation.scope + ' (still syncing)' %>
-			<% end %>
-		</p>
-	</div>
-	<div class="col-sm-2">
-		<p>
-			<strong class="visible-xs-inline">State:</strong>
-			<%= authorisation.status.capitalize %>
-		</p>
-	</div>
-	<div class="col-sm-3 col-xs-12">
-		<% if authorisation.synced & authorisation.enabled %>
-			<%= link_to 'View', authorisation_path(authorisation.token), class: 'btn btn-default btn-granting pull-right' %>
-		<% elsif authorisation.enabled %>
-			<%= image_tag 'ajax-loader.gif', alt: 'Loading...', title: 'Loading...', class: 'center-block' %>
-		<% end %>
+<div class="panel panel-white">
+	<div class="row authorisation-block <%= (!authorisation.synced or !authorisation.enabled) ? 'refresh-authorisation-status' : '' %>">
+		<div class="col-sm-6 col-xs-12">
+			<span class="person">With <span class="name"><%= authorisation.granter.email %></span></span>
+			<span class="date"><%= authorisation.created_at.strftime("%d/%m/%y") + ' (' + distance_of_time_in_words(authorisation.created_at, Time.now) + ' ago)' %></span>
+		</div>
+		<div class="col-sm-6 col-xs-12">
+			<div class="status-disc status-disc-<%= status_meaning(authorisation.status) %>" data-toggle="tooltip" data-placement="bottom" title="<%= authorisation.status.capitalize %>"></div>
+			<strong><span class="scope">
+				<% if authorisation.synced & authorisation.enabled %>
+				<%= link_to authorisation.scope, authorisation_path(authorisation.token) %>
+				<% else %>
+					<%= authorisation.scope %>
+				<% end %>
+			</span></strong>
+			<span class="count">
+				<% if authorisation.synced & authorisation.enabled %>
+					<%= authorisation.email_threads.count %>
+					<span class="glyphicon glyphicon-list"></span>
+				<% end %>
+			<span>
+			<span class="user-actions pull-right">
+				<% if authorisation.synced & authorisation.enabled %>
+					<%= link_to 'View', authorisation_path(authorisation.token), class: 'btn btn-default' %>
+				<% elsif authorisation.enabled %>
+					<%= image_tag 'ajax-loader.gif', alt: 'Loading...', title: 'Loading...' %>
+				<% end %>
+			</span>
+		</div>
 	</div>
 </div>

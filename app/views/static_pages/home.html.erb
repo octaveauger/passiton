@@ -6,13 +6,14 @@
     <p>and get up to speed in no time</p>
     <div class="row">
       <% if signed_in? %>
-        <%= link_to "See context", authorisations_path, :class => 'btn btn-hollow btn-lg' %>
+        <%= link_to "See context", authorisations_path, :class => 'btn btn-primary btn-lg' %>
       <% else %>
-        <%= link_to "Connect your inbox", user_omniauth_authorize_path(:google_oauth2), :class => 'btn btn-hollow btn-lg' %>
+        <%= link_to "Connect your inbox", user_omniauth_authorize_path(:google_oauth2), :class => 'btn btn-primary btn-lg' %>
       <% end %>
     </div>
   </div>
 </div>
+
 <div class="cover">
   <div class="container">
     <div class="row centered">
@@ -23,7 +24,7 @@
     <div class="row">
       <div class="col-md-4">
         <div class="thumbnail thumbnail-home thumbnail-red">
-          <span class="glyphicon glyphicon-heart glyphicon-xl" aria-hidden="true"></span>
+          <span class="glyphicon glyphicon-heart icon-marketing" aria-hidden="true"></span>
           <div class="caption caption-home">
             <h3>Get the highlights</h3>
             <p>Spot important threads, stakeholders and documents in<br>
@@ -33,7 +34,7 @@
       </div>
       <div class="col-md-4">
         <div class="thumbnail thumbnail-home thumbnail-yellow">
-          <span class="glyphicon glyphicon-search glyphicon-xl" aria-hidden="true"></span>
+          <span class="glyphicon glyphicon-search icon-marketing" aria-hidden="true"></span>
           <div class="caption caption-home">
             <h3>Never lose anything</h3>
             <p>One place to keep all emails and documents,
@@ -43,7 +44,7 @@
       </div>
       <div class="col-md-4">
         <div class="thumbnail thumbnail-home thumbnail-dark-blue">
-          <span class="glyphicon glyphicon-signal glyphicon-xl" aria-hidden="true"></span>
+          <span class="glyphicon glyphicon-signal icon-marketing" aria-hidden="true"></span>
           <div class="caption caption-home">
             <h3>Don't miss a beat</h3>
             <p>Get context in a few clicks even when your teammate<br> is on holiday</p>
@@ -53,6 +54,7 @@
     </div>
   </div>
 </div>
+
 <div class="cover cover-grey-gradient">
   <div class="container">
     <div class="row centered">
@@ -61,27 +63,28 @@
         specific emails with people you trust</p>
       <div class="col-md-4">
         <h2 class="">Step 1</h2>
-        <span class="glyphicon glyphicon-question-sign glyphicon-xl" aria-hidden="true"></span>
+        <span class="glyphicon glyphicon-question-sign icon-marketing" aria-hidden="true"></span>
         <p>Decide if you want to<br>give or get context</p>
       </div>
       <div class="col-md-4">
         <h2>Step 2</h2>
-        <span class="glyphicon glyphicon-eye-open glyphicon-xl" aria-hidden="true"></span>
+        <span class="glyphicon glyphicon-eye-open icon-marketing" aria-hidden="true"></span>
         <p>Pick a teammate and<br>the context needed</p>
       </div>
       <div class="col-md-4">
         <h2>Step 3</h2>
-        <span class="glyphicon glyphicon-ok-circle glyphicon-xl" aria-hidden="true"></span>
+        <span class="glyphicon glyphicon-ok-circle icon-marketing" aria-hidden="true"></span>
         <p>View, approve, deny or<br>revoke requests</p>
       </div>
     </div>
     <hr>
     <div class="row centered">
       <p>
-        <%= link_to "Give context", giving_authorisations_path, :class => 'btn btn-hollow btn-lg' %>
-        <%= link_to "Get context", authorisation_request_path, :class => 'btn btn-hollow btn-lg' %>
+        <%= link_to "Give context", giving_authorisations_path, :class => 'btn btn-default btn-lg' %>
+        <%= link_to "Get context", authorisation_request_path, :class => 'btn btn-default btn-lg' %>
       </p>
     </div>
   </div>
 </div>
+
 <%= render 'layouts/footer' %>

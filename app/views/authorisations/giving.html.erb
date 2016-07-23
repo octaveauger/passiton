@@ -1,31 +1,28 @@
 <% provide(:title, 'Give context') %>
-<div class="row">
-  <div class="col-sm-12">
-    <h1>Give context</h1>
-    <p class="lead">
-      Share specific emails with a teammate.
-    </p>
-  </div>
-</div>
-<hr>
+<h1>Give context</h1>
+<p class="lead">
+  Share specific emails with a teammate.
+</p>
 
-<div class="row">
-  <div class="col-sm-offset-2 col-xs-12 col-sm-8" >
-    <%= simple_form_for @authorisation, :url => give_authorisations_path  do |f| %>
-      <%= f.input :scope, label:'Context', autofocus: true, placeholder: 'Same as a Gmail or Google search (Apple, steve@apple.com...)' %>
-    	<%= f.input :requester_email, label: 'Teammate', placeholder: 'Enter the email of your teammate', required: true %>
-    	<%= f.input :description, label: 'Personal message', placeholder: 'Hey John, I\'d like to get you up to speed on my client' %>
-      <div class="row">
-        <div class="col-xs-9">
-        <p>
-          Passiton will send an email to your teammate to share context.
-          <br/>You can revoke this context at any time.
-        </p>
+<div class="panel panel-white">
+  <div class="row">
+    <div class="col-sm-offset-2 col-xs-12 col-sm-8" >
+      <%= simple_form_for @authorisation, :url => give_authorisations_path  do |f| %>
+        <%= f.input :scope, label:'Context', autofocus: true, placeholder: 'Same as a Gmail or Google search (Apple, steve@apple.com...)' %>
+      	<%= f.input :requester_email, label: 'Teammate', placeholder: 'Enter the email of your teammate', required: true %>
+      	<%= f.input :description, label: 'Personal message', placeholder: 'Hey John, I\'d like to get you up to speed on my client' %>
+        <div class="row">
+          <div class="col-xs-9">
+            <p>
+              Passiton will send an email to your teammate to share context.
+              <br/>You can revoke this context at any time.
+            </p>
+          </div>
+          <div class="col-xs-3">
+            <%= f.button :submit, "Send it", :class => 'btn btn-primary pull-right' %>
+          </div>
         </div>
-        <div class="col-xs-3">
-      	 <%= f.button :submit, "Send it", :class => 'btn btn-primary pull-right' %>
-        </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>

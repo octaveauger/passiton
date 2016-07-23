@@ -1,29 +1,26 @@
 <% provide(:title, 'Get context') %>
-<div class="row">
-  <div class="col-sm-12">
-    <h1>Get context</h1>
-    <p class="lead">
-      Ask a teammate to share specific emails.
-    </p>
-  </div>
-</div>
-<hr>
+<h1>Get context</h1>
+<p class="lead">
+  Ask a teammate to share specific emails.
+</p>
 
-<div class="row">
-  <div class="col-sm-offset-2 col-xs-12 col-sm-8" >
-    <%= simple_form_for @authorisation, :url => authorisations_path  do |f| %>
-    	<%= f.input :scope, label:'Context', placeholder: 'Same as a Gmail or Google search (Apple, steve@apple.com...)', autofocus: true %>
-      <%= f.input :granter_email, label: 'Teammate', placeholder: 'Enter the email of your teammate', required: true %>
-    	<%= f.input :description, label: 'Personal message', placeholder: 'Hey John, I\'d like to get up to speed on our client' %>
-      <div class="row">
-        <div class="col-xs-9">
-        <p>Passiton will send an email to your teammate to request context.
-          <br>You will receive an email when your teammate has approved or denied your request.</p>
+<div class="panel panel-white">
+  <div class="row">
+    <div class="col-sm-offset-2 col-xs-12 col-sm-8" >
+      <%= simple_form_for @authorisation, :url => authorisations_path  do |f| %>
+      	<%= f.input :scope, label:'Context', placeholder: 'Same as a Gmail or Google search (Apple, steve@apple.com...)', autofocus: true %>
+        <%= f.input :granter_email, label: 'Teammate', placeholder: 'Enter the email of your teammate', required: true %>
+      	<%= f.input :description, label: 'Personal message', placeholder: 'Hey John, I\'d like to get up to speed on our client' %>
+        <div class="row">
+          <div class="col-xs-9">
+          <p>Passiton will send an email to your teammate to request context.
+            <br>You will receive an email when your teammate has approved or denied your request.</p>
+          </div>
+          <div class="col-xs-3">
+        	 <%= f.button :submit, "Send it", :class => 'btn btn-primary pull-right' %>
+          </div>
         </div>
-        <div class="col-xs-3">
-      	 <%= f.button :submit, "Send it", :class => 'btn btn-primary pull-right' %>
-        </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
