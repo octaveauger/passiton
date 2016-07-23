@@ -1,37 +1,41 @@
 <div class="container-fluid">
-  <div class="row heading container-no-scroll">
-    <div class="col-sm-9 col-xs-9">
-      <dl class="dl-horizontal no-margin">
-          <dt><p>Context:</p></dt>
-          <dd><p><%= @authorisation.scope %></p></dd>
-          <% if @viewer_type == 'requester' %>
-            <dt><p>Teammate:</p></dt>
-            <dd><p><%= @authorisation.granter.first_name %> <%= @authorisation.granter.last_name %>
-              (<%= @authorisation.granter.email %>)</p></dd>
-          <% else %>
-            <dt><p>Teammate:</p></dt>
-            <dd><p><%= @authorisation.requester.first_name %> <%= @authorisation.requester.last_name %>
-              (<%= @authorisation.requester.email %>)</p></dd>
-          <% end %>
-      </dl>
-    </div>
-    <div class="col-sm-3 col-xs-3">
-      <% if @viewer_type == 'requester' %>
-        <%= link_to 'Ask for new access', authorisation_request_path, class: 'btn btn-white pull-right' %>
-      <% else %>
-        <% @authorisation.possible_statuses.each do |possible_status| %>
-          <%= simple_form_for @authorisation, :url => authorisation_path(@authorisation.token)  do |f| %>
-            <%= f.input :status, as: :hidden, :input_html => { value: possible_status } %>
-            <% if possible_status == 'granted' %>
-              <%= f.button :submit, "Grant", :class => 'btn btn-primary btn-granting pull-right' %>
-            <% elsif possible_status == 'revoked' %>
-              <%= f.button :submit, "Revoke", :class => 'btn btn-warning btn-granting pull-right' %>
-            <% elsif possible_status == 'denied' %>
-              <%= f.button :submit, "Deny", :class => 'btn btn-danger btn-granting pull-right' %>
+  <div class="panel panel-white">
+    <div class="row container-no-scroll">
+      <div class="col-sm-9 col-xs-9">
+        <dl class="dl-horizontal no-margin">
+            <dt><p>Context:</p></dt>
+            <dd><p><%= @authorisation.scope %></p></dd>
+            <% if @viewer_type == 'requester' %>
+              <dt><p>Teammate:</p></dt>
+              <dd><p><%= @authorisation.granter.first_name %> <%= @authorisation.granter.last_name %>
+                (<%= @authorisation.granter.email %>)</p></dd>
+            <% else %>
+              <dt><p>Teammate:</p></dt>
+              <dd><p><%= @authorisation.requester.first_name %> <%= @authorisation.requester.last_name %>
+                (<%= @authorisation.requester.email %>)</p></dd>
             <% end %>
+        </dl>
+      </div>
+      <div class="col-sm-3 col-xs-3">
+        <% if @viewer_type == 'requester' %>
+          <%= link_to 'Ask for new access', authorisation_request_path, class: 'btn btn-primary pull-right' %>
+        <% else %>
+          <% @authorisation.possible_statuses.each do |possible_status| %>
+            <div class="pull-right">
+              <%= simple_form_for @authorisation, :url => authorisation_path(@authorisation.token)  do |f| %>
+                <%= f.input :status, as: :hidden, :input_html => { value: possible_status } %>
+                <% if possible_status == 'granted' %>
+                  <%= f.button :submit, "Grant", :class => 'btn-success btn-margin' %>
+                <% elsif possible_status == 'revoked' %>
+                  <%= f.button :submit, "Revoke", :class => 'btn-warning btn-margin' %>
+                <% elsif possible_status == 'denied' %>
+                  <%= f.button :submit, "Deny", :class => 'btn-primary btn-margin' %>
+                <% end %>
+              <% end %>
+            </div>
           <% end %>
         <% end %>
-      <% end %>
+      </div>
     </div>
   </div>
 
@@ -50,44 +54,46 @@
 
   <div class="row container-scroll">
     <div class="col-sm-2 hidden-xs">
-      <% if @viewer_type == 'requester' %>
-        <form class="form-horizontal pull-right" method="get" action="<%= authorisation_path(@authorisation.token) %>">
-          <div class="input-group">
-            <input type="text" name="search" class="form-control" placeholder="Search for..." value="<%= @search.scope if @search %>">
-            <span class="input-group-btn">
-              <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-            </span>
-          </div>
-        </form>
-        <hr/>
-      <% end %>
-      <ul class="nav nav-pills nav-stacked">
-        <li role="presentation" <%= 'class=active' if @tab_filter == 'authorisation_participants' %>>
-          <a href="<%= authorisation_path(@authorisation.token, tab_filter: 'authorisation_participants') %>">
-            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Contacts
-          </a>
-        </li>
-        <li role="presentation" <%= 'class=active' if @tab_filter == 'authorisation_attachments' %>>
-          <a href="<%= authorisation_path(@authorisation.token, tab_filter: 'authorisation_attachments') %>">
-            <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Attachments
-          </a>
-        </li>
-        <% [{target: 'highlight', display: 'Highlight'}, {target: 'internal', display: 'Internal'},{target: 'all', display: 'All'}].each do |tab| %>
-          <li role="presentation" <%= 'class=active' if @tab_filter == tab[:target] %>>
-            <a href="<%= authorisation_path(@authorisation.token, tab_filter: tab[:target]) %>">
-              <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> <%= tab[:display] %>
+      <div class="panel panel-white">
+        <% if @viewer_type == 'requester' %>
+          <form class="form-horizontal pull-right" method="get" action="<%= authorisation_path(@authorisation.token) %>">
+            <div class="input-group">
+              <input type="text" name="search" class="form-control" placeholder="Search for..." value="<%= @search.scope if @search %>">
+              <span class="input-group-btn">
+                <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+              </span>
+            </div>
+          </form>
+          <hr/>
+        <% end %>
+        <ul class="nav nav-pills nav-stacked">
+          <li role="presentation" <%= 'class=active' if @tab_filter == 'authorisation_participants' %>>
+            <a href="<%= authorisation_path(@authorisation.token, tab_filter: 'authorisation_participants') %>">
+              <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Contacts
             </a>
           </li>
-        <% end %>
-        <% @searches.each do |search| %>
-          <li role="presentation" <%= 'class=active' if @search and @search.scope == search.scope %>>
-            <a href="<%= authorisation_path(@authorisation.token, search: search.scope) %>">
-              <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-              <%= search.scope %>
+          <li role="presentation" <%= 'class=active' if @tab_filter == 'authorisation_attachments' %>>
+            <a href="<%= authorisation_path(@authorisation.token, tab_filter: 'authorisation_attachments') %>">
+              <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Attachments
             </a>
           </li>
-        <% end %>
-      </ul>
+          <% [{target: 'highlight', display: 'Highlight'}, {target: 'internal', display: 'Internal'},{target: 'all', display: 'All'}].each do |tab| %>
+            <li role="presentation" <%= 'class=active' if @tab_filter == tab[:target] %>>
+              <a href="<%= authorisation_path(@authorisation.token, tab_filter: tab[:target]) %>">
+                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> <%= tab[:display] %>
+              </a>
+            </li>
+          <% end %>
+          <% @searches.each do |search| %>
+            <li role="presentation" <%= 'class=active' if @search and @search.scope == search.scope %>>
+              <a href="<%= authorisation_path(@authorisation.token, search: search.scope) %>">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                <%= search.scope %>
+              </a>
+            </li>
+          <% end %>
+        </ul>
+      </div>
     </div>
 
     <% if @tab_filter == 'authorisation_participants' %>
