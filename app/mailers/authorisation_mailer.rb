@@ -6,7 +6,7 @@ class AuthorisationMailer < ActionMailer::Base
   def request_authorisation(authorisation)
     @authorisation = authorisation
 
-    mail(from: @authorisation.requester.email, to: @authorisation.granter.email, subject: 'Passiton - Context request: ' + @authorisation.scope) do |format|
+    mail(from: @authorisation.requester.active_email, to: @authorisation.granter.active_email, subject: 'Passiton - Context request: ' + @authorisation.scope) do |format|
       format.html { render layout: 'email_simple.html.erb' }
       format.text
     end
@@ -16,7 +16,7 @@ class AuthorisationMailer < ActionMailer::Base
   def authorisation_granted(authorisation)
     @authorisation = authorisation
 
-    mail(from: @authorisation.granter.email, to: @authorisation.requester.email, subject: 'Passiton - Context given: ' + @authorisation.scope) do |format|
+    mail(from: @authorisation.granter.active_email, to: @authorisation.requester.active_email, subject: 'Passiton - Context given: ' + @authorisation.scope) do |format|
       format.html { render layout: 'email_simple.html.erb' }
       format.text
     end
@@ -26,7 +26,7 @@ class AuthorisationMailer < ActionMailer::Base
   def authorisation_denied(authorisation)
     @authorisation = authorisation
 
-    mail(from: @authorisation.granter.email, to: @authorisation.requester.email, subject: 'Passiton - Context denied: ' + @authorisation.scope) do |format|
+    mail(from: @authorisation.granter.active_email, to: @authorisation.requester.active_email, subject: 'Passiton - Context denied: ' + @authorisation.scope) do |format|
       format.html { render layout: 'email_simple.html.erb' }
       format.text
     end
@@ -36,7 +36,7 @@ class AuthorisationMailer < ActionMailer::Base
   def authorisation_revoked(authorisation)
     @authorisation = authorisation
 
-    mail(from: @authorisation.granter.email, to: @authorisation.requester.email, subject: 'Passiton - Context revoked: ' + @authorisation.scope) do |format|
+    mail(from: @authorisation.granter.active_email, to: @authorisation.requester.active_email, subject: 'Passiton - Context revoked: ' + @authorisation.scope) do |format|
       format.html { render layout: 'email_simple.html.erb' }
       format.text
     end

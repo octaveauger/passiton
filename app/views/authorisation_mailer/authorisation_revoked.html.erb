@@ -1,10 +1,8 @@
 <h1>Context revoked</h1>
 <p>
-	<%= @authorisation.granter.full_identity %> has decided to stop sharing their
-  emails on "<%= @authorisation.scope %>".
+	<%= @authorisation.granter.full_identity %> has decided to stop sharing their emails on "<%= @authorisation.scope %>".
 </p>
 <p>
-	This means that you can no longer see their emails. If you have any questions,
-  please contact <%= @authorisation.granter.first_name %>.
+	This means that you can no longer see their emails. If you have any questions, please contact <%= @authorisation.granter.first_name %>.
 </p>
 <%= render partial: 'boilerplate/email_footer' %>

@@ -121,11 +121,20 @@ class User < ActiveRecord::Base
   def is_managed?
     !self.employee_delegations.active.empty?
   end
-
   
   # Returns the delagation that is managing the user
   def manager_delegation
     self.employee_delegations.active.first if self.is_managed?
+  end
+
+  # Returns the email of either the user or, if they have an active manager delegation, the email of the manager
+  def active_email
+    manager_delegation = self.manager_delegation
+    if manager_delegation.nil?
+      self.email
+    else
+      manager_delegation.manager.email
+    end
   end
 
 end
