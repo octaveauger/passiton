@@ -1,7 +1,9 @@
 Context denied
 ======================================
 
-<%= @authorisation.granter.full_identity %> has decided not to share their emails
-on "<%= @authorisation.scope %>".
+<% if @authorisation.granter.is_managed? %><%= @authorisation.requester.full_identity %> on behalf of <% end %><%= @authorisation.granter.full_identity %> has decided not to share emails
+related to "<%= @authorisation.scope %>".
 
-<%= render partial: 'authorisation_mailer/email_footer' %>
+If you have any questions, please contact <% if @authorisation.granter.is_managed? %><%= @authorisation.requester.first_name %> or <% end %><%= @authorisation.granter.first_name %>.
+
+<%= render partial: 'boilerplate/email_footer' %>

@@ -1,9 +1,9 @@
 Context revoked
 ======================================
 
-<%= @authorisation.granter.full_identity %> has decided to stop sharing their emails on "<%= @authorisation.scope %>".
+<% if @authorisation.granter.is_managed? %><%= @authorisation.requester.full_identity %> on behalf of <% end %><%= @authorisation.granter.full_identity %> has decided to stop sharing their emails on "<%= @authorisation.scope %>".
 
 This means that you can no longer see their emails. If you have any questions,
-please contact <%= @authorisation.granter.first_name %>.
+please contact <% if @authorisation.granter.is_managed? %><%= @authorisation.requester.first_name %> or <% end %><%= @authorisation.granter.first_name %>.
 
-<%= render partial: 'authorisation_mailer/email_footer' %>
+<%= render partial: 'boilerplate/email_footer' %>

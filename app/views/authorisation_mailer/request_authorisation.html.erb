@@ -1,6 +1,6 @@
 <h1>Context request</h1>
 <p>
-	<%= @authorisation.requester.full_identity %> would like to get context on "<%= @authorisation.scope %>".
+	<%= @authorisation.requester.full_identity %> would like <%= @authorisation.granter.is_managed? ? @authorisation.granter.full_identity : 'you' %> to share context on "<%= @authorisation.scope %>".
 </p>
 <% if !@authorisation.description.empty? %>
 	<p>
@@ -9,11 +9,13 @@
 	</p>
 <% end %>
 <p>
+	<% if @authorisation.granter.is_managed? %>You are currently managing <%= @authorisation.requester.full_name %>'s inbox.
+	<% end %>
 	You can decide if you want to share emails related to <%= @authorisation.scope %> by following this link:
 </p>
-<div class="btn btn-primary"><%= link_to 'Review context request', authorisation_grant_url %></div>
+<div class="btn btn-primary"><%= link_to 'Review context request', authorisation_url(@authorisation.token) %></div>
 <p>
   If you have any questions about this request, please contact <%= @authorisation.requester.first_name %>.
 </p>
-<%= render partial: 'authorisation_mailer/email_footer' %>
+<%= render partial: 'boilerplate/email_footer' %>
 

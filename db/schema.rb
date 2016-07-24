@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151213194207) do
+ActiveRecord::Schema.define(version: 20160712214718) do
 
   create_table "admins", force: true do |t|
     t.string   "email"
@@ -50,6 +50,36 @@ ActiveRecord::Schema.define(version: 20151213194207) do
   add_index "authorisations", ["status"], name: "index_authorisations_on_status"
   add_index "authorisations", ["synced"], name: "index_authorisations_on_synced"
   add_index "authorisations", ["token"], name: "index_authorisations_on_token"
+
+  create_table "delegations", force: true do |t|
+    t.integer  "manager_id"
+    t.integer  "employee_id"
+    t.boolean  "is_active"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "token"
+  end
+
+  add_index "delegations", ["employee_id"], name: "index_delegations_on_employee_id"
+  add_index "delegations", ["is_active"], name: "index_delegations_on_is_active"
+  add_index "delegations", ["manager_id"], name: "index_delegations_on_manager_id"
+  add_index "delegations", ["token"], name: "index_delegations_on_token"
+
+  create_table "email_messages", force: true do |t|
+    t.integer  "email_thread_id"
+    t.string   "messageId"
+    t.text     "snippet"
+    t.integer  "historyId"
+    t.integer  "internalDate"
+    t.text     "body_text"
+    t.text     "body_html"
+    t.integer  "sizeEstimate"
+    t.string   "mimeType"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "email_messages", ["email_thread_id"], name: "index_email_messages_on_email_thread_id"
 
   create_table "email_threads", force: true do |t|
     t.integer  "authorisation_id"
@@ -161,12 +191,12 @@ ActiveRecord::Schema.define(version: 20151213194207) do
   add_index "tokens", ["user_id"], name: "index_tokens_on_user_id"
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "",   null: false
-    t.string   "encrypted_password",     default: "",   null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,    null: false
+    t.integer  "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -181,10 +211,12 @@ ActiveRecord::Schema.define(version: 20151213194207) do
     t.string   "gender"
     t.boolean  "guest",                  default: true
     t.boolean  "oauth_cancelled"
+    t.boolean  "is_manager",             default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["guest"], name: "index_users_on_guest"
+  add_index "users", ["is_manager"], name: "index_users_on_is_manager"
   add_index "users", ["oauth_cancelled"], name: "index_users_on_oauth_cancelled"
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 

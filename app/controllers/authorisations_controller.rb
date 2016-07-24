@@ -10,25 +10,23 @@ class AuthorisationsController < ApplicationController
   end
 
   def show
-  	@authorisation = current_user.granted_authorisations.find_by(token: params[:id])
-    if @authorisation.nil?
-      @authorisation = current_user.requested_authorisations.find_by(token: params[:id])
-      @viewer_type = 'requester' # if user is both granter and requester, they'll be seen as requester in the view
-    else
-      @viewer_type = 'granter'
-    end
-
-    # Handling the case of someone requesting from themselves
-    if !@authorisation.nil? and @authorisation.requester_id == @authorisation.granter_id
-      if @authorisation.enabled
-        @viewer_type = 'requester'
-      else
-        @viewer_type = 'granter'
+  	# Figuring out the role of the viewer and whether they are authorised to see it (them or their manager)
+    @authorisation = Authorisation.find_by(token: params[:id])
+    unless @authorisation.nil?
+      @viewer_type = 'requester' if current_user == @authorisation.requester or (!@authorisation.requester.manager_delegation.nil? && current_user == @authorisation.requester.manager_delegation.manager)
+      @viewer_type = 'granter' if @viewer_type.nil? and (current_user == @authorisation.granter or (!@authorisation.granter.manager_delegation.nil? && current_user == @authorisation.granter.manager_delegation.manager))
+      # Handling the case of someone requesting from themselves
+      if !@viewer_type.nil? and @authorisation.requester_id == @authorisation.granter_id
+        if @authorisation.enabled
+          @viewer_type = 'requester'
+        else
+          @viewer_type = 'granter'
+        end
       end
     end
 
-  	if @authorisation.nil? or (!@authorisation.enabled and @viewer_type == 'requester') or !@authorisation.synced
-  		flash[:alert] = "Either you are not authorised anymore or it hasn't finished syncing" + @viewer_type
+  	if @authorisation.nil? or @viewer_type.nil? or (!@authorisation.enabled and @viewer_type == 'requester') or !@authorisation.synced
+      flash[:alert] = "Either you are not authorised anymore or it hasn't finished syncing"
   		redirect_to authorisations_path and return
   	end
 
@@ -111,12 +109,12 @@ class AuthorisationsController < ApplicationController
   end
 
   def update
-    @authorisation = current_user.granted_authorisations.find_by(token: params[:id])
-    if @authorisation.nil?
-      flash[:alert] = 'Something went wrong, try again'
-      render 'granting'
-    else
+    @authorisation = Authorisation.find_by(token: params[:id])
+    if !@authorisation.nil? and User.can_access([@authorisation.granter.id], current_user.id)
       @authorisation.update_status(params['authorisation']['status'])
+      redirect_to authorisation_grant_path and return
+    else
+      flash[:alert] = 'Something went wrong, try again'
       redirect_to authorisation_grant_path and return
     end
   end

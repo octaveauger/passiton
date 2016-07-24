@@ -17,6 +17,9 @@
         <% if signed_in? %>
           <li><%= link_to "Get context", authorisations_path %></li>
           <li><%= link_to "Give context", authorisation_grant_path %></li>
+          <% if current_user.is_manager %>
+            <li><%= link_to "Manage your team", delegations_path %></li>
+          <% end %>
         <% end %>
       </ul>
       <ul class="nav navbar-nav pull-right">

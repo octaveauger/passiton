@@ -1,0 +1,21 @@
+Delegation request
+======================================
+
+<%= @delegation.manager.full_identity %> would like to grant access to your emails on your behalf
+
+<% unless @delegation.description %>
+	Here's a note from <%= @delegation.manager.first_name %>:
+	<%= @delegation.description %>
+<% end %>
+
+<% if @delegation.employee.guest %>
+	<%= @delegation.manager.first_name %> is using Passiton (<%= root_url %>), which makes it easy to share context and emails between teammates without having to forward each email one by one, or giving full access to your inbox to someone else.
+<% end %>
+
+You can confirm this delegation request by clicking this: <%= delegation_confirm_url(@delegation.token) %>
+
+You can revoke this permission at any time. <%= @delegation.manager.first_name %> will not gain access to your full inbox: they will only be able to see the emails others would like you to share, and approve or deny their requests on your behalf.
+
+If you have any questions about this request, please contact <%= @delegation.manager.first_name %>.
+
+<%= render partial: 'boilerplate/email_footer' %>

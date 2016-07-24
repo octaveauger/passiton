@@ -16,7 +16,7 @@ module ApplicationHelper
   # Analyses a status (from any object) - returns something to use in the CSS status-disc class
   def status_meaning(status)
     return 'pending' if ['pending'].include?(status)
-    return 'positive' if ['granted'].include?(status)
+    return 'positive' if ['granted', 'active'].include?(status)
     return 'negative'
   end
 

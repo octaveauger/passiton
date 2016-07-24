@@ -1,0 +1,35 @@
+<% provide(:title, 'Manage your team') %>
+<% if @delegations.any? %>
+  <div class="row">
+    <div class="col-sm-8"><h1>Manage your team</h1></div>
+    <div class="col-sm-4">
+      <div class="pull-right">
+        <%= link_to 'New delegation', new_delegation_path, class: 'btn btn-primary h1-btn' %>
+      </div>
+    </div>
+  </div>
+  <p class="lead">
+    Passiton lets your team share context with teammates. As a manager, you can approve requests on their behalf - useful if they go on holiday or leave the company.
+  </p>
+  <div id="results">
+    <%= render partial: 'delegations/delegation', collection: @delegations %>
+  </div>
+  <% if !@delegations.nil? and @delegations.any? %>
+    <div id="infinite-scrolling">
+      <%= will_paginate @delegations %>
+    </div>
+  <% end %>
+
+<% else %>
+  <h1>Hi <%= current_user.first_name %>, let's manage your team</h1>
+  <p class="lead">
+    Passiton lets your team share context with teammates. As a manager, you can approve requests on their behalf - useful if they go on holiday or leave the company.
+  </p>
+  <div class="row">
+    <div class="panel panel-white text-center col-sm-4 col-sm-offset-4">
+      <p class="lead">Get started</p>
+      <p>Ask a teammate to <br> manage their Passiton account</p>
+      <%= link_to 'New delegation', new_delegation_path, class: 'btn btn-primary center-block' %>
+    </div>
+  </div>
+<% end %>

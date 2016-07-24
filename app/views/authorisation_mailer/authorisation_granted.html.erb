@@ -1,9 +1,9 @@
 <h1>Context given</h1>
 <p>
-	<%= @authorisation.granter.full_identity %> has given you context on "<%= @authorisation.scope %>".
+<% if @authorisation.granter.is_managed? %><%= @authorisation.requester.full_identity %> on behalf of <% end %><%= @authorisation.granter.full_identity %> has given you context on "<%= @authorisation.scope %>".
 </p>
 <p>
 	To see the emails shared with you, please follow this link:
 	<div class="btn btn-primary centered"><%= link_to 'See context', authorisation_url(@authorisation.token) %></div>
 </p>
-<%= render partial: 'authorisation_mailer/email_footer' %>
+<%= render partial: 'boilerplate/email_footer' %>

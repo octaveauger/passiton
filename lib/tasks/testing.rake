@@ -9,6 +9,7 @@ namespace :testing do
   	Participant.delete_all
     Tag.delete_all
     Label.delete_all
+    Delegation.delete_all
   end
 
   desc "Update tags for all threads"

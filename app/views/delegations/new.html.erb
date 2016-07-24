@@ -1,0 +1,28 @@
+<% provide(:title, 'Request delegation') %>
+<h1>Request delegation</h1>
+<p class="lead">
+  Ask a teammate to hand over control of their Passiton access sharing to you, for example when they leave the company or go on holiday.
+  They can revoke it at any time.
+</p>
+
+<div class="panel panel-white">
+  <div class="row">
+    <div class="col-sm-offset-2 col-xs-12 col-sm-8" >
+      <%= simple_form_for @delegation, :url => delegations_path  do |f| %>
+      	<%= f.input :employee_email, label: 'Teammate', placeholder: 'Enter the email of your teammate', required: true %>
+      	<%= f.input :description, label: 'Personal message', placeholder: 'Dear Patricia, this will let us see the status of your deals during your holiday' %>
+        <div class="row">
+          <div class="col-xs-9">
+          <p>
+            Passiton will send an email to your teammate to request their approval.
+            <br/>They can revoke this context at any time.
+          </p>
+          </div>
+          <div class="col-xs-3">
+        	 <%= f.button :submit, "Send it", :class => 'btn btn-primary pull-right' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

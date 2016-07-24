@@ -15,6 +15,10 @@ class User < ActiveRecord::Base
   has_many :email_threads, through: :requested_authorisations
   has_many :message_attachments, through: :email_threads
   has_many :labels
+  has_many :managed_delegations, class_name: 'Delegation', foreign_key: 'manager_id', dependent: :destroy
+  has_many :employee_delegations, class_name: 'Delegation', foreign_key: 'employee_id', dependent: :destroy
+  has_many :managers, through: :employee_delegations
+  has_many :employees, through: :managed_delegations
 
   # Manages the connection to Gmail and the User population
   def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
@@ -111,5 +115,55 @@ class User < ActiveRecord::Base
   # Returns a hash with the name, domain name and email address
   def parse_email
     parse_email(self.email)
+  end
+
+  # Returns whether the user has an active delegation with someone managing their account
+  def is_managed?
+    !self.employee_delegations.active.empty?
+  end
+  
+  # Returns the delegation that is managing the user
+  def manager_delegation
+    self.employee_delegations.active.first if self.is_managed?
+  end
+
+  # Returns the email of either the user or, if they have an active manager delegation, the email of the manager
+  def active_email
+    manager_delegation = self.manager_delegation
+    if manager_delegation.nil?
+      self.email
+    else
+      manager_delegation.manager.email
+    end
+  end
+
+  # returns true if the current user can access the content for any of the allowed users (i.e they are that user or their active manager)
+  def self.can_access(allowed_user_ids = [], current_user_id)
+    allowed_user_ids.each do |allowed_user_id|
+      allowed_user = User.find(allowed_user_id)
+      return true if (allowed_user and (allowed_user_id == current_user_id or (allowed_user.manager_delegation and allowed_user.manager_delegation.manager.id == current_user_id)))
+    end
+    false
+  end
+
+  # Shortcut that includes both requester and granter of an authorisation
+  def self.can_access_authorisation(authorisation_id, current_user_id)
+    authorisation = Authorisation.find_by(id: authorisation_id)
+    if authorisation.nil?
+      false
+    else
+      if authorisation.enabled
+        allowed = [authorisation.requester.id, authorisation.granter.id]
+      else
+        allowed = [authorisation.granter.id]
+      end
+      User.can_access(allowed, current_user_id)
+    end
+  end
+
+  # Shortcut that checks if someone can see a specific thread
+  def self.can_access_thread(thread_id, current_user_id)
+    thread = EmailThread.find_by(id: thread_id)
+    !(thread.nil? or !User.can_access_authorisation(thread.authorisation.id, current_user_id) or (!User.can_access([thread.authorisation.granter.id], current_user_id) and thread.is_hidden?))
   end
 end
