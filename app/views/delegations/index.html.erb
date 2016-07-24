@@ -21,19 +21,14 @@
   <% end %>
 
 <% else %>
+  <h1>Hi <%= current_user.first_name %>, let's manage your team</h1>
+  <p class="lead">
+    Passiton lets your team share context with teammates. As a manager, you can approve requests on their behalf - useful if they go on holiday or leave the company.
+  </p>
   <div class="row">
-    <div class="col-sm-12">
-      <h1>Hi <%= current_user.first_name %>, let's manage your team</h1>
-      <p class="lead">
-        Passiton lets your team share context with teammates. As a manager, you can approve requests on their behalf - useful if they go on holiday or leave the company.
-      </p>
-    </div>
-  </div>
-  <hr>
-  <div class="row">
-    <div class="col-sm-3 col-sm-offset-2 well">
-      <p class="centered lead">Get started</p>
-      <p class="centered">Ask a teammate to <br> manage their Passiton account</p>
+    <div class="panel panel-white text-center col-sm-4 col-sm-offset-4">
+      <p class="lead">Get started</p>
+      <p>Ask a teammate to <br> manage their Passiton account</p>
       <%= link_to 'New delegation', new_delegation_path, class: 'btn btn-primary center-block' %>
     </div>
   </div>
