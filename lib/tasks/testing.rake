@@ -43,4 +43,11 @@ namespace :testing do
     end
   end
 
+  desc "Make everyone a manager"
+  task make_everyone_manager: :environment do
+    User.where(guest: false).each do |user| # only for non guest accounts
+      user.update(is_manager: true)
+    end
+  end
+
 end
