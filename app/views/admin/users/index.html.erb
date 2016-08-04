@@ -9,6 +9,7 @@
 	<th>Email</th>
 	<th>Requested Authorisations</th>
 	<th>Granted Authorisations</th>
+	<th>Manager?</th>
 	<th>Actions</th>
 	<% if !@users.nil? and @users.any? %>
 		<%= render partial: 'admin/users/user', collection: @users %>

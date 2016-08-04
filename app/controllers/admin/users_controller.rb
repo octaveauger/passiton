@@ -15,5 +15,6 @@ class Admin::UsersController < ApplicationController
     redirect_to admin_users_path, alert: 'This user does not exist' and return if @user.nil?
     @requested_authorisations = @user.requested_authorisations.order('id desc').all
     @granted_authorisations = @user.granted_authorisations.order('id desc').all
+    @managed_delegations = @user.managed_delegations.order('id desc').all
   end
 end

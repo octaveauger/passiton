@@ -1,0 +1,6 @@
+<tr>
+	<td><%= delegation.created_at.strftime('%d/%m/%Y %k:%M') %></td>
+	<td><%= 'Yes' if delegation.is_active %></td>
+	<td><%= link_to delegation.manager.full_identity, admin_user_path(delegation.manager) %></td>
+	<td><%= link_to delegation.employee.full_identity, admin_user_path(delegation.employee) %></td>
+</tr>

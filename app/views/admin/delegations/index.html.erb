@@ -1,0 +1,19 @@
+<% provide(:title, 'Delegations') %>
+
+<h1><%= @delegations.count %> Delegations</h1>
+
+<table class="table" id="results">
+	<th>Date</th>
+	<th>Active?</th>
+	<th>Manager</th>
+	<th>Employee</th>
+	<% if !@delegations.nil? and @delegations.any? %>
+		<%= render partial: 'admin/delegations/delegation', collection: @delegations %>
+	<% end %>
+</table>
+
+<% if !@delegations.nil? and @delegations.any? %>
+	<div id="infinite-scrolling">
+		<%= will_paginate @delegations %>
+	</div>
+<% end %>

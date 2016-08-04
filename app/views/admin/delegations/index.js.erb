@@ -1,0 +1,8 @@
+$('#results').append("<%= j render partial: 'admin/delegations/delegation', collection: @delegations %>");
+<% if @delegations.next_page %>
+  $('.pagination').replaceWith('<%= j will_paginate @delegations %>');
+<% else %>
+  $(window).off('scroll');
+  $('.pagination').remove();
+<% end %>
+initialize();
