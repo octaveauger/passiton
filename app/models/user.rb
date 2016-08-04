@@ -35,7 +35,8 @@ class User < ActiveRecord::Base
         image: data['image'],
         gender: access_token.extra['raw_info']['gender'],
         guest: false,
-        oauth_cancelled: false
+        oauth_cancelled: false,
+        is_manager: true
       )
       user.first_token(access_token)
     elsif user.guest
@@ -47,7 +48,8 @@ class User < ActiveRecord::Base
         image: data['image'],
         gender: access_token.extra['raw_info']['gender'],
         guest: false,
-        oauth_cancelled: false
+        oauth_cancelled: false,
+        is_manager: true
       )
       user.first_token(access_token)
     else

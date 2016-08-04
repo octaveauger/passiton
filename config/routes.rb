@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     resources :sessions, only: [:new, :create, :destroy]
     resources :users, only: [:index, :show]
     resources :authorisations, only: [:index]
+    resources :delegations, only: [:index]
   end
 
   resources :delegations, only: [:index, :new, :create] do
