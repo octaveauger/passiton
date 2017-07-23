@@ -81,6 +81,25 @@ function initialize() {
 			download_inline_attachments();
 		});
 	});
+
+	// Handle floating alert messages
+  if($('#server-notice').length) {
+    BootstrapAlert.success({
+      message: $('#server-notice').html()
+    });
+  }
+  if($('#server-alert').length) {
+    BootstrapAlert.alert({
+      message: $('#server-alert').html()
+    });
+  }
+  if($('#shutdown-announcement').length) {
+    BootstrapAlert.alert({
+      message: $('#shutdown-announcement').html(),
+      autoHide: false,
+      dissmissible: true
+    });
+  }
 }
 
 // Download and replace inline attachments via Ajax

@@ -1,15 +1,19 @@
 <% provide(:title, 'Home') %>
+
+<span id="shutdown-announcement" class="hide">Passiton shut down in July 2017. All account data has been removed. Going forward, this site will only be kept as memory. Thanks for using us!</span>
+
 <div class="jumbotron jumbotron-home">
-   <div class="container">
-    <h1 class="text-uppercase">Share context</h1>
-    <p>Share emails between teams</p>
-    <p>and get up to speed in no time</p>
-    <div class="row">
-      <% if signed_in? %>
-        <%= link_to "See context", authorisations_path, :class => 'btn btn-primary btn-lg' %>
-      <% else %>
-        <%= link_to "Connect your inbox", user_omniauth_authorize_path(:google_oauth2), :class => 'btn btn-primary btn-lg' %>
-      <% end %>
+   <div class="color-overlay">
+    <div class="container">
+      <h1>Share context</h1>
+      <p>Share emails between teams and get up to speed in no time</p>
+      <div class="row">
+        <% if signed_in? %>
+          <%= link_to "See context", authorisations_path, :class => 'btn btn-primary btn-lg' %>
+        <% else %>
+          <%= link_to "Get started", user_omniauth_authorize_path(:google_oauth2), :class => 'btn btn-primary btn-lg' %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
